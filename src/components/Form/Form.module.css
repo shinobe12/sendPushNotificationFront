@@ -43,6 +43,11 @@ form p {
     bottom: 5px;
 }
 
+select {
+    width: 30%;
+}
+
+
 input{
     border: none;
     background: #ccc;

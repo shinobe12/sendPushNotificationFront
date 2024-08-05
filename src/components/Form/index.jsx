@@ -5,7 +5,7 @@ export function Form() {
 
         <div className={styles.form}>
             <form id="form" metoh="post" styles="background-color: #csc;">
-                <select>
+                <select class="select">
                     <option>...</option>
                 </select><br/><br/>
                 
