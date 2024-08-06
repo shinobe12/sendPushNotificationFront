@@ -27,10 +27,6 @@ form {
    box-shadow: 5px 5px 5px #ccd;
 
   }
-form p {
-    color: white;
-    margin: 1px 0;
-}
 
 .input-single {
     position: relative;
@@ -44,31 +40,38 @@ form p {
 }
 
 select {
+    justify-content: center;
     width: 30%;
+    margin-right: 70px;
+    border: none;
+    border-radius: 5px;
+    box-shadow: 5px 5px 5px #ccd;
 }
 
 
 input{
     border: none;
     background: #ccc;
-    border-bottom: 1px #000 solid;
-    padding: 1px;
+    border-bottom: 1px white solid;
+    padding: 1px; 
     width: 100%;
     font-size: 17px;
-    outline: 0;
-    transition: all 0.2s;
+    color: #ccd;                 
+    
 
 }
 
-form input .input:focus ~ p{
-    transform: translateY(-20px);
-    font-size: 12px;
+label{
+    color: white;
 }
 
-button {
-    padding-top: 5px;
+textarea{
+    border: none;
+    border-radius: 5px;   
+    box-shadow: 5px 5px 5px #ccd;
+}
+
+button{
     background: red;
-    padding: 5px;
-    border-radius: 10px; 
-    position: relative;
+    color: green;
 }
