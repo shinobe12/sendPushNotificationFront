@@ -20,7 +20,7 @@ body{
 
 form {
    background: #ccc;
-   width: 450px;
+   width: 550px;
    height: 100%;
    padding: 40px;
    border-radius: 20px;
@@ -40,11 +40,12 @@ form {
 
 select {
     justify-content: center;
-    width: 30%;
-    margin-right: 70px;
+    width: 45%;
+    margin-right: 20px;
     border: none;
     border-radius: 5px;
     box-shadow: 5px 5px 5px #ccd;
+    height: 25px;
 }
 
 
@@ -55,7 +56,7 @@ input{
     padding: 1px; 
     width: 100%;
     font-size: 17px;
-    color: #ccd;                 
+                     
     
 
 }
@@ -66,14 +67,15 @@ label{
 
 textarea{
     border: none;
-    border-radius: 5px;   
+    border-radius: 5px 5px 0px 5px;   
     box-shadow: 5px 5px 5px #ccd;
     padding: 5px;
     width: 100%;
-    height: 100px;
+    height: 100px;    
 }
 
 button{
+    cursor: pointer;
     background: red;
     color: green;
     width: 100%;
