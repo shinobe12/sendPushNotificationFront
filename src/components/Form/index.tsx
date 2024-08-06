@@ -7,10 +7,10 @@ export function Form() {
     function enviar(e){
         e.preventDefault();
 
-        
         console.log( 
             formObject
         );
+
         alert("Dados enviados com sucesso");
     }
     
@@ -28,17 +28,17 @@ export function Form() {
 
         <div className={styles.form}>
             <form id="form" metoh="post" styles="background-color: #csc;">
-                <select id="select" valeu={formObject.select} onChange={
+                <select  id="select" valeu={formObject.select} onChange={
                         e => setFormObject({...formObject, select: e.target.value})
                     }>
-                    <option>selecionar campo</option>
+                    <option>--Enviar para--</option>
                     <option>Enviar para um Utilizador</option>
                     <option>Enviar para todos Utilizadores</option>
                 </select>
                 <select id="selected_app" valeu={formObject.app} onChange={
                         e =>setFormObject({...formObject, app: e.target.value})
                     }>
-                    <option>Selecionar o método de envio</option>
+                    <option className="sele">--Selecionar App--</option>
                     <option>Só Money</option>
                     <option>Paga Só</option>
                 </select><br/><br/>

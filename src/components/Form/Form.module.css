@@ -46,8 +46,12 @@ select {
     border-radius: 5px;
     box-shadow: 5px 5px 5px #ccd;
     height: 25px;
+    color: gray;
 }
 
+option{
+    color: gray;
+}
 
 input{
     border: none;
