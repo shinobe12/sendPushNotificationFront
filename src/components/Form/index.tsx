@@ -1,12 +1,27 @@
-import {useState} from "react"
+import {useEffect, useState} from "react"
 import styles from "./Form.module.css"
 
-export function Form() {     
+export function Form({formId, timestamp}:{formId: string, timestamp: number}) {     
+    
+    /*consumindo uma api*/
+    const [api, setApi] = useState<any[]>([])
+    function getLanguges(){
+        fetch('https://alefesouza.dev/api/languages.php')
+        .then(responde => responde.json())
+        .then(_api => {
+            setApi(_api)})
+    }
+
+    useEffect(() => {
+        console.log(formId,timestamp)
+        getLanguges()
+      }, []);
+
     
     function enviar(e: any){
         e.preventDefault();
 
-        if(formObject.app===""){
+        if(formObject.app === "" || formObject.app ==="--Selecionar App--"){
             alert("Selecione a App")
         }else{
             console.log(formObject)
@@ -27,7 +42,7 @@ export function Form() {
     return(
 
         <div className={styles.form}>
-            
+                
             <form id="form" onSubmit={enviar}>
                 <select required id="select" value={formObject.select} onChange={
                         e => {
@@ -81,8 +96,8 @@ export function Form() {
                     } />
                 </div>
                 
-                <button type="submit" id="enviar"><label>Enviar</label></button>
-                <button type="reset" id="limpar"><p>Cancelar</p></button>
+                <button type="submit" id="_enviar"><label>Enviar</label></button>
+                <button type="reset" id="_limpar"><p>Cancelar</p></button>
             </form>
             
         </div>
