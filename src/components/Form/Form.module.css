@@ -25,28 +25,21 @@ form {
    padding: 40px;
    border-radius: 20px;
    box-shadow: 5px 5px 5px #ccd;
+   
   }
 
-.input-single {
-    position: relative;
-    margin: 20px 0;
-}
 
-.input-single label{
-    position: absolute;
-    left: 0;
-    bottom: 5px;
-}
 
 select {
-    justify-content: center;
-    width: 45%;
     margin-right: 20px;
+    width: 45%;
+    padding: 2px;
     border: none;
     border-radius: 5px;
     box-shadow: 5px 5px 5px #ccd;
     height: 25px;
     color: gray;
+    
 }
 
 option{
@@ -60,9 +53,6 @@ input{
     padding: 1px; 
     width: 100%;
     font-size: 17px;
-                     
-    
-
 }
 
 label{
@@ -80,9 +70,12 @@ textarea{
 
 button{
     cursor: pointer;
-    background: red;
-    color: green;
-    width: 100%;
     border-radius: 10px;
     padding: 10px;
+    margin: 5px;
+    margin-right: 5%;
+    text-align: center;
+    align: center
 }
+
+

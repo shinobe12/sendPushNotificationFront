@@ -1,10 +1,9 @@
 import {useState} from "react"
 import styles from "./Form.module.css"
 
-export function Form() {
+export function Form() {     
     
-    
-    function enviar(e){
+    function enviar(e: any){
         e.preventDefault();
 
         console.log( 
@@ -13,48 +12,61 @@ export function Form() {
 
         alert("Dados enviados com sucesso");
     }
-    
+
+    const [mostrar, setMostrar] = useState(false)
 
     const [formObject, setFormObject]=useState({
+        id: "",
         select: "",
         app : "",
         titulo:"",
         subTitulo: "",
         mensagem: "" 
     })
-
-
     return(
 
         <div className={styles.form}>
-            <form id="form" metoh="post" styles="background-color: #csc;">
-                <select  id="select" valeu={formObject.select} onChange={
-                        e => setFormObject({...formObject, select: e.target.value})
-                    }>
+            <form id="form">
+                <select  id="select" value={formObject.select} onChange={
+                        e => {
+                            if(e.currentTarget.options.selectedIndex===1){
+                                setMostrar(true)
+                            }
+                            else{
+                                setMostrar(false);
+                            }
+                            setFormObject({...formObject, select: e.target.value})
+                        } 
+                    }> 
                     <option>--Enviar para--</option>
-                    <option>Enviar para um Utilizador</option>
-                    <option>Enviar para todos Utilizadores</option>
+                    <option id="utilizador">Um utilizador</option>
+                    <option>Todos utilizadores</option>
                 </select>
-                <select id="selected_app" valeu={formObject.app} onChange={
+                <select id="selected_app" value={formObject.app} onChange={
                         e =>setFormObject({...formObject, app: e.target.value})
                     }>
                     <option className="sele">--Selecionar App--</option>
                     <option>Só Money</option>
                     <option>Paga Só</option>
                 </select><br/><br/>
-                
-                <div >
+                        {mostrar 
+                          && <input id="id" placeholder="Insira o ID do utilizador" value={formObject.id} onChange={
+                          e =>setFormObject({...formObject, id: e.target.value})
+                          }/>
+                        } 
+                    <br/><br/>
+
                 <label>Título</label>
-                    <input valeu={formObject.titulo} onChange={
+                    <input value={formObject.titulo} onChange={
                         e =>setFormObject({...formObject, titulo: e.target.value})
                     }  type="text" id="titulo"  />
                     
-                </div>
+              
                 <br/><br/>
 
                 <div>
                     <label >Sub-Título</label>
-                    <input type="text" id="subTitulo" name="subtitulo" valeu={formObject.subTitulo} onChange={
+                    <input type="text" id="subTitulo" name="subtitulo" value={formObject.subTitulo} onChange={
                         e => setFormObject({...formObject, subTitulo: e.target.value})
                     } />
                     
@@ -62,16 +74,16 @@ export function Form() {
                 <br/><br/>
 
                 <div >
-                    <textarea  id="mensagem" placeholder="Escreva aqui sua mensagem" valeu={formObject.mensagem} onChange={
+                    <textarea  id="mensagem" placeholder="Escreva aqui sua mensagem" value={formObject.mensagem} onChange={
                         e => {setFormObject({...formObject, mensagem: e.target.value})}
                     } />
                 </div>
                 
                 <button type="submit" id="_enviar" onClick={enviar}>Enviar</button>
-                
+                <button type="reset" id="_limpar" className="limpar">Cancelar</button>
             </form>
             
         </div>
 
-    );    
+    );      
 };
