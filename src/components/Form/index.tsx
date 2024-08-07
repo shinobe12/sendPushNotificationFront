@@ -6,11 +6,11 @@ export function Form() {
     function enviar(e: any){
         e.preventDefault();
 
-        console.log( 
-            formObject
-        );
-
-        alert("Dados enviados com sucesso");
+        if(formObject.app===""){
+            alert("Selecione a App")
+        }else{
+            console.log(formObject)
+            alert('Dados envados com sucesso!')}
     }
 
     const [mostrar, setMostrar] = useState(false)
@@ -23,13 +23,15 @@ export function Form() {
         subTitulo: "",
         mensagem: "" 
     })
+
     return(
 
         <div className={styles.form}>
-            <form id="form">
-                <select  id="select" value={formObject.select} onChange={
+            
+            <form id="form" onSubmit={enviar}>
+                <select required id="select" value={formObject.select} onChange={
                         e => {
-                            if(e.currentTarget.options.selectedIndex===1){
+                            if(e.currentTarget.options.selectedIndex === 1){
                                 setMostrar(true)
                             }
                             else{
@@ -38,26 +40,26 @@ export function Form() {
                             setFormObject({...formObject, select: e.target.value})
                         } 
                     }> 
-                    <option>--Enviar para--</option>
-                    <option id="utilizador">Um utilizador</option>
                     <option>Todos utilizadores</option>
+                    <option id="utilizador">Um utilizador</option>
+                    
                 </select>
-                <select id="selected_app" value={formObject.app} onChange={
+                <select required id="selected_app" value={formObject.app} onChange={
                         e =>setFormObject({...formObject, app: e.target.value})
                     }>
-                    <option className="sele">--Selecionar App--</option>
+                    <option >--Selecionar App--</option>
                     <option>Só Money</option>
                     <option>Paga Só</option>
                 </select><br/><br/>
                         {mostrar 
-                          && <input id="id" placeholder="Insira o ID do utilizador" value={formObject.id} onChange={
+                          && <input required id="id" placeholder="Insira o ID do utilizador" value={formObject.id} onChange={
                           e =>setFormObject({...formObject, id: e.target.value})
                           }/>
                         } 
                     <br/><br/>
 
                 <label>Título</label>
-                    <input value={formObject.titulo} onChange={
+                    <input required value={formObject.titulo} onChange={
                         e =>setFormObject({...formObject, titulo: e.target.value})
                     }  type="text" id="titulo"  />
                     
@@ -66,7 +68,7 @@ export function Form() {
 
                 <div>
                     <label >Sub-Título</label>
-                    <input type="text" id="subTitulo" name="subtitulo" value={formObject.subTitulo} onChange={
+                    <input required type="text" id="subTitulo" name="subtitulo" value={formObject.subTitulo} onChange={
                         e => setFormObject({...formObject, subTitulo: e.target.value})
                     } />
                     
@@ -74,13 +76,13 @@ export function Form() {
                 <br/><br/>
 
                 <div >
-                    <textarea  id="mensagem" placeholder="Escreva aqui sua mensagem" value={formObject.mensagem} onChange={
+                    <textarea required  id="mensagem" placeholder="Escreva aqui sua mensagem" value={formObject.mensagem} onChange={
                         e => {setFormObject({...formObject, mensagem: e.target.value})}
                     } />
                 </div>
                 
-                <button type="submit" id="_enviar" onClick={enviar}>Enviar</button>
-                <button type="reset" id="_limpar" className="limpar">Cancelar</button>
+                <button type="submit" id="enviar"><label>Enviar</label></button>
+                <button type="reset" id="limpar"><p>Cancelar</p></button>
             </form>
             
         </div>
