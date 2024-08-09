@@ -1,11 +1,8 @@
 import {useEffect, useState} from "react"
 import { BellRing } from 'lucide-react';
-import { createPortal } from 'react-dom';
-import Modal from "../Modal";
 
-
-export function Form() {     
-
+     
+export function Form() {
     
     function enviar(e: any,params:any){
         e.preventDefault();
@@ -115,10 +112,7 @@ export function Form() {
                         <button type="reset" id="_limpar"className="rounded-md bg-red-600 px-3 py-2 text-sm font-semibold text-white hover:bg-red-700
                         transition hover:translate-y-1 duration-300 w-[45%] " onClick={() => setModal(true)}>Cancelar</button>
                     </div>
-                    {modal && createPortal(
-                        <Modal onClose={() => setModal(false)} />,
-                        document.body
-                    )}
+                    {modal && <div>...</div>}
                 </form>
                   
             </div>
