@@ -1,21 +1,10 @@
 import {useEffect, useState} from "react"
-import { Bell, BellRing } from 'lucide-react';
+import { BellRing } from 'lucide-react';
+import { createPortal } from 'react-dom';
+import Modal from "../Modal";
 
-export function Form({formId, timestamp}:{formId: string, timestamp: number}) {     
-    
-    /*consumindo uma api*/
-    const [api, setApi] = useState<any[]>([])
-    function getLanguges(){
-        fetch('https://alefesouza.dev/api/languages.php')
-        .then(responde => responde.json())
-        .then(_api => {
-            setApi(_api)})
-    }
 
-    useEffect(() => {
-        console.log(formId,timestamp)
-        getLanguges()
-      }, []);
+export function Form() {     
 
     
     function enviar(e: any,params:any){
@@ -124,10 +113,14 @@ export function Form({formId, timestamp}:{formId: string, timestamp: number}) {
                         rounded-md bg-green-600 text-md font-semibold text-white hover:bg-green-700
                         transition hover:translate-y-1 duration-300 w-[45%] ">Enviar</button>
                         <button type="reset" id="_limpar"className="rounded-md bg-red-600 px-3 py-2 text-sm font-semibold text-white hover:bg-red-700
-                        transition hover:translate-y-1 duration-300 w-[45%] " onClick={mostrarModal}><p>Cancelar</p></button>
+                        transition hover:translate-y-1 duration-300 w-[45%] " onClick={() => setModal(true)}>Cancelar</button>
                     </div>
+                    {modal && createPortal(
+                        <Modal onClose={() => setModal(false)} />,
+                        document.body
+                    )}
                 </form>
-                     
+                  
             </div>
            
         </div>
