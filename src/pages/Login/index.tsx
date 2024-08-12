@@ -32,7 +32,7 @@ export function Login(){
                     <div className="mt-1 justify-center grid grid-cols-1 place-items-center">
                         <button type="submit" id="_enviar" className="
                         rounded-md bg-green-600 text-md font-semibold text-white hover:bg-green-700
-                        transition hover:translate-y-1 duration-300 w-full">Entrar</button>
+                        transition hover:translate-y-1 duration-300 h-8 w-full">Entrar</button>
                     </div>
                                         
                 </form>
