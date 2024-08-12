@@ -1,12 +1,13 @@
-import {useEffect, useState} from "react"
-import { BellRing } from 'lucide-react';
+import { useState } from "react"
+import { BellRing, Send, Trash2 } from 'lucide-react';
+import { removeItem } from "localforage";
 
-     
+
 export function Form() {
     
     function enviar(e: any,params:any){
         e.preventDefault();
-        console.log(params)
+        //console.log(params)
         if(formObject.app === "" || formObject.app ==="--Selecionar App--"){
             alert("Selecione a App")
         }else{
@@ -16,8 +17,8 @@ export function Form() {
 
     const [mostrar, setMostrar] = useState(false)
 
-    const [modal, setModal] = useState(false)
-    const mostrarModal = () =>{setModal(!modal)}
+    //const [modal, setModal] = useState(false)
+   // const mostrarModal = () =>{setModal(!modal)}
 
     const [formObject, setFormObject]=useState({
         id: "",
@@ -28,6 +29,8 @@ export function Form() {
         mensagem: "" 
     })
 
+    //depois escrever uma funcao para contar a quantidade de caracteres da mensagem
+
     return(
         <div className="grid grid-cols-1 gap-4 place-items-center h-svh shadow-lg">
             <div className="rounded-lg max-w-[600px] p-[30px] shadow-2xl bg-zinc-800">  
@@ -37,7 +40,7 @@ export function Form() {
                 <form className="mt-14 m-10" id="form" onSubmit={(e)=>enviar(e,formObject)}>
                     <div className="grid grid-cols-2">
                         <select required id="select" className="mt-3 mr-3 w-100 border border-slate-100
-                                rounded-md shadow-sm placeholder-slate-400
+                                rounded-md shadow-sm placeholder-slate-400 text-[#8A8A8A]
                                 focus:outline-none focus:border-sky-500 focus:ring-1 focus:ring-sky-500
                                  focus:invalid:ring-red-500" value={formObject.select} onChange={
                                 e => {
@@ -54,9 +57,9 @@ export function Form() {
                             <option>Todos utilizadores</option>
                             <option id="utilizador">Um utilizador</option>
                             
-                        </select>
+                        </select> 
                         <select required id="selected_app" className="mt-3 w-full border border-slate-100
-                                rounded-md shadow-sm placeholder-slate-400
+                                rounded-md shadow-sm placeholder-slate-400 text-[#8A8A8A]
                                 focus:outline-none focus:border-sky-500 focus:ring-1 focus:ring-sky-500
                                  focus:invalid:ring-red-500" value={formObject.app} onChange={
                                 e =>setFormObject({...formObject, app: e.target.value})
@@ -68,15 +71,15 @@ export function Form() {
                     </div>
                     
                             {mostrar 
-                            && <input className="rounded-md w-full shadow-sm p-1 placeholder-zinc-500" required id="id" placeholder="Insira o ID do utilizador" value={formObject.id} onChange={
+                            && <input className="rounded-md w-full shadow-sm p-1 placeholder-[#8A8A8A] " required id="id" placeholder="Insira o ID do utilizador" value={formObject.id} onChange={
                             e =>setFormObject({...formObject, id: e.target.value})
                             }/>
                             } 
                         <br/><br/>
                     
                         <label className="text-slate-50 ">Título</label>
-                            <input required className="mt-1 block w-full p-1 border border-slate-100
-                                rounded-md shadow-sm placeholder-slate-400
+                            <input required placeholder="Escreva um título" className="mt-1 block w-full p-1 border border-slate-100
+                                rounded-md shadow-sm placeholder-[#8A8A8A] 
                                 focus:outline-none focus:border-sky-500 focus:ring-1 focus:ring-sky-500
                                  focus:invalid:ring-red-500"
                                  value={formObject.titulo} onChange={
@@ -87,8 +90,8 @@ export function Form() {
 
                     <div>
                         <label className="text-slate-50">Sub-Título</label>
-                        <input required type="text" id="subTitulo" name="subtitulo" className="mt-1 block w-full p-1 border border-slate-100
-                                rounded-md shadow-sm placeholder-slate-400
+                        <input required type="text" id="subTitulo" name="subtitulo" placeholder="Escreva um subtítulo" className="mt-1 block w-full p-1 border border-slate-100
+                                rounded-md shadow-sm placeholder-[#8A8A8A]
                                 focus:outline-none focus:border-sky-500 focus:ring-1 focus:ring-sky-500
                                  focus:invalid:ring-red-500" value={formObject.subTitulo} onChange={
                             e => setFormObject({...formObject, subTitulo: e.target.value})
@@ -98,21 +101,33 @@ export function Form() {
                     <br/>
 
                     <div>
+                    <label className="text-slate-50">Mensagem</label>
                         <textarea rows={3} required className="mt-1 block w-full p-1 border border-slate-100
-                                rounded-md shadow-sm placeholder-zinc-500
+                                rounded-md shadow-sm placeholder-[#8A8A8A] 
                                 focus:outline-none focus:border-sky-500 focus:ring-1 focus:ring-sky-500
-                                 focus:invalid:ring-red-500"   id="mensagem" placeholder="Escreva aqui sua mensagem" value={formObject.mensagem} onChange={
+                                 focus:invalid:ring-red-500"   id="mensagem" placeholder="Escreva uma mensagem" value={formObject.mensagem} onChange={
                             e => {setFormObject({...formObject, mensagem: e.target.value})}
                         } />
                     </div> 
                     <div className="flex justify-between mt-5">
                         <button type="submit" id="_enviar" className="
-                        rounded-md bg-green-600 text-md font-semibold text-white hover:bg-green-700
-                        transition hover:translate-y-1 duration-300 w-[45%] ">Enviar</button>
-                        <button type="reset" id="_limpar"className="rounded-md bg-red-600 px-3 py-2 text-sm font-semibold text-white hover:bg-red-700
-                        transition hover:translate-y-1 duration-300 w-[45%] " onClick={() => setModal(true)}>Cancelar</button>
+                        grid grid-cols-2 h-10
+                        rounded-md ring-1 ring-[#277FE3] text-md font-semibold text-white hover:bg-[#277FE3]
+                        transition hover:translate-y-1 duration-300 w-[45%] ">
+                              
+                                <Send size={20} color="white" className="w-full mt-2.5 ml-4"/>
+                                <div className="w-full text-left  mt-2 rounded-lg">Enviar</div>
+                            </button>
+                            <button type="reset" id="_enviar" className="
+                        grid grid-cols-2 h-10
+                        rounded-md ring-1 ring-[#FF6D6D] text-md font-semibold text-[#FFF] hover:bg-[#FF6D6D]
+                        transition hover:translate-y-1 duration-300 w-[45%] ">
+                              
+                                <Trash2 size={20} color="#FFF" className="w-full mt-2.5 ml-4"/>
+                                <div className="w-full text-left  mt-2 rounded-lg">Limpar</div>
+                            </button>
                     </div>
-                    {modal && <div>...</div>}
+                    
                 </form>
                   
             </div>
