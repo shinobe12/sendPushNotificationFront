@@ -1,4 +1,4 @@
-{
+ {
     "exclude": ["./cypress", "./cypress.config.ts", "./tailwind.config.ts"],
     "include": [
       "remix.env.d.ts",
