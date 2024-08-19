@@ -1,6 +1,6 @@
 import React from "react"
 
-const Sucesso = ({ isVisible, onClose }) => {
+const Sucesso = ({ isVisible, onClose }:{isVisible:boolean, onClose:()=>void}) => {
     if(!isVisible) return null
     return(
         <main>
@@ -19,7 +19,7 @@ const Sucesso = ({ isVisible, onClose }) => {
             </div>
             </div>
         </div>
-        </main>
+        </main>  
     )
 }
 export default Sucesso

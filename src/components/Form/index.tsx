@@ -1,27 +1,17 @@
 import { Fragment, useState } from "react"
 import { Send, Trash2 } from 'lucide-react';
-import { removeItem } from "localforage";
 import Sucesso from "../Sucesso";
 
 
 export function Form() {
     
-    function enviar(e: any,params:any){
-        e.preventDefault();
-        //console.log(params)
-        if(formObject.app === "" || formObject.app ==="--Selecionar App--" || formObject.select === "" 
-            || formObject.titulo === "" || formObject.subTitulo === "" || formObject.mensagem === ""){
-            alert("preencha os campos")
-        }else{
-            console.log(formObject)
-        }
-    }
-
     const [mostrar, setMostrar] = useState(false)
 
     const [isSucess, setIsSucess] = useState(false)
     
     const [confirm, setConfirm] = useState(false)
+
+    const [limpar, setLimpar] = useState(false)
 
     const [formObject, setFormObject]=useState({
         id: "",
@@ -32,14 +22,24 @@ export function Form() {
         mensagem: "" 
     })
 
-    
+    function enviar(e: any,params:any){
+        e.preventDefault();
+        //console.log(params)
+        if(formObject.app === "" || formObject.app ==="--Selecionar App--" || formObject.select === "" 
+            || formObject.titulo === "" || formObject.subTitulo === "" || formObject.mensagem === ""){
+            alert("preencha os campos")
+        }else{
+            console.log(formObject)
+            setConfirm(false)
+        }
+    }
     
     //depois escrever uma funcao para contar a quantidade de caracteres da mensagem
 
     return(
         <Fragment>
             <Sucesso isVisible={isSucess} onClose={() => setIsSucess(false)}/>
-        <div className="grid grid-cols-1 gap-4 place-items-center h-svh shadow-lg">
+            <div className="grid grid-cols-1 sm:items-center gap-4 place-items-center h-svh shadow-lg">
             <div className="rounded-lg max-w-[600px] p-[30px] dark:ring-1 dark:ring-[#EEEEEE] bg-zinc-800 dark:bg-[#fff]">  
             <div className="flex justify-center ml-[40%] p-1 rounded-full ring-1 ring-[#3D3D3D] dark:rounded-full w-20 h-20 dark:ring-1 dark:ring-[#EEEEEE] ">   
                 <svg width="60" height="60" viewBox="0 0 60 60" fill="none" className="mt-1" xmlns="http://www.w3.org/2000/svg">
@@ -190,7 +190,7 @@ export function Form() {
     </defs>
                 </svg>
             </div>
-                <form className="mt-14 m-10" id="form" onSubmit={(e)=>enviar(e,formObject)}  >
+                <form className="mt-14 m-10" id="form" onSubmit={(e)=>enviar(e,formObject)}>
                     <div className="grid grid-cols-2 ">
                         <select required id="select" className="mt-3 mr-3 w-100 text-sm
                                 rounded-md shadow-sm placeholder-slate-400 text-[#8A8A8A]
@@ -222,7 +222,7 @@ export function Form() {
                     </div>
                     
                             {mostrar 
-                            && <input className="rounded-md w-full shadow-sm p-2 placeholder-[#8A8A8A] text-sm " required id="id" placeholder="Insira o ID do utilizador" value={formObject.id} onChange={
+                            && <input className="rounded-md w-full shadow-sm p-2 placeholder-[#8A8A8A] text-sm focus:outline " required id="id" placeholder="Insira o ID do utilizador" value={formObject.id} onChange={
                             e =>setFormObject({...formObject, id: e.target.value})
                             }/>
                             } 
@@ -258,37 +258,56 @@ export function Form() {
                         } />
                     </div> 
                     <div className="flex justify-between mt-10">
-                        <button type="submit" id="_enviar" onClick={() => setConfirm(true)} className="
+                        <button type="button" id="_enviar"  onClick={()=> setConfirm(true)} className="
                         flex justify-center
                         rounded-md ring-1 ring-[#277FE3] font-semibold text-[#277FE3] hover:text-[#fff] hover:bg-[#277FE3]
                         transition hover:translate-y-1 duration-300 w-[45%] ">
                             <div className=" flex justify-center w-full h-10 rounded-md p-2 text-center dark:hover:text-[#fff] dark:text-[#277FE3] dark:text-[#277FE3]"><Send className="p-0.5"/><p>Enviar</p></div>
                             </button>
-                            <button  type="reset" id="_enviar" className="
+                            <button  type="button" onClick={()=> setLimpar(true)} id="_enviar" className="
                                 rounded-md ring-1 ring-[#FF6D6D] text-md font-semibold text-[#FFF] hover:bg-[#FF6D6D]
                                 transition hover:translate-y-1 duration-300 w-[45%]">
                                 <div className="flex justify-center p-2 rounded-md text-[#FF6D6D] hover:text-[#fff] dark:hover:text-[#fff] dark:text-[#FF6D6D]"><Trash2 size={20}/><p>Limpar</p></div>
                             </button>
                     </div>
-                    
-                </form>
-                {confirm && <div><div className="fixed inset-0 dark:bg-zinc-700 dark:bg-opacity-40 bg-black bg-opacity-50"></div>
+                    {confirm && <div><div className="fixed inset-0 dark:bg-zinc-700 dark:bg-opacity-40 bg-black bg-opacity-50"></div>
+                    <div className="fixed inset-0 flex justify-center items-center  animate-fade">
+                        <div className="bg-[#fff] p-3 mt-10 rounded-md flex w-[200px] justify-center">
+                            <div className="">
+                                <div className="flex justify-center">
+                                <svg width="30" height="30" viewBox="0 0 30 30" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <rect width="30" height="30" rx="15" fill="#CFE4FF"/>
+                                <path d="M20.8 9C20.7424 9.0004 20.6852 9.00908 20.6301 9.02578C20.6139 9.03018 20.5978 9.03527 20.582 9.04102L7.39023 13.2363V13.2387C7.27578 13.2814 7.17709 13.358 7.10735 13.4583C7.03762 13.5586 7.00016 13.6778 7 13.8C7.00022 13.903 7.02696 14.0043 7.07766 14.094C7.12836 14.1837 7.2013 14.2588 7.28945 14.3121L11.2984 17.4926L19.2238 11.1762L12.9074 19.1016L16.0855 23.1082C16.1388 23.1971 16.2142 23.2708 16.3043 23.3219C16.3945 23.373 16.4963 23.3999 16.6 23.4C16.7222 23.3998 16.8414 23.3624 16.9417 23.2926C17.042 23.2229 17.1186 23.1242 17.1613 23.0098H17.1637L21.3625 9.80625C21.3668 9.79427 21.3707 9.78215 21.3742 9.76992C21.3909 9.71481 21.3996 9.65758 21.4 9.6C21.4 9.44087 21.3368 9.28826 21.2243 9.17574C21.1117 9.06321 20.9591 9 20.8 9Z" fill="#277FE3"/>
+                                </svg>
+                                </div>
+                                <div className="p-2 text-center text-[#656565] font-semibold font-family-sans"><label>Tem certeza que<br/>pretende enviar?</label></div>
+                                <div className="flex p-2">
+                                <button type="button" onClick={() => setConfirm(false)}  className="bg-[#D4D4D4] transition  duration-300 hover:bg-zinc-400 text-white font-family-sans rounded-md p-2 w-full">Cancelar</button>
+                                <button type="submit" onClick={() => setIsSucess(true)}  className="bg-[#277FE3] ml-2 transition  duration-300 hover:bg-[#2167B6] text-white font-family-sans rounded-md p-2 w-full">Confirmar</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div></div>}
+                    {limpar && <div><div className="fixed inset-0 dark:bg-zinc-700 dark:bg-opacity-40 bg-black bg-opacity-50"></div>
                     <div className="fixed inset-0 flex justify-center items-center  animate-fade">
                         <div className="bg-[#fff]  p-3 rounded-md flex w-[200px] justify-center">
                             <div className="">
                                 <div className="flex justify-center">
-                                    <svg width="30" height="30" viewBox="0 0 30 30" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                    <rect width="30" height="30" rx="15" fill="#CFE4FF"/>
-                                    <path d="M15 6C10.0371 6 6 10.0371 6 15C6 19.9629 10.0371 24 15 24C19.9629 24 24 19.9629 24 15C24 10.0371 19.9629 6 15 6ZM15 7.5C19.1514 7.5 22.5 10.8486 22.5 15C22.5 19.1514 19.1514 22.5 15 22.5C10.8486 22.5 7.5 19.1514 7.5 15C7.5 10.8486 10.8486 7.5 15 7.5ZM18.1406 10.5469C18.0293 10.5645 17.9355 10.623 17.8594 10.7344L14.1797 16.1953L12.4453 14.4844C12.2959 14.2588 12.0088 14.2412 11.8594 14.3906L11.1797 15.0703C11.0303 15.2959 11.0303 15.6006 11.1797 15.75L13.8047 18.375C13.9541 18.4512 14.165 18.6094 14.3906 18.6094C14.54 18.6094 14.7803 18.5303 14.9297 18.3047L19.4297 11.6953C19.5791 11.4697 19.4941 11.2588 19.1953 11.1094L18.4453 10.5703C18.3691 10.5322 18.252 10.5293 18.1406 10.5469Z" fill="#277FE3"/>
-                                    </svg>
+                                <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M9.51068 0C7.75652 0 6.29588 1.31072 6.05072 3H2.62982C2.58724 2.99271 2.54411 2.98912 2.50092 2.98926C2.46359 2.99006 2.42638 2.99365 2.38959 3H0.760682C0.661298 2.99859 0.562626 3.01696 0.4704 3.05402C0.378173 3.09108 0.294233 3.1461 0.223455 3.21588C0.152678 3.28566 0.096476 3.36882 0.0581152 3.46051C0.0197545 3.5522 0 3.65061 0 3.75C0 3.84939 0.0197545 3.9478 0.0581152 4.03949C0.096476 4.13118 0.152678 4.21434 0.223455 4.28412C0.294233 4.3539 0.378173 4.40892 0.4704 4.44598C0.562626 4.48304 0.661298 4.50141 0.760682 4.5H1.83002L3.08881 17.5146C3.22435 18.918 4.41657 20 5.82611 20H13.1943C14.6039 20 15.7961 18.9181 15.9316 17.5146L17.1913 4.5H18.2607C18.3601 4.50141 18.4587 4.48304 18.551 4.44598C18.6432 4.40892 18.7271 4.3539 18.7979 4.28412C18.8687 4.21434 18.9249 4.13118 18.9632 4.03949C19.0016 3.9478 19.0214 3.84939 19.0214 3.75C19.0214 3.65061 19.0016 3.5522 18.9632 3.46051C18.9249 3.36882 18.8687 3.28566 18.7979 3.21588C18.7271 3.1461 18.6432 3.09108 18.551 3.05402C18.4587 3.01696 18.3601 2.99859 18.2607 3H16.6328C16.5532 2.98709 16.4721 2.98709 16.3925 3H12.9706C12.7255 1.31072 11.2648 0 9.51068 0ZM9.51068 1.5C10.4503 1.5 11.2211 2.13408 11.4413 3H7.58002C7.8003 2.13408 8.5711 1.5 9.51068 1.5ZM3.33588 4.5H15.6845L14.4384 17.3701C14.3759 18.0177 13.8447 18.5 13.1943 18.5H5.82611C5.17665 18.5 4.64443 18.0168 4.58197 17.3701L3.33588 4.5ZM7.74896 6.98926C7.55022 6.99236 7.36084 7.07423 7.22241 7.21686C7.08398 7.3595 7.00783 7.55125 7.01068 7.75V15.25C7.00928 15.3494 7.02764 15.4481 7.0647 15.5403C7.10176 15.6325 7.15678 15.7164 7.22656 15.7872C7.29635 15.858 7.3795 15.9142 7.47119 15.9526C7.56289 15.9909 7.66129 16.0107 7.76068 16.0107C7.86008 16.0107 7.95848 15.9909 8.05017 15.9526C8.14186 15.9142 8.22502 15.858 8.2948 15.7872C8.36458 15.7164 8.41961 15.6325 8.45667 15.5403C8.49373 15.4481 8.51209 15.3494 8.51068 15.25V7.75C8.51212 7.64962 8.4934 7.54997 8.45561 7.45695C8.41783 7.36394 8.36176 7.27946 8.29073 7.20852C8.21969 7.13758 8.13514 7.08161 8.04208 7.04395C7.94902 7.00629 7.84934 6.98769 7.74896 6.98926ZM11.249 6.98926C11.0502 6.99236 10.8608 7.07423 10.7224 7.21686C10.584 7.3595 10.5078 7.55125 10.5107 7.75V15.25C10.5093 15.3494 10.5276 15.4481 10.5647 15.5403C10.6018 15.6325 10.6568 15.7164 10.7266 15.7872C10.7963 15.858 10.8795 15.9142 10.9712 15.9526C11.0629 15.9909 11.1613 16.0107 11.2607 16.0107C11.3601 16.0107 11.4585 15.9909 11.5502 15.9526C11.6419 15.9142 11.725 15.858 11.7948 15.7872C11.8646 15.7164 11.9196 15.6325 11.9567 15.5403C11.9937 15.4481 12.0121 15.3494 12.0107 15.25V7.75C12.0121 7.64962 11.9934 7.54997 11.9556 7.45695C11.9178 7.36394 11.8618 7.27946 11.7907 7.20852C11.7197 7.13758 11.6351 7.08161 11.5421 7.04395C11.449 7.00629 11.3493 6.98769 11.249 6.98926Z" fill="#FF6D6D"/>
+                                </svg>
                                 </div>
-                                <div className="p-2 text-center text-[#656565] font-semibold font-family-sans"><label>Tem certeza que<br/>pretende enviar?</label></div>
-                                <div className="flex p-2"><button type="button" onClick={() => setConfirm(false)} className="bg-[#D4D4D4] transition  duration-300 hover:bg-zinc-400 text-white font-family-sans rounded-md p-2 w-full">Cancelar</button>
-                                <button type="button" onClick={() => {setIsSucess(true), setConfirm(false)}} className="bg-[#277FE3] ml-2 transition  duration-300 hover:bg-[#2167B6] text-white font-family-sans rounded-md p-2 w-full">Confirmar</button>
+                                <div className="p-2 text-center text-[#656565] font-semibold font-family-sans"><label>Tem certeza que<br/>pretende limpar?</label></div>
+                                <div className="flex p-2"><button type="button" onClick={() => setLimpar(false)} className="bg-[#D4D4D4] transition  duration-300 hover:bg-zinc-400 text-white font-family-sans rounded-md p-2 w-full">Cancelar</button>
+                                <button type="reset" onClick={() => setLimpar(false)} className="bg-[#FF6D6D] ml-2 transition  duration-300 hover:bg-[#D05959] text-white font-family-sans rounded-md p-2 w-full">Confirmar</button>
                                 </div>
                             </div>
                         </div>
-                    </div></div>} 
+                    </div></div>}
+                </form>
+                
+
+                    
             </div>
         </div>
         </Fragment>

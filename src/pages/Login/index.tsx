@@ -8,7 +8,12 @@ export function Login(){
     const trocaPassword = () => setIsShow(!isShow)
 
     const [isDark, setIsDark] = useState(false)
-  const trocaCor = () => setIsDark(!isDark)
+    const trocaCor = () => setIsDark(!isDark)
+
+    const [logado, setLogado] = useState({
+        email: "",
+        password: ""
+    })
 
     return(
         <div className={`${isDark && "dark"}`}>
@@ -23,9 +28,9 @@ export function Login(){
             <circle cx="31" cy="11" r="9" fill="white"/>
             </svg> : 
             <svg width="42" height="22" className='mt-1' viewBox="0 0 42 22" fill="none" xmlns="http://www.w3.org/2000/svg">
-<rect width="42" height="22" rx="11" fill="#D5D5D5"/>
-<circle cx="11" cy="11" r="9" fill="white"/>
-                  </svg>
+            <rect width="42" height="22" rx="11" fill="#D5D5D5"/>
+            <circle cx="11" cy="11" r="9" fill="white"/>
+            </svg>
             }
             </button>
             
@@ -49,7 +54,7 @@ export function Login(){
             }
             <br/>
                 <form className="mt-12 " id="form">
-                        <label className="text-slate-50 dark:text-[#656565]">Email</label>
+                        <label className="text-slate-50 dark:text-[#656565]" id="email" >Email</label>
                             <input required placeholder='Introduza seu email...' className="mt-1 block w-full p-1 
                                 rounded-md dark:ring-1 ring-[#EEE] placeholder-[#838383]
                                 focus:outline-none p-2 text-sm
@@ -57,7 +62,7 @@ export function Login(){
                                    type="text" id="titulo"/>
                     <br/>
                     <div>
-                        <label className="text-slate-50 dark:text-[#656565]">Senha</label>
+                        <label className="text-slate-50 dark:text-[#656565]" id="password">Senha</label>
                         <div className="flex justify-between bg-[#fff] rounded-md dark:ring-1 ring-[#eee] ">
                             <input required type={isShow ? "text": "password"} id="senha" name="senha" placeholder='Introduza sua senha...' className="
                                      block w-50 p-2 text-sm
