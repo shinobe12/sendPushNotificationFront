@@ -10,11 +10,6 @@ export function Login(){
     const [isDark, setIsDark] = useState(false)
     const trocaCor = () => setIsDark(!isDark)
 
-    const [logado, setLogado] = useState({
-        email: "",
-        password: ""
-    })
-
     return(
         <div className={`${isDark && "dark"}`}>
         <main className='min-h-screen bg-[#1E1E1E] dark:bg-[#fff]'>
@@ -38,7 +33,7 @@ export function Login(){
         </div>
             </div>
         <div className="grid grid-cols-1 gap-4 place-items-center mt-[10%] h-80">
-            <div className="rounded-lg max-w-[600px] p-[60px] bg-[#272729] dark:bg-[#fff] dark:ring-1 ring-[#EEE]">  
+            <div className="rounded-lg max-w-[600px] p-[60px]  bg-[#272729] dark:bg-[#fff] dark:ring-1 ring-[#EEE]">  
             {isDark?
                 <div className="grid grid-cols-1 gap-4 place-items-center h-6 p-2"><svg width="76" height="76" viewBox="0 0 76 76" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <circle cx="38" cy="38" r="37.5" stroke="#D4D4D4"/>

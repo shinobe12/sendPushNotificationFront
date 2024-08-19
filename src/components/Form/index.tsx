@@ -13,6 +13,8 @@ export function Form() {
 
     const [limpar, setLimpar] = useState(false)
 
+    const [selectApp, setSelectApp] = useState(false)
+
     const [formObject, setFormObject]=useState({
         id: "",
         select: "",
@@ -22,17 +24,29 @@ export function Form() {
         mensagem: "" 
     })
 
+    const resetInputs = () =>  {
+        setFormObject({...formObject, app : "", id:"", titulo:"", subTitulo:"",  mensagem:""})
+    }
+    
     function enviar(e: any,params:any){
         e.preventDefault();
         //console.log(params)
-        if(formObject.app === "" || formObject.app ==="--Selecionar App--" || formObject.select === "" 
-            || formObject.titulo === "" || formObject.subTitulo === "" || formObject.mensagem === ""){
-            alert("preencha os campos")
-        }else{
-            console.log(formObject)
+        if(formObject.app === "" || formObject.app ==="-- Selecionar App * --" ){
+            
+            setSelectApp(true)
             setConfirm(false)
-        }
+            
+        }else{
+            setConfirm(false)
+            setIsSucess(true)
+            console.log(formObject)
+            resetInputs()
+            
+        }  
     }
+    
+
+    
     
     //depois escrever uma funcao para contar a quantidade de caracteres da mensagem
 
@@ -190,7 +204,7 @@ export function Form() {
     </defs>
                 </svg>
             </div>
-                <form className="mt-14 m-10" id="form" onSubmit={(e)=>enviar(e,formObject)}>
+                <form className="mt-5 m-10" id="form" onSubmit={(e)=>enviar(e,formObject)}>
                     <div className="grid grid-cols-2 ">
                         <select required id="select" className="mt-3 mr-3 w-100 text-sm
                                 rounded-md shadow-sm placeholder-slate-400 text-[#8A8A8A]
@@ -215,21 +229,22 @@ export function Form() {
                                 focus:outline-none dark:ring-1 dark:ring-[#EEEEEE]" value={formObject.app} onChange={
                                 e =>setFormObject({...formObject, app: e.target.value})
                             }>
-                            <option >--Selecionar App--</option>
+                            <option >-- Selecionar App * --</option>
                             <option>Só Money</option>
                             <option>Paga Só</option>
                         </select><br/>
                     </div>
                     
                             {mostrar 
-                            && <input className="rounded-md w-full shadow-sm p-2 placeholder-[#8A8A8A] text-sm focus:outline " required id="id" placeholder="Insira o ID do utilizador" value={formObject.id} onChange={
+                            && <input className="rounded-md w-full shadow-sm p-1 placeholder-[#8A8A8A] text-sm focus:outline " type="number" required id="id" placeholder="Insira o ID do utilizador" value={formObject.id} onChange={
                             e =>setFormObject({...formObject, id: e.target.value})
                             }/>
-                            } 
-                        <br/><br/>
+                            } <br/>
+                            <br/>
+                        
                     
-                        <label className="text-slate-50 dark:text-[#656565]">Título</label>
-                            <input required placeholder="Escreva um título" className="mt-1 block w-full p-1 
+                        <label className="text-slate-50 dark:text-[#656565]">Título *</label>
+                            <input required placeholder="Escreva um título" className="mt-5 block w-full p-1 
                                 rounded-md shadow-sm placeholder-[#8A8A8A] text-sm
                                 focus:outline-none dark:ring-1 dark:ring-[#EEEEEE]"
                                  value={formObject.titulo} onChange={
@@ -239,8 +254,8 @@ export function Form() {
                     <br/>
                     
                     <div>
-                        <label className="text-slate-50 dark:text-[#656565]">Sub-Título</label>
-                        <input required type="text" id="subTitulo" name="subtitulo" placeholder="Escreva um subtítulo" className="mt-1 block w-full p-1 
+                        <label className="text-slate-50 dark:text-[#656565]" >Sub-Título</label>
+                        <input  type="text" id="subTitulo" name="subtitulo" placeholder="Escreva um subtítulo" className="mt-1 block w-full p-1 
                                 rounded-md shadow-sm placeholder-[#8A8A8A] dark:placeholder-[#838383] text-sm
                                 focus:outline-none rdark:ring-1 dark:ring-[#EEEEEE]" value={formObject.subTitulo} onChange={
                             e => setFormObject({...formObject, subTitulo: e.target.value})
@@ -250,7 +265,7 @@ export function Form() {
                     <br/>
 
                     <div>
-                    <label className="text-slate-50 dark:text-[#656565]">Mensagem</label> 
+                    <label className="text-slate-50 dark:text-[#656565]">Mensagem *</label> 
                         <textarea rows={3} required className="mt-1 block w-full p-1 text-sm
                                 rounded-md shadow-sm placeholder-[#8A8A8A] 
                                 focus:outline-none dark:ring-1 dark:ring-[#EEEEEE]"   id="mensagem" placeholder="Escreva uma mensagem" value={formObject.mensagem} onChange={
@@ -283,7 +298,7 @@ export function Form() {
                                 <div className="p-2 text-center text-[#656565] font-semibold font-family-sans"><label>Tem certeza que<br/>pretende enviar?</label></div>
                                 <div className="flex p-2">
                                 <button type="button" onClick={() => setConfirm(false)}  className="bg-[#D4D4D4] transition  duration-300 hover:bg-zinc-400 text-white font-family-sans rounded-md p-2 w-full">Cancelar</button>
-                                <button type="submit" onClick={() => setIsSucess(true)}  className="bg-[#277FE3] ml-2 transition  duration-300 hover:bg-[#2167B6] text-white font-family-sans rounded-md p-2 w-full">Confirmar</button>
+                                <button type="submit" onClick={() => enviar}  className="bg-[#277FE3] ml-2 transition  duration-300 hover:bg-[#2167B6] text-white font-family-sans rounded-md p-2 w-full">Confirmar</button>
                                 </div>
                             </div>
                         </div>
@@ -299,11 +314,30 @@ export function Form() {
                                 </div>
                                 <div className="p-2 text-center text-[#656565] font-semibold font-family-sans"><label>Tem certeza que<br/>pretende limpar?</label></div>
                                 <div className="flex p-2"><button type="button" onClick={() => setLimpar(false)} className="bg-[#D4D4D4] transition  duration-300 hover:bg-zinc-400 text-white font-family-sans rounded-md p-2 w-full">Cancelar</button>
-                                <button type="reset" onClick={() => setLimpar(false)} className="bg-[#FF6D6D] ml-2 transition  duration-300 hover:bg-[#D05959] text-white font-family-sans rounded-md p-2 w-full">Confirmar</button>
+                                <button type="button" onClick={()=> {resetInputs(); setLimpar(false)}} className="bg-[#FF6D6D] ml-2 transition  duration-300 hover:bg-[#D05959] text-white font-family-sans rounded-md p-2 w-full">Confirmar</button>
                                 </div>
                             </div>
                         </div>
                     </div></div>}
+                    {selectApp && 
+                        <div className="">
+                            <div className="fixed inset-0 dark:bg-zinc-700 dark:bg-opacity-40 bg-black bg-opacity-50 flex justify-center items-center animate-fade">
+                            <div className="bg-[#fff]  p-3 rounded-md flex w-[200px] justify-center">
+                            <div className="">
+                                <div className="flex justify-center">
+                                <svg width="30" height="30" viewBox="0 0 30 30" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <rect width="30" height="30" rx="15" fill="#FFD6D6"/>
+                                <path d="M15 5C14.2 5 13.5 5.7 13.5 6.5V7.19531C10.9081 7.85916 9 10.1955 9 13V17.8379L8.2793 20H7V22H13.2715C13.0961 22.3038 13.0037 22.6483 13.0035 22.9991C13.0034 23.3499 13.0955 23.6945 13.2706 23.9985C13.4457 24.3024 13.6977 24.5549 14.0012 24.7307C14.3048 24.9065 14.6492 24.9994 15 25C15.3511 25.0001 15.696 24.9077 16.0001 24.7322C16.3042 24.5567 16.5567 24.3042 16.7323 24.0002C16.9079 23.6961 17.0004 23.3512 17.0004 23.0001C17.0004 22.649 16.908 22.3041 16.7324 22H23V20H21.7207L21 17.8379V13C21 10.1955 19.0919 7.85916 16.5 7.19531V6.5C16.5 5.7 15.8 5 15 5ZM15 9C17.2762 9 19 10.7238 19 13V18.1621L19.6113 20H10.3887L11 18.1621V13C11 10.7238 12.7238 9 15 9Z" fill="#FF6D6D"/>
+                                </svg>
+                                </div>
+                                <div className="p-2 text-center text-[#656565] font-semibold font-family-sans" ><label>Selecione a App</label></div>
+                                <div><button type="button" onClick={()=> setSelectApp(false)} className="bg-[#277FE3] transition  duration-300 hover:bg-[#2167B6] text-white font-family-sans rounded-md p-2 w-full">Ok</button></div>
+                            </div>
+                            </div>
+                            </div>
+                        </div>
+                    }
+                    
                 </form>
                 
 
