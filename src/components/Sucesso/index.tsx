@@ -22,4 +22,4 @@ const Sucesso = ({ isVisible, onClose }:{isVisible:boolean, onClose:()=>void}) =
         </main>  
     )
 }
-export default Sucesso
+export default Sucesso 

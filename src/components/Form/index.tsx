@@ -1,4 +1,4 @@
-import { Fragment, useState, useMemo } from "react"
+import { Fragment, useState } from "react"
 import { Send, Trash2 } from 'lucide-react';
 import Sucesso from "../Sucesso";
 
@@ -28,6 +28,8 @@ export function Form() {
         setFormObject({...formObject, app : "", id:"", titulo:"", subTitulo:"",  mensagem:""})
     }
 
+    
+    
     let styleTranslate 
     
     function enviar(e: any,params:any){
@@ -232,20 +234,22 @@ export function Form() {
                             <option>Só Money</option>
                             <option>Só Eventos</option>
                             <option>Paga Só</option>
-                        </select><br/>
-                    </div>
+                        </select>
+                    </div><br/>
                     
                             {mostrar 
-                            && <input className="rounded-md w-full shadow-sm p-1 placeholder-[#8A8A8A] text-sm focus:outline " type="number" required id="id" placeholder="Insira o ID do utilizador" value={formObject.id} onChange={
+                            && <div>
+                                <label className={'text-slate-50 mt-3 dark:text-[#656565] animate-fade'}>ID *</label>
+                                <input className="rounded-md shadow-sm placeholder-[#8A8A8A] text-sm block w-full p-1
+                                focus:outline-none dark:ring-1 dark:ring-[#EEEEEE] animate-fade" type="number" required id="id" placeholder="Insira o ID do utilizador" value={formObject.id} onChange={
                             e =>setFormObject({...formObject, id: e.target.value})
-                            }/>
-                            } <br/>
-                            <br/>
-                        
-                    
-                        <label className={`text-slate-50 dark:text-[#656565]`}>Título *</label>
+                            }/><br/>
+                            </div>
+                            }
+                            
+                        <label className={'text-slate-50 mt-3 dark:text-[#656565]'}>Título *</label>
                             <input required placeholder="Escreva um título" className={`
-                                mt-1 block w-full ${styleTranslate} 
+                                mt-1 block w-full ${styleTranslate} p-1 
                                 rounded-md shadow-sm placeholder-[#8A8A8A] text-sm
                                 focus:outline-none dark:ring-1 dark:ring-[#EEEEEE]`}
                                  value={formObject.titulo} onChange={

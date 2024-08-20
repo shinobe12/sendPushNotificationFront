@@ -3,8 +3,10 @@ import { useMemo, useState } from 'react';
 import  {Form} from '../../components/Form'
 import { Lista } from '../../components/Lista';
 
+
 //rota protejida
 export function Notification() {
+  
   const [action, setAction] = useState<"LIST" | "ADD">("LIST")
 
   const activeStyleList = useMemo(() => {
