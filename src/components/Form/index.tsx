@@ -1,4 +1,4 @@
-import { Fragment, useState } from "react"
+import { Fragment, useState, useMemo } from "react"
 import { Send, Trash2 } from 'lucide-react';
 import Sucesso from "../Sucesso";
 
@@ -28,9 +28,7 @@ export function Form() {
         setFormObject({...formObject, app : "", id:"", titulo:"", subTitulo:"",  mensagem:""})
     }
 
-    const translateButton = useMemo(() => {
-        return action === "ADD"? "bg-[#277FE3] dark:bg-[#277FE3]":"bg-[#454545] dark:bg-[#CFE4FF] dark:text-[#393939]"
-       },[action])
+    let styleTranslate 
     
     function enviar(e: any,params:any){
         e.preventDefault();
@@ -48,9 +46,6 @@ export function Form() {
             
         }  
     }
-    
-
-    
     
     //depois escrever uma funcao para contar a quantidade de caracteres da mensagem
 
@@ -235,6 +230,7 @@ export function Form() {
                             }>
                             <option >-- Selecionar App * --</option>
                             <option>Só Money</option>
+                            <option>Só Eventos</option>
                             <option>Paga Só</option>
                         </select><br/>
                     </div>
@@ -247,10 +243,11 @@ export function Form() {
                             <br/>
                         
                     
-                        <label className="text-slate-50 dark:text-[#656565]">Título *</label>
-                            <input required placeholder="Escreva um título" className="mt-5 block w-full p-1 
+                        <label className={`text-slate-50 dark:text-[#656565]`}>Título *</label>
+                            <input required placeholder="Escreva um título" className={`
+                                mt-1 block w-full ${styleTranslate} 
                                 rounded-md shadow-sm placeholder-[#8A8A8A] text-sm
-                                focus:outline-none dark:ring-1 dark:ring-[#EEEEEE]"
+                                focus:outline-none dark:ring-1 dark:ring-[#EEEEEE]`}
                                  value={formObject.titulo} onChange={
                                 e =>setFormObject({...formObject, titulo: e.target.value})
                             }  type="text" id="titulo"/>
