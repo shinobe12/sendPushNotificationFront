@@ -15,6 +15,7 @@ export function Notification() {
    return action === "ADD"? "bg-[#277FE3] dark:bg-[#277FE3]":"bg-[#454545] dark:bg-[#CFE4FF] dark:text-[#393939]"
   },[action])
 
+
   const [isDark, setIsDark] = useState(false)
   const trocaCor = () => setIsDark(!isDark)
 
@@ -46,10 +47,8 @@ export function Notification() {
                 <img src='./src/pages/Notification/img.png ' className='mr-2'/>
             </li>
             <li>
-                <div className=''>
-                <div className='font-bold '><p>Feliciano Rodino</p></div>
-                <div >ID: ...</div>
-                </div>
+                <span className='font-bold '><p>Feliciano Rodino</p></span>
+                <span >ID: ...</span>
             </li>
             <li>
                 <button className='transition hover:translate-y-1 duration-300 rows-span-2 ml-2 ' onClick={() => setSair(true)} type='button'>

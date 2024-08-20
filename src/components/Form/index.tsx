@@ -27,6 +27,10 @@ export function Form() {
     const resetInputs = () =>  {
         setFormObject({...formObject, app : "", id:"", titulo:"", subTitulo:"",  mensagem:""})
     }
+
+    const translateButton = useMemo(() => {
+        return action === "ADD"? "bg-[#277FE3] dark:bg-[#277FE3]":"bg-[#454545] dark:bg-[#CFE4FF] dark:text-[#393939]"
+       },[action])
     
     function enviar(e: any,params:any){
         e.preventDefault();
@@ -206,7 +210,7 @@ export function Form() {
             </div>
                 <form className="mt-5 m-10" id="form" onSubmit={(e)=>enviar(e,formObject)}>
                     <div className="grid grid-cols-2 ">
-                        <select required id="select" className="mt-3 mr-3 w-100 text-sm
+                        <select required id="select" className="mt-3 mr-3 p-1 text-sm
                                 rounded-md shadow-sm placeholder-slate-400 text-[#8A8A8A]
                                 focus:outline-none dark:ring-1 dark:ring-[#EEEEEE]" value={formObject.select} onChange={
                                 e => {
