@@ -4,10 +4,10 @@ export function Lista() {
 
     return (
       <main className='min-h-screen bg-zinc-950 dark:bg-[#fff] flex justify-center'>
-          <div className="min-w-[40%] md:w-[70%] lg:w-[45%] lg:mt-[6%] md:mt-[30%] sm:mt-[10%] sm:bg-scroll">
+          <div className="w-[min(80%,58rem)] h-min(100%, 40rem) md:w-[70%] lg:w-[45%] lg:mt-[6%] sm:mt-[10%] sm:bg-scroll">
             
-            <div className='p-8 bg-[#272729] dark:bg-[#fff] rounded-lg text-white text-center'>
-              <div className=" p-4 rounded-md ring-1 mt-3 ring-[#D4D4D4]">
+            <div className='p-8 bg-[#272729] dark:bg-[#fff] rounded-lg text-white text-center '>
+              <div className=" p-4 rounded-md ring-1 mt-10 ring-[#D4D4D4]">
                   <div className="flex justify-between p-2 mt-3">
                     <div className="text-bold dark:text-zinc-900">Aplicativo: Só Eventos</div>
                     <div className="text-bold dark:text-zinc-900">Data: 21/10/2024</div>

@@ -207,7 +207,7 @@ export function Form() {
             </div>
                 <form className="mt-5 m-10" id="form" onSubmit={(e)=>enviar(e,formObject)}>
                     <div className="grid grid-cols-2 ">
-                        <select required id="select" className="mt-3 mr-3 p-1 text-sm
+                        <select required id="select" className="mt-3 mr-3 p-1 text-sm cursor-pointer
                                 rounded-md shadow-sm placeholder-slate-400 text-[#8A8A8A]
                                 focus:outline-none dark:ring-1 dark:ring-[#EEEEEE]" value={formObject.select} onChange={
                                 e => {
@@ -221,11 +221,11 @@ export function Form() {
                                     setFormObject({...formObject, select: e.target.value})
                                 } 
                             }> 
-                            <option>Todos utilizadores</option>
-                            <option id="utilizador">Um utilizador</option>
+                            <option className="cursor-pointer">Todos utilizadores</option>
+                            <option id="utilizador" className="cursor-pointer">Um utilizador</option>
                             
                         </select> 
-                        <select required id="selected_app" className="mt-3 w-full text-sm
+                        <select required id="selected_app" className="mt-3 w-full text-sm cursor-pointer
                                 rounded-md shadow-sm placeholder-slate-400 text-[#8A8A8A]
                                 focus:outline-none dark:ring-1 dark:ring-[#EEEEEE]" value={formObject.app} onChange={
                                 e =>setFormObject({...formObject, app: e.target.value})
