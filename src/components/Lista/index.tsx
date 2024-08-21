@@ -4,8 +4,9 @@ export function Lista() {
 
     return (
       <main className='min-h-screen bg-zinc-950 dark:bg-[#fff] flex justify-center'>
-          <div className=" max-w-[40%] mt-10">
-            <div className='p-8 bg-[#272729] dark:bg-[#fff] rounded-lg text-white text-center mt-10 justify-center'>
+          <div className="min-w-[40%] md:w-[70%] lg:w-[45%] lg:mt-[6%] md:mt-[30%] sm:mt-[10%] sm:bg-scroll">
+            
+            <div className='p-8 bg-[#272729] dark:bg-[#fff] rounded-lg text-white text-center'>
               <div className=" p-4 rounded-md ring-1 mt-3 ring-[#D4D4D4]">
                   <div className="flex justify-between p-2 mt-3">
                     <div className="text-bold dark:text-zinc-900">Aplicativo: Só Eventos</div>
@@ -54,9 +55,8 @@ export function Lista() {
                       </p>
                   </div>
               </div>
-              
+            </div>
 
-          </div>
           <div className="flex justify-center mt-5">
               <button>
                 <svg width="28" height="28" viewBox="0 0 27 27" fill="none" xmlns="http://www.w3.org/2000/svg">

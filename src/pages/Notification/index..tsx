@@ -44,7 +44,7 @@ export function Notification() {
             </button>
           </div>
         </div>
-          <ul className='md:flex md:items-center dark:text-zinc-700 flex justify-end my-2'>
+          <ul className='md:flex md:items-center md:pb-0 dark:text-zinc-700 flex justify-end my-2'>
             <li>
                 <img src='./src/pages/Notification/img.png ' className='mr-2'/>
             </li>
