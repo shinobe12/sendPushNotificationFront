@@ -1,4 +1,5 @@
 import { useState } from "react"
+import { useNavigate } from "react-router-dom"
 
 
 
@@ -9,6 +10,31 @@ export function Login(){
 
     const [isDark, setIsDark] = useState(false)
     const trocaCor = () => setIsDark(!isDark)
+
+    const navigate = useNavigate()
+
+    const [email, setEmail] = useState()
+    const pegaEmail = (e:any) => {
+        setEmail(e.target.value)
+    }
+
+    const [password, setPassword] = useState()
+    const pegaPassword = (e:any) => {
+        setPassword(e.target.value)
+    }
+    
+    const [erro, setErro] = useState(false)
+    
+    
+    const user = "rodino@gmail.com"
+    const senha = "123"
+
+    const handleLogin = () =>{
+        if(email === user && password === senha){
+            navigate('/notification')
+        }
+        else setErro(true)     
+        }
 
     return(
         <div className={`${isDark && "dark"}`}>
@@ -49,21 +75,21 @@ export function Login(){
             }
             <br/>
                 <form className="mt-12" id="form">
-                        <label className="text-slate-50 dark:text-[#656565]" id="email" >Email</label>
-                            <input required placeholder='Introduza seu email...' className="mt-1 block w-full p-1 
+                        <label className="text-slate-50 dark:text-[#656565]" id="email"  >Email</label>
+                            <input  placeholder='Introduza seu email...' className="mt-1 block w-full p-1 
                                 rounded-md dark:ring-1 ring-[#EEE] placeholder-[#838383]
                                 focus:outline-none p-2 text-sm
                                  "
-                                   type="text" id="titulo"/>
+                                   type="text" id="titulo" value={email} onChange={pegaEmail}/>
                     <br/>
                     <div>
                         <label className="text-slate-50 dark:text-[#656565]" id="password">Senha</label>
                         <div className="flex justify-between bg-[#fff] rounded-md dark:ring-1 ring-[#eee] ">
-                            <input required type={isShow ? "text": "password"} id="senha" name="senha" placeholder='Introduza sua senha...' className="
+                            <input  type={isShow ? "text": "password"} id="senha" name="senha" placeholder='Introduza sua senha...' className="
                                      block w-50 p-2 text-sm
                                     rounded-md  placeholder-[#838383]
                                     focus:outline-none focus:border-[#fff] focus:ring-[#fff]
-                                    "/>
+                                    " value={password} onChange={pegaPassword}/>
                             <button onClick={trocaPassword} type="button" className="p-2">
                                 {isShow && <svg width="16" height="11" viewBox="0 0 19 13" fill="none" className="animate-fade " xmlns="http://www.w3.org/2000/svg">
                                     <path fill-rule="evenodd" clip-rule="evenodd" d="M0.225958 5.77588C2.80141 1.98685 6.14077 0 9.48621 0C13.4153 0 16.7998 2.62712 18.7967 5.79248L18.7976 5.79397C18.9297 6.0047 19 6.25001 19 6.50061C19 6.75076 18.93 6.99562 18.7983 7.2061C16.8032 10.4122 13.4405 13 9.48621 13C5.48977 13 2.19193 10.4176 0.201723 7.22082C0.0664912 7.0053 -0.00364869 6.75354 0.00014624 6.4972C0.00395061 6.24021 0.0818876 5.99015 0.224108 5.77862L0.225958 5.77588ZM1.26662 6.51695L1.26837 6.51975C3.1066 9.47305 6.05285 11.7 9.48621 11.7C12.8811 11.7 15.8909 9.46358 17.7313 6.50563L17.7325 6.50369L17.7334 6.50061L17.7332 6.49925L17.7326 6.49766C15.8852 3.56993 12.8508 1.3 9.48621 1.3C6.66236 1.3 3.6734 2.97748 1.26662 6.51695ZM9.49966 3.9C8.1006 3.9 6.96643 5.06406 6.96643 6.5C6.96643 7.93594 8.1006 9.1 9.49966 9.1C10.8987 9.1 12.0329 7.93594 12.0329 6.5C12.0329 5.06406 10.8987 3.9 9.49966 3.9ZM5.69981 6.5C5.69981 4.34609 7.40106 2.6 9.49966 2.6C11.5983 2.6 13.2995 4.34609 13.2995 6.5C13.2995 8.65391 11.5983 10.4 9.49966 10.4C7.40106 10.4 5.69981 8.65391 5.69981 6.5Z" fill="#838383"/>
@@ -77,14 +103,15 @@ export function Login(){
                             </button>
                         </div>
                     </div>
-                    <br/> 
+                    {erro && <p className="text-red-600 mt-2">Dados incorrectos!</p>}
                     
-                    <div className="mt-6 justify-center grid grid-cols-1 place-items-center">
-                        <button type="submit" id="_enviar" className=" 
+                    <div className="mt-10 flex justify-center">
+                        <button type="button" id="_enviar" className=" 
                         rounded-md ring-1 ring-[#277FE3] text-md font-semibold text-[#277FE3] hover:text-[#fff] dark:text-[#277FE3] dark:hover:text-[#fff] hover:bg-[#277FE3]
-                        transition hover:translate-y-1 duration-300 h-8 w-[70%]">Entrar</button>
+                        transition hover:translate-y-1 duration-300 h-8 w-[70%]" onClick={handleLogin}>Entrar</button>
                     </div>
-                                        
+
+                                    
                 </form>
                   
             </div>

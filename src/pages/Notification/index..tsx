@@ -2,6 +2,7 @@
 import { useMemo, useState } from 'react';
 import  {Form} from '../../components/Form'
 import { Lista } from '../../components/Lista';
+import { useNavigate } from 'react-router-dom';
 
 
 //rota protejida
@@ -22,6 +23,12 @@ export function Notification() {
   const trocaCor = () => setIsDark(!isDark)
 
   const [sair, setSair] = useState(false)
+  
+  const navigate = useNavigate()
+
+  const handleLogout = () =>{
+    navigate('/login')
+  }
 
   return (
     <div className={`${isDark && "dark"}`}>
@@ -63,7 +70,7 @@ export function Notification() {
           </ul>
       </div>
       <div className='flex justify-center h-10'>
-          <div className="text-zinc-50 flex justify-between p-4 h-20 rounded-md bg-zinc-800 dark:bg-[#E8F3FF]" >
+          <div className="text-zinc-50 sitky top-0 flex justify-between  p-4 h-20 rounded-md bg-zinc-800 dark:bg-[#E8F3FF]" >
             <button className={`${activeStyleList} mr-3 p-3 hover:bg-zinc-700 rounded-md`} onClick={e => {setAction("LIST")}}>Lista de Notificações</button> 
             <button className={`${activeStyleAdd} ml-3 p-3 hover:bg-zinc-700   rounded-md`} onClick={e => {setAction("ADD")}}>Adicionar Notificação</button>  
           </div> 
@@ -83,7 +90,7 @@ export function Notification() {
                                 </div>
                                 <div className="p-2 text-center text-[#656565] font-semibold font-family-sans"><label>Tem certeza que<br/>pretende sair?</label></div>
                                 <div className="flex p-2"><button type="button" onClick={() => setSair(false)} className="bg-[#D4D4D4] transition  duration-300 hover:bg-zinc-400 text-white font-family-sans rounded-md p-2 w-full">Cancelar</button>
-                                <a href='../login'><button type="button" onClick={() => setSair(false)} className="bg-[#277FE3] ml-2 transition  duration-300 hover:bg-[#2167B6] text-white font-family-sans rounded-md p-2 w-full">Confirmar</button></a>
+                                <button type="button" onClick={handleLogout} className="bg-[#277FE3] ml-2 transition  duration-300 hover:bg-[#2167B6] text-white font-family-sans rounded-md p-2 w-full">Confirmar</button>
                                 </div>
                             </div>
                         </div>
