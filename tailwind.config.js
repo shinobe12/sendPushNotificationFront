@@ -3,6 +3,9 @@ module.exports = {
   content: ["./src/**/*.{html,cjs,tsx,jsx,ts}"],
   theme: {
     extend: {
+      screens: {
+        'sm': {'min': '125px'}
+      },
       borderRadius:{
         'lg': '30px 30px 30px 30px',
         'md': '5px 5px 5px 5px',
@@ -29,6 +32,10 @@ module.exports = {
         fadeIn: {
           from: { opacity: 0 },
           to: { opacity: 1 },
+        },
+        fadeOut: {
+          from: { opacity: 1 },
+          to: { opacity: 0 },
         },
       },
     },

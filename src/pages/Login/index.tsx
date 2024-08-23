@@ -58,8 +58,8 @@ export function Login(){
           </div>
         </div>
             </div>
-        <div className="flex justify-center mt-[30%] lg:mt-[10%] sm:mt-[20%] sm:">
-            <div className="rounded-lg max-w-[600px] p-[60px]  bg-[#272729] dark:bg-[#fff] dark:ring-1 ring-[#EEE]">  
+        <div className="flex justify-center mt-[30%] lg:mt-[10%] sm:mt-[20%]">
+            <div className="rounded-lg w-[250px] p-[20px]  bg-[#272729] dark:bg-[#fff] dark:ring-1 ring-[#EEE]">  
             {isDark?
                 <div className="grid grid-cols-1 gap-4 place-items-center h-6 p-2"><svg width="76" height="76" viewBox="0 0 76 76" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <circle cx="38" cy="38" r="37.5" stroke="#D4D4D4"/>
@@ -76,7 +76,7 @@ export function Login(){
             <br/>
                 <form className="mt-12" id="form">
                         <label className="text-slate-50 dark:text-[#656565]" id="email"  >Email</label>
-                            <input  placeholder='Introduza seu email...' className="mt-1 block w-full p-1 
+                            <input placeholder='Introduza seu email...' className="mt-1 block w-full p-1 
                                 rounded-md dark:ring-1 ring-[#EEE] placeholder-[#838383]
                                 focus:outline-none p-2 text-sm
                                  "
