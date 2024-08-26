@@ -13,42 +13,51 @@ export function Login(){
 
     const navigate = useNavigate()
 
-    const [email, setEmail] = useState()
+    const [email, setEmail] = useState("")
     const pegaEmail = (e:any) => {
         setEmail(e.target.value)
     }
 
-    const [password, setPassword] = useState()
+    const [password, setPassword] = useState("")
     const pegaPassword = (e:any) => {
         setPassword(e.target.value)
     }
     
     const [erro, setErro] = useState(false)
     
-    
+    const [preenche, setPreenche] = useState(false)
+
     const user = "rodino@gmail.com"
     const senha = "123"
 
     const handleLogin = () =>{
-        if(email === user && password === senha){
+        if(email.length===0 || password.length===0 ){
+            setPreenche(true)
+            setErro(false)
+        } 
+        else if(email === user && password === senha){
             navigate('/notification')
         }
-        else setErro(true)     
+        else {
+            setPreenche(false)
+            setErro(true)
+        }
+           
         }
 
     return(
         <div className={`${isDark && "dark"}`}>
         <main className='min-h-screen bg-[#1E1E1E] dark:bg-[#fff]'>
-            <div className="text-zinc-50 flex justify-start p-4 h-20 grid grid-cols-2">
+        <div className="text-zinc-50 flex justify-start p-4 h-20 grid grid-cols-2">
         <div className='flex justify-start p-3'>
           {isDark ? <div className='mr-2 dark:text-zinc-700'>Modo claro</div> : <div className='mr-2 text-zinc-200'>Modo escuro</div>}
           <div><button onClick={trocaCor}>
             {isDark ? 
-            <svg width="42" height="22" className=' mt-1' viewBox="0 0 42 22" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <svg width="42" height="22" className='lg:w-8 mt-1' viewBox="0 0 42 22" fill="none" xmlns="http://www.w3.org/2000/svg">
             <rect width="42" height="22" rx="11" fill="#4CD080"/>
             <circle cx="31" cy="11" r="9" fill="white"/>
             </svg> : 
-            <svg width="42" height="22" className='mt-1' viewBox="0 0 42 22" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <svg width="42" height="22" className='mt-1 lg:w-8' viewBox="0 0 42 22" fill="none" xmlns="http://www.w3.org/2000/svg">
             <rect width="42" height="22" rx="11" fill="#D5D5D5"/>
             <circle cx="11" cy="11" r="9" fill="white"/>
             </svg>
@@ -74,7 +83,7 @@ export function Login(){
                 </div>
             }
             <br/>
-                <form className="mt-12" id="form" onSubmit={handleLogin}>
+                <form className="mt-12" id="form" >
                         <label className="text-slate-50 dark:text-[#656565]" id="email" >Email</label>
                             <input placeholder='Introduza seu email...' className="mt-1 block w-full p-1
                                 rounded-md dark:ring-1 ring-[#EEE] placeholder-[#838383]
@@ -85,7 +94,7 @@ export function Login(){
                     <div>
                         <label className="text-slate-50 dark:text-[#656565]" id="password">Senha</label>
                         <div className="flex justify-between bg-[#fff] rounded-md dark:ring-1 ring-[#eee] ">
-                            <input  type={isShow ? "text": "password"} id="senha" name="senha" placeholder='Introduza sua senha...' className="
+                            <input type={isShow ? "text": "password"} id="senha" name="senha" placeholder='Introduza sua senha...' className="
                                      block w-50 p-2 text-sm
                                     rounded-md  placeholder-[#838383]
                                     focus:outline-none focus:border-[#fff] focus:ring-[#fff]
@@ -103,20 +112,16 @@ export function Login(){
                             </button>
                         </div>
                     </div>
-                    {erro && <p className="text-red-600 mt-2">Dados incorrectos!</p>}
+                    {erro && <p className="text-red-600 mt-2 text-sm">Dados incorrectos!</p>}
+                    {preenche && <p className="text-red-600 mt-2 text-sm">Por favor, preencha todos os campos</p>}
                     
                     <div className="mt-10 flex justify-center ">
-                
-                        <button type="submit" id="_enviar" className=" 
-                        rounded-md ring-1  lg:h-[45px] ring-[#277FE3] text-md font-semibold text-[#277FE3] hover:text-[#fff] dark:text-[#277FE3] dark:hover:text-[#fff] hover:bg-[#277FE3]
-                        transition hover:translate-y-1 duration-300 h-8 w-[70%]" >Entrar</button>
-                    </div>
-
-                                    
+                        <button type="button" id="_enviar" className=" 
+                        rounded-md ring-1 lg:h-[45px] ring-[#277FE3] text-md font-semibold text-[#277FE3] hover:text-[#fff] dark:text-[#277FE3] dark:hover:text-[#fff] hover:bg-[#277FE3]
+                        transition hover:translate-y-1 duration-300 h-8 w-[70%]" onClick={handleLogin}>Entrar</button>
+                    </div>                  
                 </form>
-                  
             </div>
-           
         </div>
         
         </main>

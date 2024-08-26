@@ -15,6 +15,8 @@ export function Form() {
 
     const [selectApp, setSelectApp] = useState(false)
 
+    const [limit, setLimit] = useState(false)
+
     const [formObject, setFormObject]=useState({
         id: "",
         select: "",
@@ -48,6 +50,9 @@ export function Form() {
             
         }  
     }
+
+    let qtd = formObject.mensagem.length
+    
     
     //depois escrever uma funcao para contar a quantidade de caracteres da mensagem
 
@@ -55,10 +60,10 @@ export function Form() {
         <Fragment>
             <Sucesso isVisible={isSucess} onClose={() => setIsSucess(false)}/>
             <div className="flex justify-center md:mt-[10%] lg:mt-[7%]">
-            <div className="rounded-lg w-[300px] mt-20  md:w-[400px] md:mt-10 lg:mt-0 lg:w-[500px]  dark:ring-1 dark:ring-[#EEEEEE] bg-zinc-800 dark:bg-[#fff]">  
+            <div className="shadow-inner rounded-lg w-[300px] mt-20 animate-fade md:w-[400px] md:mt-10 lg:mt-0 lg:w-[500px]  dark:ring-1 dark:ring-[#EEEEEE] bg-zinc-800 dark:bg-[#fff]">  
             <div className="flex justify-center md:mt-2 lg:mt-4">
                 <div className="p-1 mt-3 w-[60px] h-[60px] lg:p-2 lg:mt-4 lg:w-[90px] lg:h-[90px] lg:flex lg:justify-center rounded-full ring-1 ring-[#3D3D3D] dark:rounded-full dark:ring-1 dark:ring-[#EEEEEE] ">   
-                    <svg width="60" height="60" viewBox="0 0 60 60" fill="none" className="ml-0.5 w-[50px] h-[50px] lg:w-[80px] p-1 lg:h-[80px]" xmlns="http://www.w3.org/2000/svg">
+                    <svg width="60" height="60" viewBox="0 0 60 60" fill="none" className="animate-bounce mt-1 ml-0.5 w-[50px] h-[50px] lg:w-[80px] p-1 lg:h-[80px]" xmlns="http://www.w3.org/2000/svg">
         <path d="M32.5 12.5H27.5V7.5C27.5 6.11875 28.6187 5 30 5C31.3812 5 32.5 6.11875 32.5 7.5V12.5Z" fill="url(#paint0_radial_2_932)"/>
         <path d="M30 55C32.7614 55 35 52.7614 35 50C35 47.2386 32.7614 45 30 45C27.2386 45 25 47.2386 25 50C25 52.7614 27.2386 55 30 55Z" fill="url(#paint1_radial_2_932)"/>
         <path d="M45 25C45 16.7163 38.2838 10 30 10C21.7163 10 15 16.7163 15 25C15 40 10 46.25 10 46.25H50C50 46.25 45 40 45 25Z" fill="#BA8806"/>
@@ -277,8 +282,11 @@ export function Form() {
                                 rounded-md shadow-sm placeholder-[#8A8A8A] 
                                 focus:outline-none dark:ring-1 dark:ring-[#EEEEEE]"   id="mensagem" placeholder="Escreva uma mensagem" value={formObject.mensagem} onChange={
                             e => {setFormObject({...formObject, mensagem: e.target.value})}
-                        } />
+                        } maxLength={255}/>
+                        <p className="text-white flex justify-end text-sm text-zinc-500 dark:text-[#949494] ">{qtd}/255</p>
+                        
                     </div> 
+                    
                     <div className="flex justify-between mt-[15%] ">
                         <button type="button" id="_enviar"  onClick={()=> setConfirm(true)} className="
                         flex justify-center lg:p-1
