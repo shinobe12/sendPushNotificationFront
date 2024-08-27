@@ -1,15 +1,29 @@
-import { useState } from "react";
+import { getItem } from "localforage";
+import { useEffect, useState } from "react";
 
 
 export function Lista() {
     const [mostraLista, setMostraLista] = useState(false)
     const [ocultaVer, setOcultaVer] = useState(true)
-
+    const [notifications, setNotfications] = useState([])
+    
+    const fetchNotifications = () => {
+            fetch("http://localhost:5000/notifications")
+              .then((response) => response.json())
+              .then((data) => setNotfications(data));
+          }
+    useEffect(() => {
+        fetchNotifications()
+          }, []);
+    
     return (
       <main className='min-h-screen bg-zinc-950 dark:bg-[#fff] flex justify-center'>
           <div className="w-[min(80%,58rem)] animate-fade mt-20 h-min(100%, 40rem) md:w-[70%] lg:w-[45%] lg:mt-[6%]">
             
             <div className=' md:mt-0 p-8 bg-[#272729] dark:bg-[#fff] rounded-lg text-white text-center '>
+              
+              <div>{notifications.map(item =>item.app)}</div>
+              
               <div className="p-4 rounded-md ring-1 ring-[#D4D4D4]">
                   <div className="flex justify-between p-2  text-sm md:text-md">
                     <div className="text-bold dark:text-zinc-900">Aplicativo: Só Eventos</div>

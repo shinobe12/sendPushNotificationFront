@@ -1,6 +1,7 @@
 import { Fragment, useState } from "react"
 import { Send, Trash2 } from 'lucide-react';
 import Sucesso from "../Sucesso";
+import { Axios } from "axios";
 
 
 export function Form() {
@@ -30,9 +31,8 @@ export function Form() {
         setFormObject({...formObject, app : "", id:"", titulo:"", subTitulo:"",  mensagem:""})
     }
 
-    
-    
     let styleTranslate 
+    const url = "http://localhost:5000/notifications"
     
     function enviar(e: any,params:any){
         e.preventDefault();
@@ -44,9 +44,20 @@ export function Form() {
             
         }else{
             setConfirm(false)
+
+            fetch("http://localhost:5000/notifications", {
+                method: "post",
+                headers: {"Content-Type": "application/json"},
+                body: JSON.stringify(formObject.titulo)
+            })
+            .then(()=>{
+                console.log("novo dado adicionado!")
+            })
+
             setIsSucess(true)
+
             console.log(formObject)
-            resetInputs()
+            /*resetInputs()*/
             
         }  
     }
@@ -54,6 +65,15 @@ export function Form() {
     let qtd = formObject.mensagem.length
     
     
+    
+
+
+
+
+
+
+
+
     //depois escrever uma funcao para contar a quantidade de caracteres da mensagem
 
     return(
@@ -279,15 +299,15 @@ export function Form() {
                     <div>
                     <label className="text-slate-50 dark:text-[#656565]">Mensagem *</label> 
                         <textarea rows={3} required className="mt-1 block w-full p-1 lg:p-3 text-sm
-                                rounded-md shadow-sm placeholder-[#8A8A8A] 
+                                rounded-md shadow-sm placeholder-[#8A8A8A] h-[100px] md:h-[150px] 
                                 focus:outline-none dark:ring-1 dark:ring-[#EEEEEE]"   id="mensagem" placeholder="Escreva uma mensagem" value={formObject.mensagem} onChange={
                             e => {setFormObject({...formObject, mensagem: e.target.value})}
                         } maxLength={255}/>
-                        <p className="text-white flex justify-end text-sm text-zinc-500 dark:text-[#949494] ">{qtd}/255</p>
+                        <p className="text-white flex justify-end text-sm text-zinc-500 dark:text-[#949494]">{qtd}/255</p>
                         
                     </div> 
                     
-                    <div className="flex justify-between mt-[15%] ">
+                    <div className="flex justify-between mt-[5%] ">
                         <button type="button" id="_enviar"  onClick={()=> setConfirm(true)} className="
                         flex justify-center lg:p-1
                         rounded-md ring-1 ring-[#277FE3] font-semibold text-[#277FE3] hover:text-[#fff] hover:bg-[#277FE3]

@@ -5,21 +5,22 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
+    "backend": "json-server --watch lista.json --port 5000",
     "build": "vite build",
     "lint": "eslint . --ext js,jsx --report-unused-disable-directives --max-warnings 0",
     "preview": "vite preview"
   },
   "dependencies": {
     "@tanstack/react-query": "^5.51.23",
+    "axios": "^1.7.5",
+    "json-server": "^1.0.0-beta.2",
     "localforage": "^1.10.0",
     "lucide": "^0.426.0",
     "lucide-react": "^0.426.0",
     "match-sorter": "^6.3.4",
     "react": "^18.3.1",
-
-    "react-cooks": "^1.0.1",
-
     "react-cookie": "^7.2.0",
+    "react-cooks": "^1.0.1",
     "react-dom": "^18.3.1",
     "react-jwt": "^1.2.2",
     "react-paginate": "^8.2.0",

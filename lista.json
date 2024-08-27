@@ -1,0 +1,45 @@
+{
+  "notifications": [
+    {
+      "id": 1,
+      "select": "um utilisador",
+      "app": "Só Eventos",
+      "titulo": "teste 1",
+      "subTitulo": "subTitulo 1",
+      "mensagem": "inserindo a mensagem para o campo"
+    },
+    {
+      "id": null,
+      "select": "todos utilizadores",
+      "app": "Só Eventos",
+      "titulo": "teste 2",
+      "subTitulo": "subTitulo 1",
+      "mensagem": "inserindo a texto"
+    },
+    {
+      "id": 3,
+      "select": "um utilisador",
+      "app": "Só Eventos",
+      "titulo": "teste 3",
+      "subTitulo": "subTitulo 1",
+      "mensagem": "inserindo a mensagem 3"
+    },
+    {
+      "id": null,
+      "select": "todos utilizadores",
+      "app": "Só Eventos",
+      "titulo": "teste 4",
+      "subTitulo": "subTitulo 1",
+      "mensagem": "inserindo a outra sms"
+    },
+    {
+      "id": null,
+      "select": "todos utilizadores",
+      "app": "Só Eventos",
+      "titulo": "teste 5",
+      "subTitulo": "subTitulo 1",
+      "mensagem": "inserindo a mais sms"
+    }
+     
+  ]
+}

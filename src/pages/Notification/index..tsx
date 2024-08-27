@@ -57,6 +57,7 @@ export function Notification() {
             </button>
           </div>
         </div>
+        
             <ul className='hidden w-[70%] md:w-[35%] ml-[20%] md:ml-[60%] justify-end bg-opacity-30 rounded-md backdrop-blur-md animate-fade justify-end p-3 bg-zinc-300 lg:flex lg:bg-opacity-0 lg:w-[40%] dark:text-zinc-800 my-2 ml-3 lg:ml-[60%] '>
               <li className='flex justify-center lg:mr-2'>
                   <img src='./src/pages/Notification/img.png'/>
