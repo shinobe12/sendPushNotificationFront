@@ -1,45 +1,85 @@
 {
   "notifications": [
     {
-      "id": 1,
-      "select": "um utilisador",
-      "app": "Só Eventos",
-      "titulo": "teste 1",
-      "subTitulo": "subTitulo 1",
-      "mensagem": "inserindo a mensagem para o campo"
+      "id": "",
+      "select": "",
+      "app": "Paga Só",
+      "titulo": "titulo primeiro",
+      "subTitulo": "assunto teste",
+      "mensagem": "inserindo sms",
+      "date": "28/08/2024"
     },
     {
-      "id": null,
-      "select": "todos utilizadores",
-      "app": "Só Eventos",
-      "titulo": "teste 2",
-      "subTitulo": "subTitulo 1",
-      "mensagem": "inserindo a texto"
+      "id": "4",
+      "select": "Todos utilizadores",
+      "app": "Só Money",
+      "titulo": "tol",
+      "subTitulo": "syb",
+      "mensagem": "escrita",
+      "date": "28/08/2024"
     },
     {
-      "id": 3,
-      "select": "um utilisador",
-      "app": "Só Eventos",
-      "titulo": "teste 3",
-      "subTitulo": "subTitulo 1",
-      "mensagem": "inserindo a mensagem 3"
+      "id": "",
+      "select": "Todos utilizadores",
+      "app": "Só Money",
+      "titulo": "h",
+      "subTitulo": "o",
+      "mensagem": "key",
+      "date": "28/08/2024"
     },
     {
-      "id": null,
-      "select": "todos utilizadores",
+      "id": "",
+      "select": "",
       "app": "Só Eventos",
-      "titulo": "teste 4",
-      "subTitulo": "subTitulo 1",
-      "mensagem": "inserindo a outra sms"
+      "titulo": "title",
+      "subTitulo": "sub",
+      "mensagem": "conteudo",
+      "date": "28/08/2024"
     },
     {
-      "id": null,
-      "select": "todos utilizadores",
+      "id": "",
+      "select": "Todos utilizadores",
+      "app": "Só Money",
+      "titulo": "s",
+      "subTitulo": "",
+      "mensagem": "kl",
+      "date": "28/08/2024"
+    },
+    {
+      "id": "4",
+      "select": "Um utilizador",
       "app": "Só Eventos",
-      "titulo": "teste 5",
-      "subTitulo": "subTitulo 1",
-      "mensagem": "inserindo a mais sms"
+      "titulo": "rodino@gmail.com",
+      "subTitulo": "",
+      "mensagem": "l",
+      "date": "28/08/2024"
+    },
+    {
+      "id": "",
+      "select": "Todos utilizadores",
+      "app": "Paga Só",
+      "titulo": "titulo",
+      "subTitulo": "",
+      "mensagem": "hekele",
+      "date": "28/08/2024"
+    },
+    {
+      "id": "",
+      "select": "Todos utilizadores",
+      "app": "Só Money",
+      "titulo": "cool",
+      "subTitulo": "d",
+      "mensagem": "mensagem",
+      "date": "28/08/2024"
+    },
+    {
+      "id": "10",
+      "select": "Um utilizador",
+      "app": "Só Eventos",
+      "titulo": "titulo",
+      "subTitulo": "",
+      "mensagem": "escrevendo",
+      "date": "28/08/2024"
     }
-     
   ]
 }

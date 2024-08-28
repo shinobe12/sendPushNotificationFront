@@ -1,7 +1,7 @@
 import { Fragment, useState } from "react"
 import { Send, Trash2 } from 'lucide-react';
 import Sucesso from "../Sucesso";
-import { Axios } from "axios";
+import moment from "moment"
 
 
 export function Form() {
@@ -16,27 +16,26 @@ export function Form() {
 
     const [selectApp, setSelectApp] = useState(false)
 
-    const [limit, setLimit] = useState(false)
-
     const [formObject, setFormObject]=useState({
         id: "",
-        select: "",
+        select: "Todos utilizadores",
         app : "",
         titulo:"",
         subTitulo: "",
-        mensagem: "" 
+        mensagem: "",
+        date : moment().format('D/MM/YYYY') 
     })
 
     const resetInputs = () =>  {
         setFormObject({...formObject, app : "", id:"", titulo:"", subTitulo:"",  mensagem:""})
-    }
+    }    
 
-    let styleTranslate 
-    const url = "http://localhost:5000/notifications"
-    
+    const date = new Date()
+
     function enviar(e: any,params:any){
         e.preventDefault();
         //console.log(params)
+    
         if(formObject.app === "" || formObject.app ==="-- Selecionar App * --" ){
             
             setSelectApp(true)
@@ -48,33 +47,17 @@ export function Form() {
             fetch("http://localhost:5000/notifications", {
                 method: "post",
                 headers: {"Content-Type": "application/json"},
-                body: JSON.stringify(formObject.titulo)
+                body: JSON.stringify(formObject)
             })
             .then(()=>{
-                console.log("novo dado adicionado!")
+                setIsSucess(true)
             })
-
-            setIsSucess(true)
-
-            console.log(formObject)
-            /*resetInputs()*/
-            
+            console.log(date)
+            resetInputs()
         }  
     }
 
     let qtd = formObject.mensagem.length
-    
-    
-    
-
-
-
-
-
-
-
-
-    //depois escrever uma funcao para contar a quantidade de caracteres da mensagem
 
     return(
         <Fragment>
@@ -275,10 +258,10 @@ export function Form() {
                             }
                             
                         <label className={'text-slate-50 mt-3 dark:text-[#656565]'}>Título *</label>
-                            <input required placeholder="Escreva um título" className={`
-                                mt-1 block w-full ${styleTranslate} p-1 lg:p-3
+                            <input required placeholder="Escreva um título" className="
+                                mt-1 block w-full p-1 lg:p-3
                                 rounded-md shadow-sm placeholder-[#8A8A8A] text-sm
-                                focus:outline-none dark:ring-1 dark:ring-[#EEEEEE]`}
+                                focus:outline-none dark:ring-1 dark:ring-[#EEEEEE]"
                                  value={formObject.titulo} onChange={
                                 e =>setFormObject({...formObject, titulo: e.target.value})
                             }  type="text" id="titulo"/>

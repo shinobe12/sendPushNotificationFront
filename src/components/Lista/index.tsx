@@ -1,20 +1,27 @@
-import { getItem } from "localforage";
 import { useEffect, useState } from "react";
-
+import notifications from "lista.json"
 
 export function Lista() {
     const [mostraLista, setMostraLista] = useState(false)
     const [ocultaVer, setOcultaVer] = useState(true)
-    const [notifications, setNotfications] = useState([])
+    const [getNotifications, setGetNotfications] = useState([])
     
     const fetchNotifications = () => {
             fetch("http://localhost:5000/notifications")
               .then((response) => response.json())
-              .then((data) => setNotfications(data));
+              .then((data) => setGetNotfications(data));
           }
+    
     useEffect(() => {
         fetchNotifications()
           }, []);
+    
+
+    const [correntPage, setCorrentPage] = useState(1)
+    const recordsPage = 5;
+    const lastIndex = correntPage * recordsPage;
+    const firstIndex = lastIndex - recordsPage;
+    const records = notifications.select(firstIndex, lastIndex)
     
     return (
       <main className='min-h-screen bg-zinc-950 dark:bg-[#fff] flex justify-center'>
@@ -22,108 +29,26 @@ export function Lista() {
             
             <div className=' md:mt-0 p-8 bg-[#272729] dark:bg-[#fff] rounded-lg text-white text-center '>
               
-              <div>{notifications.map(item =>item.app)}</div>
+              {getNotifications.map(item =>
+
+                    <div className="p-4 rounded-md ring-1 mt-10 ring-[#D4D4D4]">
+                    <div className="flex justify-between p-2  text-sm md:text-md">
+                      <div className="text-bold dark:text-zinc-900 flex">Aplicativo: <p className="font-light ml-1">{item.app}</p></div>
+                      <div className="text-bold dark:text-zinc-900">Data: {item.date}</div>
+                    </div>
+                    <div className="text-justify mt-3 bg-[#454545] dark:bg-[#E8F2FF] rounded-md p-3">
+                      <h2 className="text-start font-semibold dark:text-zinc-900 flex ">Titulo da Mensagem: <p className="font-light ml-1">{item.titulo}</p></h2>
+                        <p className="font-light dark:text-zinc-900 text-sm">
+                          {item.mensagem}
+                        </p>
+                    </div>
+                    </div>
+              )}
               
-              <div className="p-4 rounded-md ring-1 ring-[#D4D4D4]">
-                  <div className="flex justify-between p-2  text-sm md:text-md">
-                    <div className="text-bold dark:text-zinc-900">Aplicativo: Só Eventos</div>
-                    <div className="text-bold dark:text-zinc-900">Data: 21/10/2024</div>
-                  </div>
-                  <div className="text-justify mt-3 bg-[#454545] dark:bg-[#E8F2FF] rounded-md p-3">
-                    <h2 className="text-start font-semibold dark:text-zinc-900">Titulo da Mensagem: ...</h2>
-                      <p className="font-light dark:text-zinc-900 text-sm">
-                        Em linguística, a noção de texto é ampla e ainda aberta a uma 
-                        definição mais precisa. Grosso modo, pode ser entendido como manifestação 
-                        linguística das ideias de um autor, que serão interpretadas pelo 
-                        leitor de acordo com seus conhecimentos linguísticos e culturais.
-                        Seu tamanho é variável. Wikipédia
-                      </p>
-                  </div>
-              </div>
-              <div className=" p-4 rounded-md ring-1  mt-10 ring-[#D4D4D4]">
-                  <div className="flex justify-between p-2 mt-3 text-sm">
-                    <div className="text-bold dark:text-zinc-900">Aplicativo: Paga Só</div>
-                    <div className="text-bold dark:text-zinc-900 ">Data: 18/02/202</div>
-                  </div>
-                  <div className="text-justify mt-3 bg-[#454545] dark:bg-[#E8F2FF] rounded-md p-3">
-                    <h2 className="text-start font-semibold dark:text-zinc-900">Titulo da Mensagem: ...</h2>
-                      <p className="font-light dark:text-zinc-900 text-sm">
-                        Em linguística, a noção de texto é ampla e ainda aberta a uma 
-                        definição mais precisa. Grosso modo, pode ser entendido como manifestação 
-                        linguística das ideias de um autor, que serão interpretadas pelo 
-                        leitor de acordo com seus conhecimentos linguísticos e culturais.
-                        Seu tamanho é variável. Wikipédia
-                      </p>
-                  </div>
-              </div>
-              <div className="p-4 rounded-md ring-1 mt-10 ring-[#D4D4D4]">
-                  <div className="flex justify-between p-2  text-sm md:text-md">
-                    <div className="text-bold dark:text-zinc-900">Aplicativo: Só Eventos</div>
-                    <div className="text-bold dark:text-zinc-900">Data: 21/10/2024</div>
-                  </div>
-                  <div className="text-justify mt-3 bg-[#454545] dark:bg-[#E8F2FF] rounded-md p-3">
-                    <h2 className="text-start font-semibold dark:text-zinc-900">Titulo da Mensagem: ...</h2>
-                      <p className="font-light dark:text-zinc-900 text-sm">
-                        Em linguística, a noção de texto é ampla e ainda aberta a uma 
-                        definição mais precisa. Grosso modo, pode ser entendido como manifestação 
-                        linguística das ideias de um autor, que serão interpretadas pelo 
-                        leitor de acordo com seus conhecimentos linguísticos e culturais.
-                        Seu tamanho é variável. Wikipédia
-                      </p>
-                  </div>
-              </div>
               {ocultaVer && <p className="mt-1 flex justify-start text-blue-400 cursor-pointer w-[30%] md:w-[20%]" onClick={()=>{setMostraLista(true); setOcultaVer(false)}}>Ver mais...</p>}
               
               {mostraLista && <div className="animate-fade">
-                                      <div className=" p-4 rounded-md ring-1  mt-10 ring-[#D4D4D4]">
-                                          <div className="flex justify-between p-2 mt-3 text-sm">
-                                            <div className="text-bold dark:text-zinc-900">Aplicativo: Paga Só</div>
-                                            <div className="text-bold dark:text-zinc-900 ">Data: 18/02/202</div>
-                                          </div>
-                                          <div className="text-justify mt-3 bg-[#454545] dark:bg-[#E8F2FF] rounded-md p-3">
-                                            <h2 className="text-start font-semibold dark:text-zinc-900">Titulo da Mensagem: ...</h2>
-                                              <p className="font-light dark:text-zinc-900 text-sm">
-                                                Em linguística, a noção de texto é ampla e ainda aberta a uma 
-                                                definição mais precisa. Grosso modo, pode ser entendido como manifestação 
-                                                linguística das ideias de um autor, que serão interpretadas pelo 
-                                                leitor de acordo com seus conhecimentos linguísticos e culturais.
-                                                Seu tamanho é variável. Wikipédia
-                                              </p>
-                                          </div>
-                                      </div>
-                                      <div className=" p-4 rounded-md ring-1  mt-10 ring-[#D4D4D4]">
-                                          <div className="flex justify-between p-2 mt-3 text-sm">
-                                            <div className="text-bold dark:text-zinc-900">Aplicativo: Paga Só</div>
-                                            <div className="text-bold dark:text-zinc-900 ">Data: 18/02/202</div>
-                                          </div>
-                                          <div className="text-justify mt-3 bg-[#454545] dark:bg-[#E8F2FF] rounded-md p-3">
-                                            <h2 className="text-start font-semibold dark:text-zinc-900">Titulo da Mensagem: ...</h2>
-                                              <p className="font-light dark:text-zinc-900 text-sm">
-                                                Em linguística, a noção de texto é ampla e ainda aberta a uma 
-                                                definição mais precisa. Grosso modo, pode ser entendido como manifestação 
-                                                linguística das ideias de um autor, que serão interpretadas pelo 
-                                                leitor de acordo com seus conhecimentos linguísticos e culturais.
-                                                Seu tamanho é variável. Wikipédia
-                                              </p>
-                                          </div>
-                                      </div>
                                       
-                                      <div className=" p-4 rounded-md ring-1  mt-10 ring-[#D4D4D4]">
-                                          <div className="flex justify-between p-2 mt-3 text-sm">
-                                            <div className="text-bold dark:text-zinc-900">Aplicativo: Só Money</div>
-                                            <div className="text-bold dark:text-zinc-900">Data: 05/12/2024</div>
-                                          </div>
-                                          <div className="text-justify mt-3 bg-[#454545] dark:bg-[#E8F2FF] rounded-md p-3">
-                                            <h2 className="text-start font-semibold dark:text-zinc-900">Titulo da Mensagem: ...</h2>
-                                              <p className="font-light dark:text-zinc-900 text-sm">
-                                                Em linguística, a noção de texto é ampla e ainda aberta a uma 
-                                                definição mais precisa. Grosso modo, pode ser entendido como manifestação 
-                                                linguística das ideias de um autor, que serão interpretadas pelo 
-                                                leitor de acordo com seus conhecimentos linguísticos e culturais.
-                                                Seu tamanho é variável. Wikipédia
-                                              </p>
-                                          </div>
-                                      </div>
                                       
                                       <p className="mt-1 w-[35%] md:w-[20%] flex justify-start text-blue-400 cursor-pointer" onClick={()=>{setMostraLista(false); setOcultaVer(true)}}>Ver menos</p>  
                                       <div className="flex justify-center mt-5">
