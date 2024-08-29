@@ -6,6 +6,114 @@
       "app": "Paga Só",
       "titulo": "titulo primeiro",
       "subTitulo": "assunto teste",
+      "mensagem": "inserindo mesma scfg sms",
+      "date": "28/08/2024"
+    },
+    {
+      "id": "4",
+      "select": "Todos utilizadores",
+      "app": "Só Money",
+      "titulo": "tol",
+      "subTitulo": "syb",
+      "mensagem": "rtescrita",
+      "date": "28/08/2024"
+    },
+    {
+      "id": "",
+      "select": "Todos utilizadores",
+      "app": "Só Money",
+      "titulo": "h",
+      "subTitulo": "o",
+      "mensagem": "qskey",
+      "date": "28/08/2024"
+    },
+    {
+      "id": "",
+      "select": "",
+      "app": "Paga Só",
+      "titulo": "titulo primeiro",
+      "subTitulo": "assunto teste",
+      "mensagem": "inserindo +osms",
+      "date": "28/08/2024"
+    },
+    {
+      "id": "4",
+      "select": "Todos utilizadores",
+      "app": "Só Money",
+      "titulo": "tol",
+      "subTitulo": "syb",
+      "mensagem": "iyescrita",
+      "date": "28/08/2024"
+    },
+    {
+      "id": "",
+      "select": "Todos utilizadores",
+      "app": "Só Money",
+      "titulo": "h",
+      "subTitulo": "o",
+      "mensagem": "key0",
+      "date": "28/08/2024"
+    },
+    {
+      "id": "",
+      "select": "",
+      "app": "Paga Só",
+      "titulo": "titulo primeiro",
+      "subTitulo": "assunto teste",
+      "mensagem": "inserindows sms",
+      "date": "28/08/2024"
+    },
+    {
+      "id": "4",
+      "select": "Todos utilizadores",
+      "app": "Só Money",
+      "titulo": "tol",
+      "subTitulo": "syb",
+      "mensagem": "escrita",
+      "date": "28/08/2024"
+    },
+    {
+      "id": "",
+      "select": "Todos utilizadores",
+      "app": "Só Money",
+      "titulo": "h",
+      "subTitulo": "o",
+      "mensagem": "key2",
+      "date": "28/08/2024"
+    },
+    {
+      "id": "",
+      "select": "",
+      "app": "Paga Só",
+      "titulo": "titulo primeiro",
+      "subTitulo": "assunto teste",
+      "mensagem": "inserindo3 sms",
+      "date": "28/08/2024"
+    },
+    {
+      "id": "4",
+      "select": "Todos utilizadores",
+      "app": "Só Money",
+      "titulo": "tol",
+      "subTitulo": "syb",
+      "mensagem": "escrita",
+      "date": "28/08/2024"
+    },
+    {
+      "id": "",
+      "select": "Todos utilizadores",
+      "app": "Só Money",
+      "titulo": "h",
+      "subTitulo": "o",
+      "mensagem": "keyou",
+      "date": "28/08/2024"
+    },
+    {
+      "id": "",
+      "select": "",
+      "app": "Paga Só",
+      "titulo": "titulo primeiro",
+      "subTitulo": "assunto teste",
       "mensagem": "inserindo sms",
       "date": "28/08/2024"
     },
@@ -24,7 +132,7 @@
       "app": "Só Money",
       "titulo": "h",
       "subTitulo": "o",
-      "mensagem": "key",
+      "mensagem": "key3",
       "date": "28/08/2024"
     },
     {
@@ -80,6 +188,24 @@
       "subTitulo": "",
       "mensagem": "escrevendo",
       "date": "28/08/2024"
+    },
+    {
+      "id": "",
+      "select": "Todos utilizadores",
+      "app": "Paga Só",
+      "titulo": "h",
+      "subTitulo": "",
+      "mensagem": "keyf",
+      "date": "29/08/2024"
+    },
+    {
+      "id": "4",
+      "select": "Um utilizador",
+      "app": "Só Eventos",
+      "titulo": "jj",
+      "subTitulo": "",
+      "mensagem": "o,",
+      "date": "29/08/2024"
     }
   ]
 }

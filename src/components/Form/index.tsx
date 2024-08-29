@@ -192,24 +192,24 @@ export function Form() {
         <path d="M10.8025 45C10.3225 45.8438 10 46.25 10 46.25H50C50 46.25 49.6775 45.8438 49.1975 45H10.8025Z" fill="url(#paint4_radial_2_932)"/>
         <defs>
         <radialGradient id="paint0_radial_2_932" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse" gradientTransform="translate(29.9995 8.8002) scale(2.67558 4.07954)">
-        <stop stop-color="#FFD66B"/>
-        <stop offset="1" stop-color="#BA8806"/>
+        <stop stopColor="#FFD66B"/>
+        <stop offset="1" stopColor="#BA8806"/>
         </radialGradient>
         <radialGradient id="paint1_radial_2_932" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse" gradientTransform="translate(30 50) scale(5)">
-        <stop stop-color="#FFD66B"/>
-        <stop offset="1" stop-color="#BA8806"/>
+        <stop stopColor="#FFD66B"/>
+        <stop offset="1" stopColor="#BA8806"/>
         </radialGradient>
         <radialGradient id="paint2_radial_2_932" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse" gradientTransform="translate(30 48.125) scale(15.965)">
-        <stop stop-color="#FFD66B"/>
-        <stop offset="1" stop-color="#BA8806"/>
+        <stop stopColor="#FFD66B"/>
+        <stop offset="1" stopColor="#BA8806"/>
         </radialGradient>
         <linearGradient id="paint3_linear_2_932" x1="30" y1="49.4975" x2="30" y2="52.1787" gradientUnits="userSpaceOnUse">
-        <stop stop-color="#573F03"/>
-        <stop offset="1" stop-color="#573F03" stop-opacity="0"/>
+        <stop stopColor="#573F03"/>
+        <stop offset="1" stopColor="#573F03" stopOpacity="0"/>
         </linearGradient>
         <radialGradient id="paint4_radial_2_932" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse" gradientTransform="translate(30 45.625) scale(14.1488)">
-        <stop stop-color="#F5CA5B"/>
-        <stop offset="1" stop-color="#AB7B00"/>
+        <stop stopColor="#F5CA5B"/>
+        <stop offset="1" stopColor="#AB7B00"/>
         </radialGradient>
         </defs>
                     </svg>
@@ -297,7 +297,7 @@ export function Form() {
                         transition hover:translate-y-1 duration-300 w-[45%] ">
                             <div className=" flex justify-center w-full h-10 rounded-md p-2 text-center dark:hover:text-[#fff] dark:text-[#277FE3] dark:text-[#277FE3]"><Send className="p-0.5"/><p>Enviar</p></div>
                             </button>
-                            <button  type="button" onClick={()=> setLimpar(true)} id="_enviar" className="
+                            <button type="button" onClick={()=> setLimpar(true)} id="_enviar" className="
                                 rounded-md ring-1 ring-[#FF6D6D] text-md font-semibold text-[#FFF] hover:bg-[#FF6D6D]
                                 transition hover:translate-y-1 duration-300 w-[45%]">
                                 <div className="flex justify-center p-2 rounded-md text-[#FF6D6D] hover:text-[#fff] dark:hover:text-[#fff] dark:text-[#FF6D6D]"><Trash2 size={20}/><p>Limpar</p></div>
@@ -336,7 +336,7 @@ export function Form() {
                                 </div>
                             </div>
                         </div>
-                    </div></div>}
+                    </div></div>} 
                     {selectApp && 
                         <div className="">
                             <div className="fixed inset-0 dark:bg-zinc-700 dark:bg-opacity-40 bg-black bg-opacity-50 flex justify-center items-center animate-fade">

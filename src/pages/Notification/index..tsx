@@ -83,12 +83,12 @@ export function Notification() {
             <button type='button' className='inset-0 lg:hidden ml-[80%] rounded-md' onClick={trocaChange}>
               {!isChange &&
                 <svg onClick={trocaMostrar} xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                stroke-width="2" stroke-linecap="round" stroke-linejoin="round" className="lucide lucide-menu animate-fade dark:text-[#277FE3] mt-3"><line x1="4" x2="20" y1="12" y2="12"/>
+                strokeWidth="2" strokeLinejoin="round"  className="lucide lucide-menu animate-fade dark:text-[#277FE3] mt-3"><line x1="4" x2="20" y1="12" y2="12"/>
                 <line x1="4" x2="20" y1="6" y2="6"/><line x1="4" x2="20" y1="18" y2="18"/></svg>
               }
             </button>
              {mostrItems && <ul className='shadow-inner w-[75%] md:w-[35%] ml-[20%] md:ml-[60%] bg-opacity-30 rounded-md backdrop-blur-md animate-fade justify-end p-3 bg-zinc-300 lg:hidden lg:bg-opacity-0 lg:w-[40%] dark:text-zinc-800 my-2 ml-3 lg:ml-[60%] '>
-              {isChange && <svg onClick={() => {setIsChange(false); setMostraItems(false)}} className="lucide lucide-circle-x animate-fade dark:text-[#277FE3] cursor-pointer flex justify-end ml-[80%] lg:hidden" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
+              {isChange && <svg onClick={() => {setIsChange(false); setMostraItems(false)}} className="lucide lucide-circle-x animate-fade dark:text-[#277FE3] cursor-pointer flex justify-end ml-[80%] lg:hidden" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
               }
                 <li className='flex justify-center lg:mt-0 lg:mr-2'>
                     <img src='./src/pages/Notification/img.png'/>
