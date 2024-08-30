@@ -6,7 +6,7 @@
       "app": "Paga Só",
       "titulo": "titulo primeiro",
       "subTitulo": "assunto teste",
-      "mensagem": "inserindo mesma scfg sms",
+      "mensagem": "Em linguística, a noção de texto é ampla e ainda aberta a uma definição mais precisa. Grosso modo, pode ser entendido como manifestação linguística das ideias de um autor, que serão interpretadas pelo leitor de acordo com seus conhecimentos linguísticos e culturais. Seu tamanho é variável.inserindo mesma scfg sms",
       "date": "28/08/2024"
     },
     {
@@ -15,7 +15,7 @@
       "app": "Só Money",
       "titulo": "tol",
       "subTitulo": "syb",
-      "mensagem": "rtescrita",
+      "mensagem": "rtescrita Em linguística, a noção de texto é ampla e ainda aberta a uma definição mais precisa. Grosso modo, pode ser entendido como manifestação linguística das ideias de um autor, que serão interpretadas pelo leitor de acordo com seus conhecimentos linguísticos e culturais. Seu tamanho é variável.",
       "date": "28/08/2024"
     },
     {
@@ -206,6 +206,34 @@
       "subTitulo": "",
       "mensagem": "o,",
       "date": "29/08/2024"
+    },
+    {
+      "id": "",
+      "select": "Todos utilizadores",
+      "app": "Só Money",
+      "titulo": "rr",
+      "subTitulo": "",
+      "mensagem": "r",
+      "date": "30/08/2024"
+    },
+    {
+      "id": "",
+      "select": "Todos utilizadores",
+      "app": "Só Eventos",
+      "titulo": "l",
+      "subTitulo": "",
+      "mensagem": ",;;",
+      "date": "30/08/2024"
+    },
+    {
+      "id": "123",
+      "select": "Um utilizador",
+      "app": "Só Money",
+      "titulo": "titoe",
+      "subTitulo": "ee",
+      "mensagem": "re3",
+      "date": "30/08/2024",
+      "time": ""
     }
   ]
 }

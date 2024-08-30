@@ -1,8 +1,9 @@
 
-import { useMemo, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import  {Form} from '../../components/Form'
 import { Lista } from '../../components/Lista';
 import { useNavigate } from 'react-router-dom';
+import { getItem } from 'localforage';
 
 
 //rota protejida
@@ -36,6 +37,13 @@ export function Notification() {
     navigate('/login')
   }
 
+  useEffect(() =>{
+    let email = sessionStorage.getItem("email")
+    if(email === "" || email === null){
+      navigate("/login")
+    }
+  })
+  
   return (
     <div className={`${isDark && "dark"}`}>
     <main className='min-h-screen dark:bg-[#fff] bg-zinc-950 '>
