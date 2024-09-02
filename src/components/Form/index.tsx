@@ -23,8 +23,7 @@ export function Form() {
         titulo: "",
         subTitulo: "",
         mensagem: "",
-        date: moment().format('D/MM/YYYY'),
-        time: moment().format('')
+        
     })
 
     const resetInputs = () => {
@@ -43,17 +42,28 @@ export function Form() {
             setConfirm(false)
 
         } else {
+            console.log(formObject)
             setConfirm(false)
 
-            fetch("http://localhost:5000/notifications", {
+            const dados={
+                "ap_name": formObject.app,
+                "send_to_everyone": false,
+                "body": formObject.mensagem,
+                "title": formObject.titulo,
+                "channel": "preview",
+                "subtitle": formObject.subTitulo,
+                "users": [formObject.id]
+            }
+
+            fetch("http://192.168.28.27:8080/api/v1/notification/push-token/publish", {
                 method: "post",
                 headers: { "Content-Type": "application/json" },
-                body: JSON.stringify(formObject)
+                body: JSON.stringify(dados)
             })
                 .then(() => {
                     setIsSucess(true)
                 })
-            console.log(date)
+            
             resetInputs()
         }
     }
@@ -252,7 +262,7 @@ export function Form() {
                             && <div>
                                 <label htmlFor="id" className='text-slate-50 mt-3 dark:text-[#656565] animate-fade'>ID *</label>
                                 <input className="rounded-md shadow-sm placeholder-[#8A8A8A] text-sm block w-full p-1 lg:p-3
-                                focus:outline-none dark:ring-1 dark:ring-[#EEEEEE] animate-fade" type="number" required id="id" placeholder="Insira o ID do utilizador" value={formObject.id} onChange={
+                                focus:outline-none dark:ring-1 dark:ring-[#EEEEEE] animate-fade" type="text" required id="id" placeholder="Insira o ID do utilizador" value={formObject.id} onChange={
                                         e => setFormObject({ ...formObject, id: e.target.value })
                                     } /><br />
                             </div>

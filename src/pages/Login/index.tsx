@@ -1,8 +1,8 @@
 
-import { getItem } from "localforage"
 import { useEffect, useState } from "react"
 import { useNavigate } from "react-router-dom"
-import { toast, } from "react-toastify"
+import { toast, ToastContainer, } from "react-toastify"
+import 'react-toastify/dist/ReactToastify.css';
 
 export function Login() {
 
@@ -18,10 +18,6 @@ export function Login() {
 
     const [password, setPassword] = useState("")
 
-    const [erro, setErro] = useState(false)
-
-    const [preenche, setPreenche] = useState(false)
-
    useEffect(()=>{
     sessionStorage.clear()
    })
@@ -34,39 +30,34 @@ export function Login() {
             .then((resp) => {
                
                 if(Object.keys(resp).length === 0){
-                    setErro(true)
+                    toast.error("usurio não encontrado")
                 }else{
-                    
                     if(resp.password === password){
                         toast.success("Bem vindo")
                         sessionStorage.setItem('email', email)
                         navigate("/notification")
                     }else{
-                        setErro(true)
-                        setPreenche(false)
+                        toast.error("senha incorrecta")
                     }
                 }
                  
             })
             .catch((err) =>{
-                setErro(true)
+                toast.error("usurio não encontrado")
             })
         }
     }
 
     const validate = () => {
         let result = true
-        if (email === "" || email === null) {
+        if (email === "" || email === null || password === "" || password === null) {
             result = false
-            toast.warning("preencha o email")
+            toast.warning("preencha o todos os campos")
         }
-        if (password === "" || password === null) {
-            result = false
-            setErro(false)
-            setPreenche(true)
-        }
+        
         return result
     }
+
     return (
         <div className={`${isDark && "dark"}`}>
             <main className='min-h-screen bg-[#1E1E1E] dark:bg-[#fff]'>
@@ -75,11 +66,11 @@ export function Login() {
                         {isDark ? <div className='mr-2 dark:text-zinc-700'>Modo claro</div> : <div className='mr-2 text-zinc-200'>Modo escuro</div>}
                         <div><button onClick={trocaCor}>
                             {isDark ?
-                                <svg width="42" height="22" className='lg:w-8 mt-1' viewBox="0 0 42 22" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <svg width="42" height="22" className='w-8 mt-1' viewBox="0 0 42 22" fill="none" xmlns="http://www.w3.org/2000/svg">
                                     <rect width="42" height="22" rx="11" fill="#4CD080" />
                                     <circle cx="31" cy="11" r="9" fill="white" />
                                 </svg> :
-                                <svg width="42" height="22" className='mt-1 lg:w-8' viewBox="0 0 42 22" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <svg width="42" height="22" className='mt-1 w-8' viewBox="0 0 42 22" fill="none" xmlns="http://www.w3.org/2000/svg">
                                     <rect width="42" height="22" rx="11" fill="#D5D5D5" />
                                     <circle cx="11" cy="11" r="9" fill="white" />
                                 </svg>
@@ -105,6 +96,7 @@ export function Login() {
                             </div>
                         }
                         <br />
+                        <ToastContainer />
                         <form className="mt-12" id="form" onSubmit={handleLogin}>
                             <label htmlFor="email" className="text-slate-50 dark:text-[#656565]" >Email</label>
                             <input placeholder='Introduza seu email...' className="mt-1 block w-full p-1
@@ -134,9 +126,6 @@ export function Login() {
                                     </button>
                                 </div>
                             </div>
-
-                            {erro && <p className="text-red-600 mt-2 text-sm">Dados incorrectos!</p>}
-                            {preenche && <p className="text-red-600 mt-2 text-sm">Por favor, preencha todos os campos</p>}
 
                             <div className="mt-10 flex justify-center ">
                                 <button type="submit" id="_enviar" className=" 

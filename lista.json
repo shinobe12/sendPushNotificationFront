@@ -234,6 +234,36 @@
       "mensagem": "re3",
       "date": "30/08/2024",
       "time": ""
+    },
+    {
+      "id": "",
+      "select": "Todos utilizadores",
+      "app": "Só Money",
+      "titulo": "rodino@gmail.com",
+      "subTitulo": "",
+      "mensagem": "smsm",
+      "date": "2/09/2024",
+      "time": "2024-09-02T08:41:43+01:00"
+    },
+    {
+      "id": "",
+      "select": "Todos utilizadores",
+      "app": "Só Money",
+      "titulo": "rodino@gmail.com",
+      "subTitulo": "",
+      "mensagem": "d",
+      "date": "2/09/2024",
+      "time": "2024-09-02T10:17:04+01:00"
+    },
+    {
+      "id": "",
+      "select": "Todos utilizadores",
+      "app": "Só Eventos",
+      "titulo": "rodino@gmail.com",
+      "subTitulo": "",
+      "mensagem": " ",
+      "date": "2/09/2024",
+      "time": "2024-09-02T15:45:27+01:00"
     }
   ]
 }

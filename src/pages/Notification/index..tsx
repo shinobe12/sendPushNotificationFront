@@ -3,7 +3,8 @@ import { useEffect, useMemo, useState } from 'react';
 import  {Form} from '../../components/Form'
 import { Lista } from '../../components/Lista';
 import { useNavigate } from 'react-router-dom';
-import { getItem } from 'localforage';
+import { toast, ToastContainer, } from "react-toastify"
+import 'react-toastify/dist/ReactToastify.css';
 
 
 //rota protejida
@@ -47,6 +48,7 @@ export function Notification() {
   return (
     <div className={`${isDark && "dark"}`}>
     <main className='min-h-screen dark:bg-[#fff] bg-zinc-950 '>
+      
       <div className="text-zinc-50 flex justify-start p-4 h-20 grid grid-cols-2">
         <div className='flex justify-start p-3 mt-2'>
           {isDark ? <div className='mr-2 dark:text-zinc-700 animate fade'>Modo claro</div> : <div className='animate fade mr-2 text-zinc-200'>Modo escuro</div>}

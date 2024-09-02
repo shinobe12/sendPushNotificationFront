@@ -24,18 +24,20 @@ export function Lista() {
   const fetchNotifications = () => {
     fetch("http://localhost:5000/notifications")
       .then((response) => response.json())
-      .then((data) => setNotify(data));
+      .then((data) => setNotify(data.sort()));
   }
 
   useEffect(() => {
     fetchNotifications()
   }, []);
 
+  
   return (
     <main className='min-h-screen bg-zinc-950 dark:bg-[#fff] flex justify-center'>
       <div className="w-[min(80%,58rem)] animate-fade mt-20 h-min(100%, 40rem) md:w-[70%] lg:w-[45%] lg:mt-[6%]">
         <div className=' md:mt-0 p-8 bg-[#272729] dark:bg-[#fff] rounded-lg text-white text-center '>
           {getItemsPage().map(item =>
+            
             <div className="p-4 rounded-md ring-1 mt-10 ring-[#D4D4D4]" key={item.mensagem}>
               <div className="md:flex justify-between p-2 text-sm md:text-md">
                 <div className="text-bold dark:text-zinc-900 flex">Aplicativo: <p className="font-light ml-1">{item.app}</p></div>
@@ -57,7 +59,7 @@ export function Lista() {
               </svg>
             </button>
 
-            <div className="fon-light mr-2 ml-2 flex"><p className="mr-1 text-sky-500">{actualPage}</p> de {totalPages}</div>
+            <div className="font-light mr-2 ml-2 flex dark:text-zinc-700"><p className="mr-1 text-sky-500">{actualPage}</p> de {totalPages}</div>
 
             <button type="button" onClick={handleNextPage} disabled={actualPage === totalPages}>
               <svg width="27" height="27" viewBox="0 0 27 27" fill="none" xmlns="http://www.w3.org/2000/svg">
