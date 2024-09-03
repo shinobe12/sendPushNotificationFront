@@ -52,7 +52,7 @@ export function Login() {
         let result = true
         if (email === "" || email === null || password === "" || password === null) {
             result = false
-            toast.warning("preencha o todos os campos")
+            toast.warning("preencha todos os campos")
         }
         
         return result

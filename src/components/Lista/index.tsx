@@ -12,7 +12,7 @@ interface listNotifications {
 }
 
 export function Lista() {
-  const [notify, setNotify] = useState<listNotifications[] | null>([]);
+  const [notify, setNotify] = useState([]);
   const {
     actualPage,
     getItemsPage,
@@ -22,9 +22,9 @@ export function Lista() {
   } = usePagination(notify!, 3);
 
   const fetchNotifications = () => {
-    fetch("http://localhost:5000/notifications")
+    fetch("http://192.168.28.27:8080/api/v1/notification/push-token/messages?app=com.pagaso.pagaso")
       .then((response) => response.json())
-      .then((data) => setNotify(data.sort()));
+      .then((data) => setNotify(data.messages));
   }
 
   useEffect(() => {
@@ -38,15 +38,15 @@ export function Lista() {
         <div className=' md:mt-0 p-8 bg-[#272729] dark:bg-[#fff] rounded-lg text-white text-center '>
           {getItemsPage().map(item =>
             
-            <div className="p-4 rounded-md ring-1 mt-10 ring-[#D4D4D4]" key={item.mensagem}>
+            <div className="p-4 rounded-md ring-1 mt-10 ring-[#D4D4D4]" key={item.notification_id}>
               <div className="md:flex justify-between p-2 text-sm md:text-md">
-                <div className="text-bold dark:text-zinc-900 flex">Aplicativo: <p className="font-light ml-1">{item.app}</p></div>
-                <div className="text-bold flex justify-start dark:text-zinc-900  w-[90%] md:w-[35%] lg:w-[40%] md:justify-end mr-[42%] sm:mr-[75%] md:mr-[0%]">Data: <p className="font-light ml-1">{item.date}</p></div>
+                <div className="text-bold dark:text-zinc-900 flex">Aplicativo: <p className="font-light ml-1">{item.app_name}</p></div>
+                <div className="text-bold flex justify-start dark:text-zinc-900  w-[90%] md:w-[35%] lg:w-[40%] md:justify-end mr-[42%] sm:mr-[75%] md:mr-[0%]">Data: <p className="font-light ml-1">{item.updated_at}</p></div>
               </div>
               <div className="md:text-justify mt-3 bg-[#454545] dark:bg-[#E8F2FF] rounded-md p-3">
-                <h2 className="text-start dark:text-zinc-900 flex">Titulo da Mensagem: <p className="font-light ml-1">{item.titulo}</p></h2>
+                <h2 className="text-start dark:text-zinc-900 flex">Titulo da Mensagem: <p className="font-light ml-1">{item.title}</p></h2>
                 <p className="font-light dark:text-zinc-900 text-sm">
-                  {item.mensagem}
+                  {item.body}
                 </p>
               </div>
             </div>
@@ -59,7 +59,7 @@ export function Lista() {
               </svg>
             </button>
 
-            <div className="font-light mr-2 ml-2 flex dark:text-zinc-700"><p className="mr-1 text-sky-500">{actualPage}</p> de {totalPages}</div>
+            <div className="font-light mr-2 ml-2 flex dark:text-zinc-700"><p className="mr-1 text-sky-500">1</p> de 1</div>
 
             <button type="button" onClick={handleNextPage} disabled={actualPage === totalPages}>
               <svg width="27" height="27" viewBox="0 0 27 27" fill="none" xmlns="http://www.w3.org/2000/svg">

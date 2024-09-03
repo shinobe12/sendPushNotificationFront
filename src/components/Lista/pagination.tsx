@@ -15,7 +15,8 @@ export const usePagination = (data: Array<any>, itensPerPage: number) => {
   const getItemsPage = () => {
     const firstIndex = (actualPage - 1) * itensPerPage;
     const lastIndex = actualPage * itensPerPage;
-
+    
+    console.log(data)
     return data.slice(firstIndex, lastIndex);
   };
 

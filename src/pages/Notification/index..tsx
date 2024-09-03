@@ -38,8 +38,9 @@ export function Notification() {
     navigate('/login')
   }
 
+  let email = sessionStorage.getItem("email")
+
   useEffect(() =>{
-    let email = sessionStorage.getItem("email")
     if(email === "" || email === null){
       navigate("/login")
     }
@@ -70,11 +71,11 @@ export function Notification() {
         
             <ul className='hidden w-[70%] md:w-[35%] ml-[20%] md:ml-[60%] justify-end bg-opacity-30 rounded-md backdrop-blur-md animate-fade justify-end p-3 bg-zinc-300 lg:flex lg:bg-opacity-0 lg:w-[40%] dark:text-zinc-800 my-2 ml-3 lg:ml-[60%] '>
               <li className='flex justify-center lg:mr-2'>
-                  <img src='./src/pages/Notification/img.png'/>
+                  <img src='./src/pages/Notification/img.png' className='fixed mr-10'/>
               </li>
               <div className=''>
                 <li className=''>
-                    <span className='lg:font-semibold flex justify-center'><p className='text-sm lg:text-md'>Feliciano Rodino</p></span>
+                    <span className='lg:font-semibold flex justify-center'><p className='text-sm lg:text-md'>{email}</p></span>
                 </li>
                 <li className='lg:font-semibold text-sm'>
                   <span >ID: 233344</span>
@@ -105,7 +106,7 @@ export function Notification() {
                 </li>
                 <div className='lg:block mt-1 lg:mt-0 '>
                   <li className='flex justify-center'>
-                      <span className='lg:font-semibold '><p className='text-sm lg:text-md'>Feliciano Rodino</p></span>
+                      <span className='lg:font-semibold '><p className='text-sm lg:text-md'>{email}</p></span>
                   </li>
                   <li className='lg:font-semibold text-sm flex justify-center'>
                     <span >ID: 23334</span>

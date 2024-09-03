@@ -1,7 +1,8 @@
-import { Fragment, useState } from "react"
+import { Fragment, useState, createContext } from "react"
 import { Send, Trash2 } from 'lucide-react';
 import Sucesso from "../Sucesso";
 import moment from "moment"
+import { comma } from "postcss/lib/list";
 
 
 export function Form() {
@@ -23,14 +24,13 @@ export function Form() {
         titulo: "",
         subTitulo: "",
         mensagem: "",
+        date: moment().format("dd/MM/yy")
         
     })
 
     const resetInputs = () => {
         setFormObject({ ...formObject, app: "", id: "", titulo: "", subTitulo: "", mensagem: "" })
     }
-
-    const date = new Date()
 
     function enviar(e: any, params: any) {
         e.preventDefault();
@@ -42,11 +42,11 @@ export function Form() {
             setConfirm(false)
 
         } else {
-            console.log(formObject)
+            
             setConfirm(false)
 
             const dados={
-                "ap_name": formObject.app,
+                "app_name": formObject.app,
                 "send_to_everyone": false,
                 "body": formObject.mensagem,
                 "title": formObject.titulo,
@@ -54,7 +54,9 @@ export function Form() {
                 "subtitle": formObject.subTitulo,
                 "users": [formObject.id]
             }
-
+            
+            console.log(dados)
+            
             fetch("http://192.168.28.27:8080/api/v1/notification/push-token/publish", {
                 method: "post",
                 headers: { "Content-Type": "application/json" },
@@ -63,6 +65,7 @@ export function Form() {
                 .then(() => {
                     setIsSucess(true)
                 })
+                .catch(erro => console.log("error",erro.response?.data))
             
             resetInputs()
         }
@@ -248,13 +251,15 @@ export function Form() {
                             </select>
                             <select required id="selected_app" className="mt-4 md:mt-0 lg:mt-0 p-1 lg:p-2 lg:ml-3 w-full text-sm cursor-pointer
                                 rounded-md placeholder-slate-400 text-[#8A8A8A]
-                                focus:outline-none dark:ring-1 dark:ring-[#EEEEEE]" value={formObject.app} onChange={
-                                    e => setFormObject({ ...formObject, app: e.target.value })
+                                focus:outline-none dark:ring-1 dark:ring-[#EEEEEE]" value={formObject.app} onChange={ e =>
+                                    {
+                                        console.log(e.target.value)
+                                        setFormObject({ ...formObject, app: e.target.value })}
                                 }>
                                 <option >-- Selecionar App * --</option>
-                                <option>Só Money</option>
-                                <option>Só Eventos</option>
-                                <option>Paga Só</option>
+                                <option value={"com.somoney.somoney"}>Só Money</option>
+                                <option value={"com.soeventos.soeventos"}>Só Eventos</option>
+                                <option value={"com.pagaso.pagaso"}>Paga Só</option>
                             </select>
                         </div><br />
 
