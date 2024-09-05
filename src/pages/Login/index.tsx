@@ -40,12 +40,12 @@ export function Login() {
                         navigate("/notification")
                         
                     }else{
-                        toast.error("Credenciais Incorrectas")
+                        toast("Credenciais Incorrectas")
                     }
                 }
                  
             }
-            
+
     const validate = () => {
       
         if (email === "" || email === null || password === "" || password === null) {
@@ -103,7 +103,7 @@ export function Login() {
                                 rounded-md dark:ring-1 ring-[#EEE] placeholder-[#838383]
                                 focus:outline-none p-2 text-sm
                                  "
-                                autoComplete="email" type="email" id="email" value={email} onChange={e => setEmail(e.target.value)} />
+                                 type="text" id="email" value={email} onChange={e => setEmail(e.target.value)} />
                             <br />
                             <div>
                                 <label htmlFor="senha" className="text-slate-50 dark:text-[#656565]" >Senha</label>
