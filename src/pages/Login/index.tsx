@@ -25,40 +25,40 @@ export function Login() {
     const handleLogin = (e: any) => {
         e.preventDefault();
         if (validate()) {
-            fetch("http://localhost:3000/" + email)
-            .then((res) => res.json())
-            .then((resp) => {
-               
-                if(Object.keys(resp).length === 0){
-                    toast.error("usurio não encontrado")
-                }else{
-                    if(resp.password === password){
-                        toast.success("Bem vindo")
+            /*const { data, status } = await axios.post(`https://aoa.recarga.pagaso.co.ao/api/ma/login.json`, {
+                email: email,
+                senha: password
+            },
+                {
+                    headers: {
+                        "X-API-KEY": "bklsqzizhcaehinpivwahbaekhnyjxfdsregucwmbudjwgjsrqwnolhrocufvwxomybqhotxgedoyujrkxuocihmrdrmuxlvshwfnyalyiqfsekpuivugoiocwgtwqzu"
+                    }
+                }
+            )*/
+                    if(password === "2024" && email ==="pagaso.dev@divTecnologia.com"){
                         sessionStorage.setItem('email', email)
                         navigate("/notification")
+                        
                     }else{
-                        toast.error("senha incorrecta")
+                        toast.error("Credenciais Incorrectas")
                     }
                 }
                  
-            })
-            .catch((err) =>{
-                toast.error("usurio não encontrado")
-            })
-        }
-    }
-
+            }
+            
     const validate = () => {
-        let result = true
+      
         if (email === "" || email === null || password === "" || password === null) {
-            result = false
+
             toast.warning("preencha todos os campos")
+            return false
         }
         
-        return result
+        return true
     }
 
     return (
+        
         <div className={`${isDark && "dark"}`}>
             <main className='min-h-screen bg-[#1E1E1E] dark:bg-[#fff]'>
                 <div className="text-zinc-50 flex justify-start p-4 h-20 grid grid-cols-2">

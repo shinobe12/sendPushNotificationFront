@@ -2,7 +2,7 @@ import { Fragment, useState, createContext } from "react"
 import { Send, Trash2 } from 'lucide-react';
 import Sucesso from "../Sucesso";
 import moment from "moment"
-import { comma } from "postcss/lib/list";
+import axios from "axios"
 
 
 export function Form() {
@@ -16,6 +16,8 @@ export function Form() {
     const [limpar, setLimpar] = useState(false)
 
     const [selectApp, setSelectApp] = useState(false)
+
+    const [send_to_everyone, setSend_to_everyone] = useState(true)
 
     const [formObject, setFormObject] = useState({
         id: "",
@@ -32,10 +34,10 @@ export function Form() {
         setFormObject({ ...formObject, app: "", id: "", titulo: "", subTitulo: "", mensagem: "" })
     }
 
-    function enviar(e: any, params: any) {
+    async function enviar(e: any, params: any) {
         e.preventDefault();
         //console.log(params)
-
+        
         if (formObject.app === "" || formObject.app === "-- Selecionar App * --") {
 
             setSelectApp(true)
@@ -47,7 +49,7 @@ export function Form() {
 
             const dados={
                 "app_name": formObject.app,
-                "send_to_everyone": false,
+                "send_to_everyone": send_to_everyone,
                 "body": formObject.mensagem,
                 "title": formObject.titulo,
                 "channel": "preview",
@@ -55,19 +57,16 @@ export function Form() {
                 "users": [formObject.id]
             }
             
-            console.log(dados)
-            
-            fetch("http://192.168.28.27:8080/api/v1/notification/push-token/publish", {
-                method: "post",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify(dados)
-            })
-                .then(() => {
-                    setIsSucess(true)
-                })
-                .catch(erro => console.log("error",erro.response?.data))
-            
-            resetInputs()
+            try {
+                console.log(dados)
+                await axios.post ("https://notify-push-caf7a453e1e5.herokuapp.com/api/v1/notification/push-token/publish", dados                  
+                )
+                    setIsSucess(true) 
+            } catch (error:any) {
+                console.log(error?.response?.data)
+            }
+
+            /*resetInputs()*/
         }
     }
 
@@ -237,15 +236,19 @@ export function Form() {
                                     e => {
                                         if (e.currentTarget.options.selectedIndex === 1) {
                                             setMostrar(true)
+                                            setSend_to_everyone(false)
+                                            
                                         }
                                         else {
-                                            setFormObject({ ...formObject, id: "" })
+                                            setFormObject({ ...formObject, select: "" })
                                             setMostrar(false);
+                                            setSend_to_everyone(true)
                                         }
+                                        
                                         setFormObject({ ...formObject, select: e.target.value })
                                     }
                                 }>
-                                <option className="cursor-pointer">Todos utilizadores</option>
+                                <option className="cursor-pointer" value={"true"}>Todos utilizadores</option>
                                 <option id="utilizador" className="cursor-pointer">Um utilizador</option>
 
                             </select>
@@ -257,8 +260,8 @@ export function Form() {
                                         setFormObject({ ...formObject, app: e.target.value })}
                                 }>
                                 <option >-- Selecionar App * --</option>
-                                <option value={"com.somoney.somoney"}>Só Money</option>
-                                <option value={"com.soeventos.soeventos"}>Só Eventos</option>
+                                <option value={"com.pagaso.somoney"}>Só Money</option>
+                                <option value={"com.pagaso.soeventos"}>Só Eventos</option>
                                 <option value={"com.pagaso.pagaso"}>Paga Só</option>
                             </select>
                         </div><br />
