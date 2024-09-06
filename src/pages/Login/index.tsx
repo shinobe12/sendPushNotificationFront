@@ -40,7 +40,7 @@ export function Login() {
                         navigate("/notification")
                         
                     }else{
-                        toast("Credenciais Incorrectas")
+                        toast.error("Credenciais Incorrectas")
                     }
                 }
                  
