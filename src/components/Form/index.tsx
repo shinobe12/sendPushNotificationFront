@@ -52,7 +52,7 @@ export function Form() {
                 "send_to_everyone": send_to_everyone,
                 "body": formObject.mensagem,
                 "title": formObject.titulo,
-                "channel": "preview",
+                "channel": "default",
                 "subtitle": formObject.subTitulo,
                 "users": [formObject.id]
             }
