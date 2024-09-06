@@ -76,7 +76,7 @@ export function Notification() {
             </ul>}</div>
             <div className='flex justify-start items-center'>
               <div className='flex justify-start mt-2 w-[100%] mt-5 lg:mt-0'>
-                {isDark ? <p className='flex animate-fade mr-2 ml-4 text-zinc-800 text-sm'>Modo claro</p> : <p className='flex animate-fade mr-2 ml-4 text-zinc-200 text-sm'>Modo escuro</p>}
+                {isDark ? <p className='flex animate-fade mr-2 ml-4 text-zinc-800 text-sm'>Modo claro</p> : <p className='flex animate-fade mr-2 ml-4 text-zinc-200 text-sm'>Modo claro</p>}
                 <div>
                   <button onClick={trocaCor}>
                     {isDark ?

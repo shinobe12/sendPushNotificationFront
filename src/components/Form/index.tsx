@@ -291,7 +291,7 @@ export function Form() {
                             <label className="text-slate-50 dark:text-[#656565]" htmlFor="subTitulo">Sub-Título</label>
                             <input type="text" id="subTitulo" name="subtitulo" placeholder="Escreva um subtítulo" className="mt-1 block w-full p-1  lg:p-3
                                 rounded-md shadow-sm placeholder-[#8A8A8A] dark:placeholder-[#838383] text-sm
-                                focus:outline-none rdark:ring-1 dark:ring-[#EEEEEE]" value={formObject.subTitulo} onChange={
+                                focus:outline-none dark:ring-1 dark:ring-[#EEEEEE]" value={formObject.subTitulo} onChange={
                                     e => setFormObject({ ...formObject, subTitulo: e.target.value })
                                 } />
 

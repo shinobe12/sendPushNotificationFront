@@ -49,11 +49,11 @@ export function Lista() {
           <div className="flex justify-end items-center ">
             <p className="dark:text-zinc-700 mt-2 mr-2 md:mr-0 md:mt-0">Filtrar</p>
             <select required id="filtro" className="mt-4 md:mt-0 lg:mt-0 p-1 lg:p-1 lg:ml-3  text-sm cursor-pointer
-                                rounded-md placeholder-slate-400 text-[#8A8A8A]
+                                rounded-md placeholder-slate-400 text-zinc-700 bg-gradient-to-t from-[#E8F2FF] dark:shadow-lg
                                 focus:outline-none dark:ring-1 dark:ring-[#EEEEEE]" value={filtro} onChange={e => { setFiltro(e.target.value) }
               }>
-              <option value={"com.pagaso.somoney"}>SóMoney</option>
-              <option value={"com.pagaso.pagaso"}>PagaSó</option>
+              <option className="bg-[#E8F2FF dark:bg-[#E8F2FF] rounded-lg border-none" value={"com.pagaso.somoney"}>SóMoney</option>
+              <option className="bg-[#E8F2FF dark:bg-[#E8F2FF] rounded-lg border-none" value={"com.pagaso.pagaso"}>PagaSó</option>
             </select>
 
           </div>
@@ -66,7 +66,7 @@ export function Lista() {
             </svg>
             <span className="sr-only">Carregando...</span>
           </div> :
-            getItemsPage().reverse().map(item =>
+            getItemsPage().map(item =>
               <div className="p-1 md:p-4 rounded-md ring-1 mt-10 ring-[#D4D4D4]" key={item.notification_id}>
                 <div className="md:flex justify-between p-2 text-sm md:text-md">
                   <div className="dark:text-zinc-900 flex items-center h-12">
