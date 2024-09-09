@@ -58,7 +58,6 @@ export function Lista() {
 
           </div>
 
-          { }
           {totalPages === 0 ? <div role="status" className="flex justify-center mt-10">
             <svg aria-hidden="true" className=" w-8 h-8 text-gray-200 animate-spin dark:text-zinc-200 fill-blue-600" viewBox="0 0 100 101" fill="none" xmlns="http://www.w3.org/2000/svg">
               <path d="M100 50.5908C100 78.2051 77.6142 100.591 50 100.591C22.3858 100.591 0 78.2051 0 50.5908C0 22.9766 22.3858 0.59082 50 0.59082C77.6142 0.59082 100 22.9766 100 50.5908ZM9.08144 50.5908C9.08144 73.1895 27.4013 91.5094 50 91.5094C72.5987 91.5094 90.9186 73.1895 90.9186 50.5908C90.9186 27.9921 72.5987 9.67226 50 9.67226C27.4013 9.67226 9.08144 27.9921 9.08144 50.5908Z" fill="currentColor" />
@@ -106,19 +105,19 @@ export function Lista() {
               </div>
             )}
 
-          <div className="flex justify-center mt-5 animate-fade">
+          <div className="flex justify-center mt-5">
             <button type="button" onClick={handleBackPage} disabled={actualPage === 1}>
-              <svg width="28" height="28" viewBox="0 0 27 27" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <svg className="w-5 md:w-12" width="28" height="28" viewBox="0 0 27 27" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <rect width="27" height="27" rx="13.5" fill="#EEEEEE" />
                 <path fillRule="evenodd" clipRule="evenodd" d="M10.2197 14.5051C9.92678 14.2261 9.92678 13.7739 10.2197 13.4949L14.7197 9.20921C15.0126 8.93026 15.4874 8.93026 15.7803 9.20921C16.0732 9.48815 16.0732 9.94042 15.7803 10.2194L11.8107 14L15.7803 17.7806C16.0732 18.0596 16.0732 18.5118 15.7803 18.7908C15.4874 19.0697 15.0126 19.0697 14.7197 18.7908L10.2197 14.5051Z" fill="#BCBCBC" />
               </svg>
             </button>
 
-            <div className="font-light mt-2 mr-2 ml-2 flex dark:text-zinc-700"><p className="mr-1 text-sky-500">{actualPage}</p> de {totalPages}</div>
+            <div className="font-light mt-0.5 mr-2 ml-2 flex dark:text-zinc-700"><p className="mr-1 text-sky-500">{actualPage}</p> de {totalPages}</div>
 
             <button type="button" onClick={handleNextPage} disabled={actualPage === totalPages}>
-              <svg width="27" height="27" viewBox="0 0 27 27" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <rect width="27" height="27" rx="13.5" fill="#277FE3" />
+              <svg className="w-5 md:w-12" width="27" height="27" viewBox="0 0 27 27" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <rect width="27" height="27" rx="13.5" fill="#277FE3"/>
                 <path fillRule="evenodd" className="evenodd" d="M16.7803 13.4949C17.0732 13.7739 17.0732 14.2261 16.7803 14.5051L12.2803 18.7908C11.9874 19.0697 11.5126 19.0697 11.2197 18.7908C10.9268 18.5118 10.9268 18.0596 11.2197 17.7806L15.1893 14L11.2197 10.2194C10.9268 9.94042 10.9268 9.48816 11.2197 9.20921C11.5126 8.93026 11.9874 8.93026 12.2803 9.20921L16.7803 13.4949Z" fill="white" />
               </svg>
             </button>
