@@ -4,6 +4,7 @@ import {Login} from "../pages/Login"
 import { Notification } from '../pages/Notification/index.'
 import { Home } from '../pages/Home'
 
+
 export const Routers = createBrowserRouter([
     {
         path: '/',
@@ -15,9 +16,8 @@ export const Routers = createBrowserRouter([
     },
     {
         path: '/notification',
-        element: <Notification/> ,
-       
-        
+        element: <Notification/> ,   
     },
     
+      
 ])

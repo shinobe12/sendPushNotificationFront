@@ -66,7 +66,7 @@ export function Form() {
                 console.log(error?.response?.data)
             }
 
-            /*resetInputs()*/
+            resetInputs()
         }
     }
 
@@ -75,7 +75,7 @@ export function Form() {
     return (
         <Fragment>
             <Sucesso isVisible={isSucess} onClose={() => setIsSucess(false)} />
-            <div className="flex justify-center md:mt-[10%] lg:mt-[7%]">
+            <div className="flex justify-center items-center md:mt-[10%] lg:mt-[7%]">
                 <div className="shadow-inner rounded-lg w-[300px] mt-20 animate-fade md:w-[400px] md:mt-10 lg:mt-0 lg:w-[500px]  dark:ring-1 dark:ring-[#EEEEEE] bg-zinc-800 dark:bg-[#fff]">
                     <div className="flex justify-center md:mt-2 lg:mt-4">
                         <div className="p-1 mt-3 w-[60px] h-[60px] lg:p-2 lg:mt-4 lg:w-[90px] lg:h-[90px] lg:flex lg:justify-center rounded-full ring-1 ring-[#3D3D3D] dark:rounded-full dark:ring-1 dark:ring-[#EEEEEE] ">

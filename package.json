@@ -32,7 +32,8 @@
     "react-paginate": "^8.2.0",
     "react-router-dom": "^6.26.0",
     "react-toastify": "^10.0.5",
-    "sort-by": "^1.2.0"
+    "sort-by": "^1.2.0",
+    "tailwindcss-animate": "^1.0.7"
   },
   "devDependencies": {
     "@types/react": "^18.3.3",

@@ -4,7 +4,6 @@ import moment from "moment";
 import { key } from "localforage";
 
 
-
 interface listNotifications {
   id: number;
   select: string;
@@ -23,7 +22,7 @@ export function Lista() {
     "com.pagaso.somoney": "SóMoney"
   }
 
-  const url = "https://notify-push-caf7a453e1e5.herokuapp.com/api/v1/notification/push-token/messages?app="
+  
   const {
     actualPage,
     getItemsPage,
@@ -65,7 +64,7 @@ export function Lista() {
             </svg>
             <span className="sr-only">Carregando...</span>
           </div> :
-            getItemsPage().map(item =>
+            getItemsPage().reverse().map(item =>
               <div className="p-1 md:p-4 rounded-md ring-1 mt-10 ring-[#D4D4D4]" key={item.notification_id}>
                 <div className="md:flex justify-between p-2 text-sm md:text-md">
                   <div className="dark:text-zinc-900 flex items-center h-12">
@@ -106,12 +105,14 @@ export function Lista() {
             )}
 
           <div className="flex justify-center mt-5">
+            
             <button type="button" onClick={handleBackPage} disabled={actualPage === 1}>
-              <svg className="w-5 md:w-12" width="28" height="28" viewBox="0 0 27 27" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <svg className="w-5 md:w-12 " width="28" height="28" viewBox="0 0 27 27" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <rect width="27" height="27" rx="13.5" fill="#EEEEEE" />
                 <path fillRule="evenodd" clipRule="evenodd" d="M10.2197 14.5051C9.92678 14.2261 9.92678 13.7739 10.2197 13.4949L14.7197 9.20921C15.0126 8.93026 15.4874 8.93026 15.7803 9.20921C16.0732 9.48815 16.0732 9.94042 15.7803 10.2194L11.8107 14L15.7803 17.7806C16.0732 18.0596 16.0732 18.5118 15.7803 18.7908C15.4874 19.0697 15.0126 19.0697 14.7197 18.7908L10.2197 14.5051Z" fill="#BCBCBC" />
               </svg>
             </button>
+            
 
             <div className="font-light mt-0.5 mr-2 ml-2 flex dark:text-zinc-700"><p className="mr-1 text-sky-500">{actualPage}</p> de {totalPages}</div>
 
