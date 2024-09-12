@@ -107,6 +107,7 @@ export function Login() {
                             <br />
                             <div>
                                 <label htmlFor="senha" className="text-slate-50 dark:text-[#656565]" >Senha</label>
+                                
                                 <div className="flex justify-between bg-[#fff] rounded-md dark:ring-1 ring-[#eee] ">
                                     <input type={isShow ? "text" : "password"} id="senha" name="senha" placeholder='Introduza sua senha...' className="
                                      block w-50 p-2 text-sm

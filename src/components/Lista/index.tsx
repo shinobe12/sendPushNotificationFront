@@ -51,8 +51,8 @@ export function Lista() {
                                 rounded-md placeholder-slate-400 text-zinc-700 bg-gradient-to-t from-[#E8F2FF] dark:shadow-lg
                                 focus:outline-none dark:ring-1 dark:ring-[#EEEEEE]" value={filtro} onChange={e => { setFiltro(e.target.value) }
               }>
-              <option className="bg-[#E8F2FF dark:bg-[#E8F2FF] rounded-lg border-none" value={"com.pagaso.somoney"}>SóMoney</option>
               <option className="bg-[#E8F2FF dark:bg-[#E8F2FF] rounded-lg border-none" value={"com.pagaso.pagaso"}>PagaSó</option>
+              <option className="bg-[#E8F2FF dark:bg-[#E8F2FF] rounded-lg border-none" value={"com.pagaso.somoney"}>SóMoney</option>
             </select>
 
           </div>
