@@ -1,4 +1,4 @@
-import { Fragment, useState, createContext } from "react"
+import { Fragment, useState, createContext, useEffect } from "react"
 import { Send, Trash2 } from 'lucide-react';
 import Sucesso from "../Sucesso";
 import moment from "moment"
@@ -19,6 +19,13 @@ export function Form() {
 
     const [send_to_everyone, setSend_to_everyone] = useState(true)
 
+    const [showImg, setShowImg] = useState(true)
+
+    const [category, setCategory] = useState("-- Categoria --")
+    const [selectCategory, setSelectCategory] = useState(false)
+    const [modalImg, setModalImg] = useState(false)
+    const [modalImgErro, setModalImgErro] = useState(false)
+
     const [formObject, setFormObject] = useState({
         id: "",
         select: "Todos utilizadores",
@@ -27,8 +34,57 @@ export function Form() {
         subTitulo: "",
         mensagem: "",
         date: moment().format("dd/MM/yy")
-        
+
     })
+    const [imgHeader, setImgHeader] = useState("")
+    const [imgBanner, setImgBanner] = useState("")
+    const [dimensionsHeader, setDimensionsHeader] = useState({ height: 0, width: 0 })
+    const [dimensionsBanner, setDimensionsBanner] = useState({ height: 0, width: 0 })
+
+
+    const handleImgHeader = (e: any) => {
+        //console.log(e.target.files)
+        setImgHeader(URL.createObjectURL(e.target.files[0]))
+        const imgH = new Image()
+        imgH.src = imgHeader
+        imgH.onload = () => {
+            console.log("header: ", imgH.width, imgH.height)
+            setDimensionsHeader({ height: imgH.height, width: imgH.width })
+        }
+    }
+    //console.log(imgH.width, imgH.height)
+
+    const handleImgBanner = (e: any) => {
+        //console.log(e.target.files)
+        //const caminho = new FileReader()
+        setImgBanner(URL.createObjectURL(e.target.files[0]))
+        console.log("banner: ", dimensionsBanner)
+        dimensionsBanner.width === 1170 && dimensionsBanner.height === 642 ? setModalImg(true) : setModalImgErro(true)
+    }
+
+
+    /*
+        useEffect(() => {
+    
+            //dimensionsHeader.width === 936 && dimensionsHeader.height === 351 ? setModalImg(true) : setModalImgErro(true)
+    
+        }, [])*/
+
+    useEffect(() => {
+        const imgB = new Image()
+        imgB.src = imgBanner
+        imgB.onload = () => {
+            setDimensionsBanner({ height: imgB.height, width: imgB.width })
+        }
+    }, [])
+
+
+
+    const datas = {
+        imageHeader: imgHeader,
+        imageBanner: imgBanner,
+        tags: [category]
+    }
 
     const resetInputs = () => {
         setFormObject({ ...formObject, app: "", id: "", titulo: "", subTitulo: "", mensagem: "" })
@@ -37,32 +93,39 @@ export function Form() {
     async function enviar(e: any, params: any) {
         e.preventDefault();
         //console.log(params)
-        
+        if (category === "-- Categoria --") {
+            setSelectCategory(true)
+            setSelectApp(false)
+            setConfirm(false)
+        }
         if (formObject.app === "" || formObject.app === "-- Selecionar App * --") {
-
+            setSelectCategory(false)
             setSelectApp(true)
             setConfirm(false)
 
         } else {
-            
+
             setConfirm(false)
 
-            const dados={
+            const dados = {
                 "app_name": formObject.app,
                 "send_to_everyone": send_to_everyone,
                 "body": formObject.mensagem,
                 "title": formObject.titulo,
                 "channel": "default",
                 "subtitle": formObject.subTitulo,
-                "users": [formObject.id]
+                "users": [formObject.id],
+                "image_header": datas.imageHeader,
+                "image_banner": datas.imageBanner,
+                "tags": datas.tags,
             }
-            
+
             try {
-                console.log(dados)
-                await axios.post ("https://notify-push-caf7a453e1e5.herokuapp.com/api/v1/notification/push-token/publish", dados                  
+                //console.log(dados)
+                await axios.post("https://notify-push-caf7a453e1e5.herokuapp.com/api/v1/notification/push-token/publish", dados
                 )
-                    setIsSucess(true) 
-            } catch (error:any) {
+                setIsSucess(true)
+            } catch (error: any) {
                 console.log(error?.response?.data)
             }
 
@@ -72,11 +135,12 @@ export function Form() {
 
     let qtd = formObject.mensagem.length
 
+    //console.log(datas)
     return (
         <Fragment>
             <Sucesso isVisible={isSucess} onClose={() => setIsSucess(false)} />
             <div className="flex justify-center items-center md:mt-[10%] lg:mt-[7%]">
-                <div className="shadow-inner rounded-lg w-[300px] mt-20 animate-fade md:w-[400px] md:mt-10 lg:mt-0 lg:w-[500px]  dark:ring-1 dark:ring-[#EEEEEE] bg-zinc-800 dark:bg-[#fff]">
+                <div className="shadow-inner rounded-lg w-[300px] mt-20 animate-fade md:w-[400px] md:mt-10 lg:mt-0 lg:w-[700px]  dark:ring-1 dark:ring-[#EEEEEE] bg-zinc-800 dark:bg-[#fff]">
                     <div className="flex justify-center md:mt-2 lg:mt-4">
                         <div className="p-1 mt-3 w-[60px] h-[60px] lg:p-2 lg:mt-4 lg:w-[90px] lg:h-[90px] lg:flex lg:justify-center rounded-full ring-1 ring-[#3D3D3D] dark:rounded-full dark:ring-1 dark:ring-[#EEEEEE] ">
                             <svg width="60" height="60" viewBox="0 0 60 60" fill="none" className="animate-bounce mt-1 ml-0.5 w-[50px] h-[50px] lg:w-[80px] p-1 lg:h-[80px]" xmlns="http://www.w3.org/2000/svg">
@@ -237,14 +301,16 @@ export function Form() {
                                         if (e.currentTarget.options.selectedIndex === 1) {
                                             setMostrar(true)
                                             setSend_to_everyone(false)
-                                            
+                                            setShowImg(false)
+
                                         }
                                         else {
                                             setFormObject({ ...formObject, select: "" })
-                                            setMostrar(false);
+                                            setMostrar(false)
                                             setSend_to_everyone(true)
+                                            setShowImg(true)
                                         }
-                                        
+
                                         setFormObject({ ...formObject, select: e.target.value })
                                     }
                                 }>
@@ -254,10 +320,11 @@ export function Form() {
                             </select>
                             <select required id="selected_app" className="mt-4 md:mt-0 lg:mt-0 p-1 lg:p-2 lg:ml-3 w-full text-sm cursor-pointer
                                 rounded-md placeholder-slate-400 text-[#8A8A8A]
-                                focus:outline-none dark:ring-1 dark:ring-[#EEEEEE]" value={formObject.app} onChange={ e =>
-                                    {
-                                        console.log(e.target.value)
-                                        setFormObject({ ...formObject, app: e.target.value })}
+                                focus:outline-none dark:ring-1 dark:ring-[#EEEEEE]" value={formObject.app} onChange={e => {
+
+                                    setFormObject({ ...formObject, app: e.target.value })
+
+                                }
                                 }>
                                 <option >-- Selecionar App * --</option>
                                 <option value={"com.pagaso.somoney"}>Só Money</option>
@@ -275,6 +342,43 @@ export function Form() {
                                     } /><br />
                             </div>
                         }
+                        {showImg && <div>
+                            <div className="">
+                                <select required id="selected_app" className="mt-4 mb-4 md:mt-0 lg:mt-0 p-1 lg:p-3 w-full text-sm cursor-pointer
+                                rounded-md placeholder-slate-400 text-[#8A8A8A]
+                                focus:outline-none dark:ring-1 dark:ring-[#EEEEEE]" value={category} onChange={e => setCategory(e.target.value)}>
+                                    <option >-- Categoria --</option>
+                                    <option value={"novo_recurso"}>Novo Recurso</option>
+                                    <option value={"aviso"}>Aviso</option>
+                                    <option value={"dicas"}>Dicas</option>
+                                </select>
+                            </div>
+                            <label htmlFor="img" className={'text-slate-50 mt-3 dark:text-[#656565] animate-fade'}>Imagem pra o Header *</label>
+                            <input required className="cursor-pointer
+                                mt-1 block w-full lg:p-3 animate-fade mb-2 text-slate-300 text-slate-600
+                                rounded-md dark:shadow-sm text-sm bg-slate-50
+                                focus:outline-none dark:ring-1 dark:ring-[#EEEEEE]"
+                                onChange={
+                                    handleImgHeader
+                                } type="file" id="imgCard" />
+                            <p className=" text-sm text-white dark:text-zinc-700">Tamanho máximo: 1MB</p>
+
+                            <img src={imgHeader} width={50} className="mb-4" />
+
+                            <label htmlFor="img" className={'text-slate-50 mt-3 dark:text-[#656565] animate-fade'}>Imagem pra o Banner *</label>
+                            <input required placeholder="img" className="cursor-pointer
+                                mt-1 block w-full lg:p-3 animate-fade mb-2 text-slate-300 text-slate-600
+                                rounded-md dark:shadow-sm text-sm bg-slate-50
+                                focus:outline-none dark:ring-1 dark:ring-[#EEEEEE]"
+                                onChange={
+                                    handleImgBanner
+                                } type="file" id="imgBanner" />
+                            <p className=" text-sm text-white dark:text-zinc-700">Tamanho máximo: 2MB</p>
+                            <img src={imgBanner} width={50} className="mb-4" />
+                        </div>
+
+                        }
+
 
                         <label htmlFor="titulo" className={'text-slate-50 mt-3 dark:text-[#656565]'}>Título *</label>
                         <input required placeholder="Escreva um título" className="
@@ -374,6 +478,55 @@ export function Form() {
                                 </div>
                             </div>
                         }
+                        {selectCategory &&
+                            <div className="">
+                                <div className="fixed inset-0 dark:bg-zinc-700 dark:bg-opacity-40 bg-black bg-opacity-50 flex justify-center items-center animate-fade">
+                                    <div className="bg-[#fff] p-3 rounded-md flex w-[200px] justify-center">
+                                        <div className="">
+                                            <div className="flex justify-center">
+                                                <svg width="30" height="30" viewBox="0 0 30 30" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                    <rect width="30" height="30" rx="15" fill="#FFD6D6" />
+                                                    <path d="M15 5C14.2 5 13.5 5.7 13.5 6.5V7.19531C10.9081 7.85916 9 10.1955 9 13V17.8379L8.2793 20H7V22H13.2715C13.0961 22.3038 13.0037 22.6483 13.0035 22.9991C13.0034 23.3499 13.0955 23.6945 13.2706 23.9985C13.4457 24.3024 13.6977 24.5549 14.0012 24.7307C14.3048 24.9065 14.6492 24.9994 15 25C15.3511 25.0001 15.696 24.9077 16.0001 24.7322C16.3042 24.5567 16.5567 24.3042 16.7323 24.0002C16.9079 23.6961 17.0004 23.3512 17.0004 23.0001C17.0004 22.649 16.908 22.3041 16.7324 22H23V20H21.7207L21 17.8379V13C21 10.1955 19.0919 7.85916 16.5 7.19531V6.5C16.5 5.7 15.8 5 15 5ZM15 9C17.2762 9 19 10.7238 19 13V18.1621L19.6113 20H10.3887L11 18.1621V13C11 10.7238 12.7238 9 15 9Z" fill="#FF6D6D" />
+                                                </svg>
+                                            </div>
+                                            <div className="p-2 text-center text-[#656565] font-semibold font-family-sans" ><p>Selecione a Categoria</p></div>
+                                            <div><button type="button" onClick={() => setSelectCategory(false)} className="bg-[#277FE3] transition  duration-300 hover:bg-[#2167B6] text-white font-family-sans rounded-md p-2 w-full">Ok</button></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        }
+                        {modalImg &&
+                            <div className="">
+                                <div className="fixed inset-0 dark:bg-zinc-700 dark:bg-opacity-40 bg-black bg-opacity-50 flex justify-center items-center animate-fade">
+                                    <div className="bg-[#fff] p-3 rounded-md flex w-[200px] justify-center">
+                                        <div className="">
+                                            <div className="flex justify-center">
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" className="lucide lucide-thumbs-up"><path d="M7 10v12" /><path d="M15 5.88 14 10h5.83a2 2 0 0 1 1.92 2.56l-2.33 8A2 2 0 0 1 17.5 22H4a2 2 0 0 1-2-2v-8a2 2 0 0 1 2-2h2.76a2 2 0 0 0 1.79-1.11L12 2a3.13 3.13 0 0 1 3 3.88Z" /></svg>
+                                            </div>
+                                            <div className="p-2 text-center text-[#656565] font-semibold font-family-sans" ><p>Imagem anexada com sucesso!</p></div>
+                                            <div><button type="button" onClick={() => setModalImg(false)} className="bg-[#277FE3] transition  duration-300 hover:bg-[#2167B6] text-white font-family-sans rounded-md p-2 w-full">Ok</button></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        }
+                        {modalImgErro &&
+                            <div className="">
+                                <div className="fixed inset-0 dark:bg-zinc-700 dark:bg-opacity-40 bg-black bg-opacity-50 flex justify-center items-center animate-fade">
+                                    <div className="bg-[#fff] p-3 rounded-md flex w-[200px] justify-center">
+                                        <div className="">
+                                            <div className="flex justify-center">
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" className="lucide lucide-badge-x"><path d="M3.85 8.62a4 4 0 0 1 4.78-4.77 4 4 0 0 1 6.74 0 4 4 0 0 1 4.78 4.78 4 4 0 0 1 0 6.74 4 4 0 0 1-4.77 4.78 4 4 0 0 1-6.75 0 4 4 0 0 1-4.78-4.77 4 4 0 0 1 0-6.76Z" /><line x1="15" x2="9" y1="9" y2="15" /><line x1="9" x2="15" y1="9" y2="15" /></svg>
+                                            </div>
+                                            <div className="p-2 text-center text-[#656565] font-semibold font-family-sans" ><p>Erro nas dimensões da imagem!</p></div>
+                                            <div><button type="button" onClick={() => setModalImgErro(false)} className="bg-[#277FE3] transition  duration-300 hover:bg-[#2167B6] text-white font-family-sans rounded-md p-2 w-full">Ok</button></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        }
+
 
                     </form>
 

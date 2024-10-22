@@ -21,7 +21,6 @@ export function Lista() {
     "com.pagaso.pagaso": "PagaSó",
     "com.pagaso.somoney": "SóMoney"
   }
-
   
   const {
     actualPage,
