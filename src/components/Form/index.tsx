@@ -1,8 +1,11 @@
+import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
 import { Fragment, useState, createContext, useEffect } from "react"
 import { Send, Trash2 } from 'lucide-react';
 import Sucesso from "../Sucesso";
 import moment from "moment"
 import axios from "axios"
+import { ImageInput } from "../Inputs";
+import { RichText } from "../RichText";
 
 
 export function Form() {
@@ -23,8 +26,6 @@ export function Form() {
 
     const [category, setCategory] = useState("-- Categoria --")
     const [selectCategory, setSelectCategory] = useState(false)
-    const [modalImg, setModalImg] = useState(false)
-    const [modalImgErro, setModalImgErro] = useState(false)
 
     const [formObject, setFormObject] = useState({
         id: "",
@@ -36,56 +37,16 @@ export function Form() {
         date: moment().format("dd/MM/yy")
 
     })
-    const [imgHeader, setImgHeader] = useState("")
-    const [imgBanner, setImgBanner] = useState("")
-    const [dimensionsHeader, setDimensionsHeader] = useState({ height: 0, width: 0 })
-    const [dimensionsBanner, setDimensionsBanner] = useState({ height: 0, width: 0 })
-
-
-    const handleImgHeader = (e: any) => {
-        //console.log(e.target.files)
-        setImgHeader(URL.createObjectURL(e.target.files[0]))
-        const imgH = new Image()
-        imgH.src = imgHeader
-        imgH.onload = () => {
-            console.log("header: ", imgH.width, imgH.height)
-            setDimensionsHeader({ height: imgH.height, width: imgH.width })
-        }
-    }
-    //console.log(imgH.width, imgH.height)
-
-    const handleImgBanner = (e: any) => {
-        //console.log(e.target.files)
-        //const caminho = new FileReader()
-        setImgBanner(URL.createObjectURL(e.target.files[0]))
-        console.log("banner: ", dimensionsBanner)
-        dimensionsBanner.width === 1170 && dimensionsBanner.height === 642 ? setModalImg(true) : setModalImgErro(true)
-    }
-
-
-    /*
-        useEffect(() => {
-    
-            //dimensionsHeader.width === 936 && dimensionsHeader.height === 351 ? setModalImg(true) : setModalImgErro(true)
-    
-        }, [])*/
-
-    useEffect(() => {
-        const imgB = new Image()
-        imgB.src = imgBanner
-        imgB.onload = () => {
-            setDimensionsBanner({ height: imgB.height, width: imgB.width })
-        }
-    }, [])
-
-
-
+   
+    //header
+/*
     const datas = {
         imageHeader: imgHeader,
         imageBanner: imgBanner,
         tags: [category]
     }
-
+*/
+    //console.log(imgHeader)
     const resetInputs = () => {
         setFormObject({ ...formObject, app: "", id: "", titulo: "", subTitulo: "", mensagem: "" })
     }
@@ -114,10 +75,7 @@ export function Form() {
                 "title": formObject.titulo,
                 "channel": "default",
                 "subtitle": formObject.subTitulo,
-                "users": [formObject.id],
-                "image_header": datas.imageHeader,
-                "image_banner": datas.imageBanner,
-                "tags": datas.tags,
+                "users": [formObject.id]
             }
 
             try {
@@ -132,7 +90,10 @@ export function Form() {
             resetInputs()
         }
     }
-
+    let c
+<ImageInput>
+    
+</ImageInput>
     let qtd = formObject.mensagem.length
 
     //console.log(datas)
@@ -302,7 +263,6 @@ export function Form() {
                                             setMostrar(true)
                                             setSend_to_everyone(false)
                                             setShowImg(false)
-
                                         }
                                         else {
                                             setFormObject({ ...formObject, select: "" })
@@ -321,9 +281,7 @@ export function Form() {
                             <select required id="selected_app" className="mt-4 md:mt-0 lg:mt-0 p-1 lg:p-2 lg:ml-3 w-full text-sm cursor-pointer
                                 rounded-md placeholder-slate-400 text-[#8A8A8A]
                                 focus:outline-none dark:ring-1 dark:ring-[#EEEEEE]" value={formObject.app} onChange={e => {
-
                                     setFormObject({ ...formObject, app: e.target.value })
-
                                 }
                                 }>
                                 <option >-- Selecionar App * --</option>
@@ -353,28 +311,9 @@ export function Form() {
                                     <option value={"dicas"}>Dicas</option>
                                 </select>
                             </div>
-                            <label htmlFor="img" className={'text-slate-50 mt-3 dark:text-[#656565] animate-fade'}>Imagem pra o Header *</label>
-                            <input required className="cursor-pointer
-                                mt-1 block w-full lg:p-3 animate-fade mb-2 text-slate-300 text-slate-600
-                                rounded-md dark:shadow-sm text-sm bg-slate-50
-                                focus:outline-none dark:ring-1 dark:ring-[#EEEEEE]"
-                                onChange={
-                                    handleImgHeader
-                                } type="file" id="imgCard" />
-                            <p className=" text-sm text-white dark:text-zinc-700">Tamanho máximo: 1MB</p>
-
-                            <img src={imgHeader} width={50} className="mb-4" />
-
-                            <label htmlFor="img" className={'text-slate-50 mt-3 dark:text-[#656565] animate-fade'}>Imagem pra o Banner *</label>
-                            <input required placeholder="img" className="cursor-pointer
-                                mt-1 block w-full lg:p-3 animate-fade mb-2 text-slate-300 text-slate-600
-                                rounded-md dark:shadow-sm text-sm bg-slate-50
-                                focus:outline-none dark:ring-1 dark:ring-[#EEEEEE]"
-                                onChange={
-                                    handleImgBanner
-                                } type="file" id="imgBanner" />
-                            <p className=" text-sm text-white dark:text-zinc-700">Tamanho máximo: 2MB</p>
-                            <img src={imgBanner} width={50} className="mb-4" />
+                            <ImageInput>
+                                
+                            </ImageInput>
                         </div>
 
                         }
@@ -401,9 +340,26 @@ export function Form() {
 
                         </div>
                         <br />
+                        {/*<Slate editor={editor} initialValue={initialValue} >
+                            <Editable
+                                onKeyDown={event => {
+                                    if (event.key === '&') {
+                                      // Prevent the ampersand character from being inserted.
+                                      event.preventDefault()
+                                      // Execute the `insertText` method when the event occurs.
+                                      editor.insertText('and')
+                                    }
+                                  }}
+                            />
+                        </Slate>*/}
+                        <label htmlFor="mensagem" className="text-slate-50 dark:text-[#656565] ">Mensagem *</label>
+                        {showImg && 
+                        <RichText>
+                            
+                        </RichText>}
 
-                        <div>
-                            <label htmlFor="mensagem" className="text-slate-50 dark:text-[#656565]">Mensagem *</label>
+                        {mostrar && <div>
+                            
                             <textarea rows={3} required className="mt-1 block w-full p-1 lg:p-3 text-sm
                                 rounded-md shadow-sm placeholder-[#8A8A8A] h-[100px] md:h-[150px] 
                                 focus:outline-none dark:ring-1 dark:ring-[#EEEEEE]"   id="mensagem" placeholder="Escreva uma mensagem" value={formObject.mensagem} onChange={
@@ -411,7 +367,7 @@ export function Form() {
                                 } maxLength={255} />
                             <p className="text-white flex justify-end text-sm text-zinc-500 dark:text-[#949494]">{qtd}/255</p>
 
-                        </div>
+                        </div>}
 
                         <div className="flex justify-between mt-[5%] ">
                             <button type="button" id="_enviar" onClick={() => setConfirm(true)} className="
@@ -496,36 +452,10 @@ export function Form() {
                                 </div>
                             </div>
                         }
-                        {modalImg &&
-                            <div className="">
-                                <div className="fixed inset-0 dark:bg-zinc-700 dark:bg-opacity-40 bg-black bg-opacity-50 flex justify-center items-center animate-fade">
-                                    <div className="bg-[#fff] p-3 rounded-md flex w-[200px] justify-center">
-                                        <div className="">
-                                            <div className="flex justify-center">
-                                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" className="lucide lucide-thumbs-up"><path d="M7 10v12" /><path d="M15 5.88 14 10h5.83a2 2 0 0 1 1.92 2.56l-2.33 8A2 2 0 0 1 17.5 22H4a2 2 0 0 1-2-2v-8a2 2 0 0 1 2-2h2.76a2 2 0 0 0 1.79-1.11L12 2a3.13 3.13 0 0 1 3 3.88Z" /></svg>
-                                            </div>
-                                            <div className="p-2 text-center text-[#656565] font-semibold font-family-sans" ><p>Imagem anexada com sucesso!</p></div>
-                                            <div><button type="button" onClick={() => setModalImg(false)} className="bg-[#277FE3] transition  duration-300 hover:bg-[#2167B6] text-white font-family-sans rounded-md p-2 w-full">Ok</button></div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        }
-                        {modalImgErro &&
-                            <div className="">
-                                <div className="fixed inset-0 dark:bg-zinc-700 dark:bg-opacity-40 bg-black bg-opacity-50 flex justify-center items-center animate-fade">
-                                    <div className="bg-[#fff] p-3 rounded-md flex w-[200px] justify-center">
-                                        <div className="">
-                                            <div className="flex justify-center">
-                                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" className="lucide lucide-badge-x"><path d="M3.85 8.62a4 4 0 0 1 4.78-4.77 4 4 0 0 1 6.74 0 4 4 0 0 1 4.78 4.78 4 4 0 0 1 0 6.74 4 4 0 0 1-4.77 4.78 4 4 0 0 1-6.75 0 4 4 0 0 1-4.78-4.77 4 4 0 0 1 0-6.76Z" /><line x1="15" x2="9" y1="9" y2="15" /><line x1="9" x2="15" y1="9" y2="15" /></svg>
-                                            </div>
-                                            <div className="p-2 text-center text-[#656565] font-semibold font-family-sans" ><p>Erro nas dimensões da imagem!</p></div>
-                                            <div><button type="button" onClick={() => setModalImgErro(false)} className="bg-[#277FE3] transition  duration-300 hover:bg-[#2167B6] text-white font-family-sans rounded-md p-2 w-full">Ok</button></div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        }
+                        
+                        
+                        
+
 
 
                     </form>
