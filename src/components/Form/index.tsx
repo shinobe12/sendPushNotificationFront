@@ -4,8 +4,9 @@ import { Send, Trash2 } from 'lucide-react';
 import Sucesso from "../Sucesso";
 import moment from "moment"
 import axios from "axios"
-import { ImageInput } from "../Inputs";
+import { InputBanner } from "../Inputs";
 import { RichText } from "../RichText";
+import { InputHeader } from "../InputHeader";
 
 
 export function Form() {
@@ -90,11 +91,17 @@ export function Form() {
             resetInputs()
         }
     }
-    let c
-<ImageInput>
-    
-</ImageInput>
+
     let qtd = formObject.mensagem.length
+    
+    
+    function handleInputHeader(url:string){
+       // console.log(url)
+    }
+
+    function handleInputBanner(){
+        
+    }
 
     //console.log(datas)
     return (
@@ -311,13 +318,13 @@ export function Form() {
                                     <option value={"dicas"}>Dicas</option>
                                 </select>
                             </div>
-                            <ImageInput>
-                                
-                            </ImageInput>
+
+                            <InputHeader handleHeader={handleInputHeader}/>
+                            <InputBanner handleBanner={handleInputBanner}/>    
+                          
                         </div>
 
                         }
-
 
                         <label htmlFor="titulo" className={'text-slate-50 mt-3 dark:text-[#656565]'}>Título *</label>
                         <input required placeholder="Escreva um título" className="

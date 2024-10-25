@@ -3,6 +3,7 @@ import { EditorState, convertToRaw } from 'draft-js';
 import { Editor } from 'react-draft-wysiwyg';
 import draftToHtml from 'draftjs-to-html';
 import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
+import { setImmediate } from 'timers/promises';
 
 
 export class RichText extends Component {
@@ -25,16 +26,18 @@ export class RichText extends Component {
     
     return (
       <div>
-        <Editor
+        
+        <Editor 
           editorState={editorState}
           wrapperClassName="demo-wrapper mt-1"
           placeholder='Digite o texto aqui...'
-          editorClassName="demo-editor bg-white t-0 block w-full p-1 lg:p-3 text-sm
+          editorClassName="demo-editor bg-white t-0 block w-full p-2 text-sm
                                 rounded-md shadow-sm placeholder-[#8A8A8A] h-[100px] md:h-[150px] 
-                                focus:outline-none dark:ring-1 dark:ring-[#EEEEEE]"
+                                focus:outline-none dark:ring-1 dark:ring-[#EEEEEE] 
+                                min-h-[150px]" 
           onEditorStateChange={this.onEditorStateChange}
-          
         />
+        
         {/*<textarea
           className='opacity-0 h-1'
           disabled
