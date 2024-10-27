@@ -27,6 +27,8 @@ export function Form() {
 
     const [category, setCategory] = useState("-- Categoria --")
     const [selectCategory, setSelectCategory] = useState(false)
+    const  [imgHeader, setImgHeader] = useState("")
+    const  [imgBanner, setImgBanner] = useState("")
 
     const [formObject, setFormObject] = useState({
         id: "",
@@ -52,6 +54,13 @@ export function Form() {
         setFormObject({ ...formObject, app: "", id: "", titulo: "", subTitulo: "", mensagem: "" })
     }
 
+    function handleInputHeader(url:string){
+        setImgHeader(url)
+     }
+
+    function handleInputBanner(url:string){
+        setImgBanner(url)
+    }
     async function enviar(e: any, params: any) {
         e.preventDefault();
         //console.log(params)
@@ -76,7 +85,9 @@ export function Form() {
                 "title": formObject.titulo,
                 "channel": "default",
                 "subtitle": formObject.subTitulo,
-                "users": [formObject.id]
+                "users": [formObject.id],
+                "imgHeader": imgHeader,
+                "imgBanner": imgBanner,
             }
 
             try {
@@ -92,16 +103,10 @@ export function Form() {
         }
     }
 
-    let qtd = formObject.mensagem.length
+    let qtd = formObject.mensagem.length    
     
+    console.log('url: ',imgHeader)
     
-    function handleInputHeader(url:string){
-       // console.log(url)
-    }
-
-    function handleInputBanner(){
-        
-    }
 
     //console.log(datas)
     return (

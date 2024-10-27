@@ -18,6 +18,8 @@
     "date-fns": "^3.6.0",
     "draft-js": "^0.11.7",
     "draftjs-to-html": "^0.9.1",
+    "file-saver": "^2.0.5",
+    "filesaver.js-npm": "^1.0.1",
     "fira": "^1.0.0",
     "json-server": "^1.0.0-beta.2",
     "localforage": "^1.10.0",
@@ -44,6 +46,7 @@
   "devDependencies": {
     "@types/draft-js": "^0.11.18",
     "@types/draftjs-to-html": "^0.8.4",
+    "@types/file-saver": "^2.0.7",
     "@types/node": "^22.7.9",
     "@types/react": "^18.3.3",
     "@types/react-dom": "^18.3.0",
