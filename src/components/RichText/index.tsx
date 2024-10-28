@@ -6,27 +6,27 @@ import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
 import { setImmediate } from 'timers/promises';
 
 
-export class RichText extends Component {
+export function RichText ({ handleMessage }: { handleMessage: (text: string) => void }) {
     
-  state = {
+  const [state, setState] = useState({
     editorState: EditorState.createEmpty(),
-  } 
+  } )
 
-  onEditorStateChange = (editorState: any) => {
-    this.setState({
+  const onEditorStateChange = (editorState: any) => {
+    setState({
       editorState,
     });
   };
 
-  render() {
-    const { editorState } = this.state;
-    const conteudo = draftToHtml(convertToRaw(editorState.getCurrentContent()))
+    const { editorState } = state;
     
-    console.log(draftToHtml(convertToRaw(editorState.getCurrentContent()))) //conteudo em html
-    
+    const message = draftToHtml(convertToRaw(editorState.getCurrentContent()))
+    handleMessage(message)
+    //console.log(draftToHtml(convertToRaw(editorState.getCurrentContent()))) //conteudo em html
+
     return (
       <div>
-        
+       
         <Editor 
           editorState={editorState}
           wrapperClassName="demo-wrapper mt-1"
@@ -35,16 +35,17 @@ export class RichText extends Component {
                                 rounded-md shadow-sm placeholder-[#8A8A8A] h-[100px] md:h-[150px] 
                                 focus:outline-none dark:ring-1 dark:ring-[#EEEEEE] 
                                 min-h-[150px]" 
-          onEditorStateChange={this.onEditorStateChange}
+          onEditorStateChange={onEditorStateChange}
+          
         />
         
         {/*<textarea
           className='opacity-0 h-1'
           disabled
-          value={conteudo}
+          value={message}
           maxLength={255}
         />*/}
       </div>
     );
   }
-}
+

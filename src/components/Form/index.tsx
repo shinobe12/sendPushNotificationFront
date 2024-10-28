@@ -25,10 +25,11 @@ export function Form() {
 
     const [showImg, setShowImg] = useState(true)
 
-    const [category, setCategory] = useState("-- Categoria --")
+    const [category, setCategory] = useState("")
     const [selectCategory, setSelectCategory] = useState(false)
     const  [imgHeader, setImgHeader] = useState("")
     const  [imgBanner, setImgBanner] = useState("")
+    const [message, setMessage] = useState("")
 
     const [formObject, setFormObject] = useState({
         id: "",
@@ -58,23 +59,28 @@ export function Form() {
         setImgHeader(url)
      }
 
-    function handleInputBanner(url:string){
-        setImgBanner(url)
+    function handleInputBanner(urlBanner:string){
+        setImgBanner(urlBanner)
+    }
+    function handleMessageRichText(messageRichText:string){
+        setMessage(messageRichText)
     }
     async function enviar(e: any, params: any) {
         e.preventDefault();
         //console.log(params)
-        if (category === "-- Categoria --") {
-            setSelectCategory(true)
-            setSelectApp(false)
-            setConfirm(false)
-        }
+        
         if (formObject.app === "" || formObject.app === "-- Selecionar App * --") {
             setSelectCategory(false)
             setSelectApp(true)
             setConfirm(false)
 
-        } else {
+        }
+        if (category === "") {
+            setSelectCategory(true)
+            setSelectApp(false)
+            setConfirm(false)
+        }
+        else {
 
             setConfirm(false)
 
@@ -86,10 +92,12 @@ export function Form() {
                 "channel": "default",
                 "subtitle": formObject.subTitulo,
                 "users": [formObject.id],
+                "tags": category,
                 "imgHeader": imgHeader,
                 "imgBanner": imgBanner,
+                "body_richText": message,
             }
-
+            
             try {
                 //console.log(dados)
                 await axios.post("https://notify-push-caf7a453e1e5.herokuapp.com/api/v1/notification/push-token/publish", dados
@@ -102,11 +110,13 @@ export function Form() {
             resetInputs()
         }
     }
+   
 
+    //console.log(dados)
+    //console.log(message)
     let qtd = formObject.mensagem.length    
     
-    console.log('url: ',imgHeader)
-    
+    //console.log('url: ',imgHeader)
 
     //console.log(datas)
     return (
@@ -315,7 +325,7 @@ export function Form() {
                         {showImg && <div>
                             <div className="">
                                 <select required id="selected_app" className="mt-4 mb-4 md:mt-0 lg:mt-0 p-1 lg:p-3 w-full text-sm cursor-pointer
-                                rounded-md placeholder-slate-400 text-[#8A8A8A]
+                                rounded-md placeholder-slate-400 text-[#8A8A8A] 
                                 focus:outline-none dark:ring-1 dark:ring-[#EEEEEE]" value={category} onChange={e => setCategory(e.target.value)}>
                                     <option >-- Categoria --</option>
                                     <option value={"novo_recurso"}>Novo Recurso</option>
@@ -366,9 +376,7 @@ export function Form() {
                         </Slate>*/}
                         <label htmlFor="mensagem" className="text-slate-50 dark:text-[#656565] ">Mensagem *</label>
                         {showImg && 
-                        <RichText>
-                            
-                        </RichText>}
+                        <RichText handleMessage={handleMessageRichText} />}
 
                         {mostrar && <div>
                             
