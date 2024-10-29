@@ -35,7 +35,7 @@ export function Login() {
                     }
                 }
             )*/
-                    if(password === "2024" && email ==="pagaso.dev@divTecnologia.com"){
+                    if(password === "2024" && email ==="pagaso.dev@TivTecnologia.com"){
                         sessionStorage.setItem('email', email)
                         navigate("/notification")
                         

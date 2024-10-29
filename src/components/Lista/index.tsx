@@ -43,7 +43,7 @@ export function Lista() {
   return (
     <main className='min-h-screen bg-zinc-950 dark:bg-[#fff] flex justify-center'>
       <div className="w-[min(80%,58rem)] animate-fade mt-20 h-min(100%, 40rem) md:w-[70%] lg:w-[45%] lg:mt-[6%]">
-        <div className=' md:mt-0 p-8 bg-[#272729] dark:bg-[#fff] rounded-lg text-white text-center '>
+        <div className=' md:mt-0 p-8 bg-[#272729] dark:bg-[#fff] dark:shadow-lg dark:ring-1 ring-zinc-300 rounded-lg text-white text-center '>
           <div className="flex justify-end items-center ">
             <p className="dark:text-zinc-700 mt-2 mr-2 md:mr-0 md:mt-0">Filtrar</p>
             <select required id="filtro" className="mt-4 md:mt-0 lg:mt-0 p-1 lg:p-1 lg:ml-3  text-sm cursor-pointer

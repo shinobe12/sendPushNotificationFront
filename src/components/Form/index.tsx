@@ -1,3 +1,4 @@
+import 'draft-js/dist/Draft.css';
 import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
 import { Fragment, useState, createContext, useEffect } from "react"
 import { Send, Trash2 } from 'lucide-react';
@@ -55,16 +56,20 @@ export function Form() {
         setFormObject({ ...formObject, app: "", id: "", titulo: "", subTitulo: "", mensagem: "" })
     }
 
-    function handleInputHeader(url:string){
+    const handleInputHeader=(url:string)=>{
         setImgHeader(url)
+        
      }
-
-    function handleInputBanner(urlBanner:string){
+    
+    const handleInputBanner = (urlBanner:string)=>{
         setImgBanner(urlBanner)
+        
     }
+    
     function handleMessageRichText(messageRichText:string){
         setMessage(messageRichText)
     }
+    
     async function enviar(e: any, params: any) {
         e.preventDefault();
         //console.log(params)
@@ -376,7 +381,7 @@ export function Form() {
                         </Slate>*/}
                         <label htmlFor="mensagem" className="text-slate-50 dark:text-[#656565] ">Mensagem *</label>
                         {showImg && 
-                        <RichText handleMessage={handleMessageRichText} />}
+                        <RichText />}
 
                         {mostrar && <div>
                             
