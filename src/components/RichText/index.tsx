@@ -1,10 +1,24 @@
-import React, {  useEffect, useState } from 'react';
+import React from 'react';
+import ReactDOM from 'react-dom';
+import {Editor, EditorState} from 'draft-js';
+
+
+export function RichText() {
+  const [editorState, setEditorState] = React.useState(
+    () => EditorState.createEmpty(),
+  );
+
+  return <Editor editorState={editorState} onChange={setEditorState} />;
+}
+
+
+//import React, {  useEffect, useState } from 'react';
 
 //import { Editor } from 'react-draft-wysiwyg';
 //import draftToHtml from 'draftjs-to-html';
 
-import {Editor, EditorState} from 'draft-js';
-
+//import {Editor, EditorState} from 'draft-js';
+/*
 export const RichText = () => {
   const [editorState, setEditorState] = useState(() =>
     EditorState.createEmpty(),
@@ -18,7 +32,7 @@ export const RichText = () => {
     }
   }} />;
 };
-/*
+
 export function RichText ({ handleMessage }: { handleMessage: (text: string) => void }) {
     
   const [editorState,setEditorState] = useState(()=> EditorState.createEmpty())

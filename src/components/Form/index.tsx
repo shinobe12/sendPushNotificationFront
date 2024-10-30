@@ -1,13 +1,14 @@
 import 'draft-js/dist/Draft.css';
-import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
+//import 'draft-js/dist/Draft.css';
+//import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
 import { Fragment, useState, createContext, useEffect } from "react"
 import { Send, Trash2 } from 'lucide-react';
 import Sucesso from "../Sucesso";
 import moment from "moment"
 import axios from "axios"
 import { InputBanner } from "../Inputs";
-import { RichText } from "../RichText";
 import { InputHeader } from "../InputHeader";
+import { RichText } from '../RichText';
 
 
 export function Form() {
