@@ -1,16 +1,21 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import ReactDOM from 'react-dom';
-import {Editor, EditorState} from 'draft-js';
+import {convertToRaw, Editor, EditorState} from 'draft-js';
+import draftToHtml from 'draftjs-to-html';
 
 
-export function RichText() {
+export function RichText({ handleMessage }: { handleMessage: (text: string) => void }) {
   const [editorState, setEditorState] = React.useState(
     () => EditorState.createEmpty(),
   );
-
+  
+  useEffect(()=>{
+    const message = draftToHtml(convertToRaw(editorState?.getCurrentContent()))
+    handleMessage(message)
+  }, [editorState])
+  
   return <Editor editorState={editorState} onChange={setEditorState} />;
 }
-
 
 //import React, {  useEffect, useState } from 'react';
 

@@ -69,6 +69,7 @@ export function Form() {
     
     function handleMessageRichText(messageRichText:string){
         setMessage(messageRichText)
+        console.log(message)
     }
     
     async function enviar(e: any, params: any) {
@@ -98,6 +99,7 @@ export function Form() {
                 "channel": "default",
                 "subtitle": formObject.subTitulo,
                 "users": [formObject.id],
+
                 "tags": category,
                 "imgHeader": imgHeader,
                 "imgBanner": imgBanner,
@@ -382,7 +384,7 @@ export function Form() {
                         </Slate>*/}
                         <label htmlFor="mensagem" className="text-slate-50 dark:text-[#656565] ">Mensagem *</label>
                         {showImg && 
-                        <RichText />}
+                        <RichText handleMessage={handleMessageRichText}/>}
 
                         {mostrar && <div>
                             

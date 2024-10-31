@@ -18,6 +18,7 @@
     "code": "^5.2.4",
     "date-fns": "^3.6.0",
     "draft-js": "^0.11.7",
+    "draftjs-to-html": "^0.9.1",
     "file-saver": "^2.0.5",
     "filesaver.js-npm": "^1.0.1",
     "fira": "^1.0.0",

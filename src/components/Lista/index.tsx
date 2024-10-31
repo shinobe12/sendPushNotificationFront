@@ -39,7 +39,7 @@ export function Lista() {
   useEffect(() => {
     fetchNotifications()
   }, [filtro]);
-
+  
   return (
     <main className='min-h-screen bg-zinc-950 dark:bg-[#fff] flex justify-center'>
       <div className="w-[min(80%,58rem)] animate-fade mt-20 h-min(100%, 40rem) md:w-[70%] lg:w-[45%] lg:mt-[6%]">
