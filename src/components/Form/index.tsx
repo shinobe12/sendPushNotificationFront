@@ -1,6 +1,5 @@
-import 'draft-js/dist/Draft.css';
 //import 'draft-js/dist/Draft.css';
-//import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
+import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
 import { Fragment, useState, createContext, useEffect } from "react"
 import { Send, Trash2 } from 'lucide-react';
 import Sucesso from "../Sucesso";
@@ -69,7 +68,7 @@ export function Form() {
     
     function handleMessageRichText(messageRichText:string){
         setMessage(messageRichText)
-        console.log(message)
+        //console.log(message)
     }
     
     async function enviar(e: any, params: any) {
@@ -105,6 +104,13 @@ export function Form() {
                 "imgBanner": imgBanner,
                 "body_richText": message,
             }
+            console.log(dados)
+            /*const data = {
+                "tags": category,
+                "imgHeader": imgHeader,
+                "imgBanner": imgBanner,
+                "body_richText": message,
+            }*/
             
             try {
                 //console.log(dados)

@@ -7,7 +7,12 @@
     <title>Notification</title>
   </head>
   <body>
-    <div id="root"></div>
+    <div id="root" class="text-zinc-600 ">
+      Carregando... 
+    </div>
     <script type="module" src="/src/main.jsx"></script>
+    
+    <!--script para resolver o problema do setImmadiate não existir-->
+    <script>const global = globalThis</script>
   </body>
 </html>
