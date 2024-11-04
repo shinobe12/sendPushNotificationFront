@@ -63,6 +63,7 @@ export function Form() {
     
     const handleInputBanner = (urlBanner:string)=>{
         setImgBanner(urlBanner)
+        console.log(urlBanner)
         
     }
     
@@ -98,7 +99,6 @@ export function Form() {
                 "channel": "default",
                 "subtitle": formObject.subTitulo,
                 "users": [formObject.id],
-
                 "tags": category,
                 "imgHeader": imgHeader,
                 "imgBanner": imgBanner,
@@ -403,7 +403,7 @@ export function Form() {
 
                         </div>}
 
-                        <div className="flex justify-between mt-[5%] ">
+                        <div className="flex justify-between mt-[5%]">
                             <button type="button" id="_enviar" onClick={() => setConfirm(true)} className="
                         flex justify-center lg:p-1
                         rounded-md ring-1 ring-[#277FE3] font-semibold text-[#277FE3] hover:text-[#fff] hover:bg-[#277FE3]

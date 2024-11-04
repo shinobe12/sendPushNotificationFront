@@ -19,6 +19,7 @@ export function InputBanner({ handleBanner }: { handleBanner: (bannerUrl: string
     const [loading, setLoading] = useState(false)
     const [linkImg, setLinkImage] = useState("")
     const [SucessImg, setSucessImg] = useState(false)
+    const [showImgBanner, setShowImgBanner] = useState(false)
 
 
     //banner
@@ -153,7 +154,11 @@ export function InputBanner({ handleBanner }: { handleBanner: (bannerUrl: string
                 </div>}
             </div>
             <p className=" text-sm text-white dark:text-zinc-700 mb-2">Tamanho máximo: 2MB</p>
-            {statusBanner === true ? <img src={imgBanner} width={50} className="mb-4 rounded-md" /> : ""}
+            {statusBanner === true ? 
+            <button type="button" onClick={()=>setShowImgBanner(true)}>
+                <img src={imgBanner} width={50} className="mb-4 rounded-md" />
+            </button>
+             : ""}
 
             {modalImg &&
                 <div className="">
@@ -197,6 +202,19 @@ export function InputBanner({ handleBanner }: { handleBanner: (bannerUrl: string
                                 <div><button type="button" onClick={() => setErroFormato(false)} className="bg-[#277FE3] transition  duration-300 hover:bg-[#2167B6] text-white font-family-sans rounded-md p-2 w-full">Ok</button></div>
                             </div>
                         </div>
+                    </div>
+                </div>
+            }
+             {showImgBanner &&
+                <div className="">
+                    <div className="fixed inset-0 dark:bg-zinc-700 dark:bg-opacity-40 bg-black bg-opacity-50 flex justify-center items-center animate-fade">
+                        <div className="flex justify-between space-x-2 w-[50%] md:w-[40%]">
+                            <img src={imgBanner} className="rounded-md mt-6"/>
+                            <button type="button" onClick={() => setShowImgBanner(false)} className="text-white h-[30%] transition  duration-350 hover:text-zinc-400">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="lucide lucide-x"><path d="M18 6 6 18" /><path d="m6 6 12 12" /></svg>
+                            </button>
+                        </div>
+                        
                     </div>
                 </div>
             }

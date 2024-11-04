@@ -20,6 +20,7 @@ export function InputHeader({ handleHeader }: { handleHeader: (headerUrl: string
     const [download, setDownload] = useState(false)
     const [loading, setLoading] = useState(false)
     const [SucessImg, setSucessImg] = useState(false)
+    const [showImgHeader, setShowImgHeader] = useState(false)
 
 
     //header
@@ -66,7 +67,7 @@ export function InputHeader({ handleHeader }: { handleHeader: (headerUrl: string
             setLoading(true)
             setState(true)
             const { data, status } = await axios.post("https://base64api-f2b5a4f63a56.herokuapp.com/api/v1/decodefile", { name: `pagaso-${Date.now()}`, file: linkImg })
-            
+
             status === 200 && (
                 handleHeader(data),
                 setUpload(false),
@@ -158,9 +159,14 @@ export function InputHeader({ handleHeader }: { handleHeader: (headerUrl: string
 
             </div>
 
-            <p className=" text-sm text-white dark:text-zinc-700 mb-2">Tamanho máximo: 1MB</p>
+            <p className="text-sm text-white dark:text-zinc-700 mb-2">Tamanho máximo: 1MB</p>
 
-            {statusHeader === true ? <img src={imgHeader} width={50} className="mb-4 rounded-md" /> : ""}
+            {statusHeader === true ?
+                <button type="button" onClick={() => setShowImgHeader(true)}>
+                    <img src={imgHeader} width={50} className="mb-4 rounded-md" />
+                </button>
+
+                : ""}
 
             {modalImg &&
                 <div className="">
@@ -204,6 +210,20 @@ export function InputHeader({ handleHeader }: { handleHeader: (headerUrl: string
                                 <div><button type="button" onClick={() => setErroFormato(false)} className="bg-[#277FE3] transition  duration-300 hover:bg-[#2167B6] text-white font-family-sans rounded-md p-2 w-full">Ok</button></div>
                             </div>
                         </div>
+                    </div>
+                </div>
+            }
+
+            {showImgHeader &&
+                <div className="">
+                    <div className="fixed inset-0 dark:bg-zinc-700 dark:bg-opacity-40 bg-black bg-opacity-50 flex justify-center items-center animate-fade">
+                        <div className="flex justify-between space-x-2 w-[50%] md:w-[40%]">
+                            <img src={imgHeader} className="rounded-md mt-6"/>
+                            <button type="button" onClick={() => setShowImgHeader(false)} className="text-white h-[30%] transition  duration-350 hover:text-zinc-400">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="lucide lucide-x"><path d="M18 6 6 18" /><path d="m6 6 12 12" /></svg>
+                            </button>
+                        </div>
+                        
                     </div>
                 </div>
             }

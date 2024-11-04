@@ -24,7 +24,7 @@ export function RichText({ handleMessage }: { handleMessage: (text: string) => v
     <div>
       <Editor
         editorState={editorState}
-        wrapperClassName=" mt-1"
+        wrapperClassName="mt-1"
         placeholder='Digite o texto aqui...'
         editorClassName="demo-editor bg-white t-0 block w-full p-2 text-sm
                               rounded-md shadow-sm placeholder-[#8A8A8A] h-[100px] md:h-[150px] 
