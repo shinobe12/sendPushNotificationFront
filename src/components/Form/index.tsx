@@ -52,12 +52,14 @@ export function Form() {
     }
 */
     //console.log(imgHeader)
+    
     const resetInputs = () => {
         setFormObject({ ...formObject, app: "", id: "", titulo: "", subTitulo: "", mensagem: "" })
     }
 
     const handleInputHeader=(url:string)=>{
         setImgHeader(url)
+        console.log(url)
         
      }
     
@@ -91,6 +93,13 @@ export function Form() {
 
             setConfirm(false)
 
+            const data = {
+                "tags": category,
+                "imgHeader": imgHeader,
+                "imgBanner": imgBanner,
+                "body_richText": message,
+            }
+            
             const dados = {
                 "app_name": formObject.app,
                 "send_to_everyone": send_to_everyone,
@@ -99,18 +108,10 @@ export function Form() {
                 "channel": "default",
                 "subtitle": formObject.subTitulo,
                 "users": [formObject.id],
-                "tags": category,
-                "imgHeader": imgHeader,
-                "imgBanner": imgBanner,
-                "body_richText": message,
+                "data": data
             }
             console.log(dados)
-            /*const data = {
-                "tags": category,
-                "imgHeader": imgHeader,
-                "imgBanner": imgBanner,
-                "body_richText": message,
-            }*/
+            
             
             try {
                 //console.log(dados)
@@ -129,7 +130,7 @@ export function Form() {
     //console.log(dados)
     //console.log(message)
     let qtd = formObject.mensagem.length    
-    
+    console.log(category)
     //console.log('url: ',imgHeader)
 
     //console.log(datas)
