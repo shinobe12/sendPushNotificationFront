@@ -69,7 +69,7 @@ export function InputHeader({ handleHeader }: { handleHeader: (headerUrl: string
             const { data, status } = await axios.post("https://base64api-f2b5a4f63a56.herokuapp.com/api/v1/decodefile", { name: `pagaso-${Date.now()}`, file: linkImg })
 
             status === 200 && (
-                handleHeader(data),
+                handleHeader(data?.file_url),
                 setUpload(false),
                 setDownload(true)
             )

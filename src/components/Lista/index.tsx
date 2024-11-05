@@ -31,7 +31,8 @@ export function Lista() {
   } = usePagination(notify!, 3);
 
   const fetchNotifications = () => {
-    fetch(`https://notify-push-caf7a453e1e5.herokuapp.com/api/v1/notification/push-token/messages?app=${filtro}`)
+    //https://notify-push-caf7a453e1e5.herokuapp.com/api/v1/notification/push-token/messages?app=
+   fetch(`https://notify-push-caf7a453e1e5.herokuapp.com/api/v1/notification/push-token/messages?app=${filtro}`)
       .then((response) => response.json())
       .then((data) => setNotify(data.messages));
   }
@@ -64,7 +65,7 @@ export function Lista() {
 
           </div> :
             getItemsPage().reverse().map(item =>
-              <div className="p-1 md:p-4 rounded-md ring-1 mt-10 ring-[#D4D4D4]" key={item.notification_id}>
+              <div className="p-1 md:p-4 rounded-md ring-1 mt-10 ring-[#D4D4D4]" key={item?.notification_id}>
                 <div className="md:flex justify-between p-2 text-sm md:text-md">
                   <div className="dark:text-zinc-900 flex items-center h-12">
                     {filtro === "com.pagaso.pagaso" && <svg width="44" height="44" className="w-10" viewBox="0 0 44 44" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -89,15 +90,15 @@ export function Lista() {
                         <path d="M31.4526 22.4354C31.4526 22.4354 31.4535 22.4354 31.4544 22.4354C31.5108 20.1562 31.0443 18.4355 30.6642 17.384C29.8533 15.1404 28.9842 14.6896 28.6087 14.5425C28.1986 14.3813 27.8166 14.3616 27.5472 14.3728C27.597 14.5818 27.6505 14.7899 27.7096 14.9961C27.8522 15.4712 27.9949 15.9511 28.1348 16.4365C28.2999 17.0063 28.4595 17.5705 28.6134 18.1309C28.7045 18.5602 28.7054 18.9969 28.4501 19.278C28.4295 19.3015 28.4051 19.3202 28.3825 19.3399C28.3037 19.2705 28.222 19.1984 28.1338 19.1197C27.7124 18.7514 27.291 18.383 26.8686 18.0147C26.4022 17.5677 25.7959 17.3728 25.2881 17.5415C25.1999 17.5705 24.8648 17.6848 24.6555 18.0147C24.4612 18.3221 24.4847 18.638 24.4978 18.8038C24.5298 19.2293 24.6949 19.5489 24.9718 19.9088C25.1042 20.0803 25.3041 20.3408 25.5472 20.6604C25.8334 21.0353 26.0314 21.2808 26.0803 21.3623C26.4942 22.0521 26.7016 22.8656 26.7016 23.8028C26.7016 25.4531 26.1469 26.8355 25.0375 27.9517C23.9281 29.0678 22.5794 29.6255 20.9914 29.6255C19.744 29.6255 18.7313 29.2168 17.9542 28.4006C17.1761 27.5833 16.7876 26.5365 16.7876 25.2582C16.7876 24.7896 16.8345 24.3435 16.9246 23.918C16.3915 23.7737 15.865 23.6088 15.3478 23.4223C14.7772 23.217 14.2244 22.9902 13.7044 22.7494C13.3346 22.5779 12.9667 22.3942 12.6054 22.2002C12.2018 23.3004 12 24.4888 12 25.7671C12 28.1128 12.7696 30.0294 14.3089 31.5176C15.8481 33.0059 17.8726 33.75 20.3841 33.75C23.4786 33.75 26.1028 32.7472 28.2577 30.7407C30.4126 28.7351 31.4892 26.2516 31.4892 23.292C31.4892 22.9987 31.476 22.7128 31.4526 22.4335V22.4354Z" fill="#FEFBFF" />
                       </svg></div>
                     }
-                    <p className="font-light ml-1 text-lg md:text-xl">{filtros[item.app_name]}</p>
+                    <p className="font-light ml-1 text-lg md:text-xl">{filtros[item?.app_name]}</p>
                   </div>
-                  <div className="text-bold flex justify-start items-center dark:text-zinc-900 h-12 w-[90%] md:w-[35%] lg:w-[40%] md:justify-end mr-[42%] sm:mr-[75%] md:mr-[0%]">Data: <p className="font-light ml-1">{moment(new Date(item.updated_at)).format("DD/MM/yyy, HH:mm:ss")}</p></div>
+                  <div className="text-bold flex justify-start items-center dark:text-zinc-900 h-12 w-[90%] md:w-[35%] lg:w-[40%] md:justify-end mr-[42%] sm:mr-[75%] md:mr-[0%]">Data: <p className="font-light ml-1">{moment(new Date(item?.updated_at)).format("DD/MM/yyy, HH:mm:ss")}</p></div>
                 </div>
                 <div className="text-justify mt-3 bg-[#454545] dark:bg-[#E8F2FF] rounded-md p-3">
-                  <h2 className="text-start dark:text-zinc-900 md:flex">Titulo da Mensagem: <p className="font-light ml-1">{item.title}</p></h2>
+                  <h2 className="text-start dark:text-zinc-900 md:flex">Titulo da Mensagem: <p className="font-light ml-1">{item?.title}</p></h2>
                   <hr className="md:hidden " />
                   <p className="font-light dark:text-zinc-900 text-sm">
-                    {item.body}
+                    {item?.body !== "" ? item.body:item?.message}
                   </p>
                 </div>
               </div>

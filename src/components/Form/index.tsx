@@ -71,7 +71,7 @@ export function Form() {
     
     function handleMessageRichText(messageRichText:string){
         setMessage(messageRichText)
-        //console.log(message)
+        console.log(message)
     }
     
     async function enviar(e: any, params: any) {
@@ -92,40 +92,37 @@ export function Form() {
         else {
 
             setConfirm(false)
-
-            const data = {
-                "tags": category,
-                "imgHeader": imgHeader,
-                "imgBanner": imgBanner,
-                "body_richText": message,
-            }
             
             const dados = {
                 "app_name": formObject.app,
                 "send_to_everyone": send_to_everyone,
-                "body": formObject.mensagem,
+                "body": !!formObject.mensagem ? formObject.mensagem : formObject.titulo,
                 "title": formObject.titulo,
                 "channel": "default",
                 "subtitle": formObject.subTitulo,
                 "users": [formObject.id],
-                "data": data
+                "data": {
+                    "tags" : category,
+                    "header_url" : imgHeader,
+                    "banner_url" : imgBanner,
+                    "description" : message,
+                }
             }
-            console.log(dados)
+         
             
-            
+            //https://notify-push-caf7a453e1e5.herokuapp.com/api/v1/notification/push-token/publish
             try {
-                //console.log(dados)
-                await axios.post("https://notify-push-caf7a453e1e5.herokuapp.com/api/v1/notification/push-token/publish", dados
+                console.log(dados)
+                await axios.post("http://notify-push-caf7a453e1e5.herokuapp.com/api/v1/notification/push-token/publish", dados
                 )
                 setIsSucess(true)
             } catch (error: any) {
-                console.log(error?.response?.data)
+                console.log(error?.response)
             }
 
-            resetInputs()
+            //resetInputs()
         }
     }
-   
 
     //console.log(dados)
     //console.log(message)
