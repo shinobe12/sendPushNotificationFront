@@ -123,7 +123,7 @@ export function Form() {
             //resetInputs()
         }
     }
-
+   
     //console.log(dados)
     //console.log(message)
     let qtd = formObject.mensagem.length    
@@ -340,9 +340,10 @@ export function Form() {
                                 rounded-md placeholder-slate-400 text-[#8A8A8A] 
                                 focus:outline-none dark:ring-1 dark:ring-[#EEEEEE]" value={category} onChange={e => setCategory(e.target.value)}>
                                     <option >-- Categoria --</option>
-                                    <option value={"novo_recurso"}>Novo Recurso</option>
-                                    <option value={"aviso"}>Aviso</option>
-                                    <option value={"dicas"}>Dicas</option>
+                                    <option value={"IMPORTANT"}>Importante</option>
+                                    <option value={"TIPS"}>Dicas</option>
+                                    <option value={"INFO"}>Aviso</option>
+                                    <option value={"NEW FEACTURE"}>Nova funcionalidade</option>
                                 </select>
                             </div>
 
@@ -388,7 +389,9 @@ export function Form() {
                         </Slate>*/}
                         <label htmlFor="mensagem" className="text-slate-50 dark:text-[#656565] ">Mensagem *</label>
                         {showImg && 
-                        <RichText handleMessage={handleMessageRichText}/>}
+                        <div className="-z-50">
+                            <RichText handleMessage={handleMessageRichText} />
+                        </div>}
 
                         {mostrar && <div>
                             
@@ -414,7 +417,7 @@ export function Form() {
                                 <div className="flex justify-center p-2 rounded-md text-[#FF6D6D] hover:text-[#fff] dark:hover:text-[#fff] dark:text-[#FF6D6D]"><Trash2 size={20} /><p>Limpar</p></div>
                             </button>
                         </div>
-                        {confirm && <div><div className="fixed inset-0 dark:bg-zinc-700 dark:bg-opacity-40 bg-black bg-opacity-50"></div>
+                        {confirm && <div><div className="fixed inset-0 dark:bg-zinc-700 dark:bg-opacity-40 bg-black bg-opacity-50 z-100"></div>
                             <div className="fixed inset-0 flex justify-center items-center  animate-fade">
                                 <div className="bg-[#fff] p-3 mt-10 rounded-md flex w-[200px] justify-center">
                                     <div className="">

@@ -21,12 +21,12 @@ export function RichText({ handleMessage }: { handleMessage: (text: string) => v
   }, [editorState])
 
   return (
-    <div>
+    <div className='-z-50'>
       <Editor
         editorState={editorState}
-        wrapperClassName="mt-1"
+        wrapperClassName="mt-1 z-10"
         placeholder='Digite o texto aqui...'
-        editorClassName="demo-editor bg-white t-0 block w-full p-2 text-sm
+        editorClassName="demo-editor bg-white t-0 block w-full p-2 text-sm -z-50
                               rounded-md shadow-sm placeholder-[#8A8A8A] h-[100px] md:h-[150px] 
                              focus:outline-none dark:ring-1 dark:ring-[#EEEEEE] 
                               min-h-[150px]"
