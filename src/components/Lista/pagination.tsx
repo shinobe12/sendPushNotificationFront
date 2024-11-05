@@ -2,6 +2,7 @@ import { useState } from "react";
 
 export const usePagination = (data: Array<any>, itensPerPage: number) => {
   const [actualPage, setActualPage] = useState(1);
+
   const totalPages = Math.ceil(data.length / itensPerPage);
 
   const handleBackPage = () => {
@@ -15,7 +16,7 @@ export const usePagination = (data: Array<any>, itensPerPage: number) => {
   const getItemsPage = () => {
     const firstIndex = (actualPage - 1) * itensPerPage;
     const lastIndex = actualPage * itensPerPage;
-    
+
     /* console.log(data) */
     return data.slice(firstIndex, lastIndex);
   };

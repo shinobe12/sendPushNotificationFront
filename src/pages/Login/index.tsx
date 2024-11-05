@@ -35,7 +35,7 @@ export function Login() {
                     }
                 }
             )*/
-                    if(password === "2024" && email ==="pagaso.dev@divTecnologia.com"){
+                    if(password === "2024" && email ==="pagaso.dev@TivTecnologia.com"){
                         sessionStorage.setItem('email', email)
                         navigate("/notification")
                         
@@ -45,7 +45,7 @@ export function Login() {
                 }
                  
             }
-            
+
     const validate = () => {
       
         if (email === "" || email === null || password === "" || password === null) {
@@ -103,10 +103,11 @@ export function Login() {
                                 rounded-md dark:ring-1 ring-[#EEE] placeholder-[#838383]
                                 focus:outline-none p-2 text-sm
                                  "
-                                autoComplete="email" type="email" id="email" value={email} onChange={e => setEmail(e.target.value)} />
+                                 type="text" id="email" value={email} onChange={e => setEmail(e.target.value)} />
                             <br />
                             <div>
                                 <label htmlFor="senha" className="text-slate-50 dark:text-[#656565]" >Senha</label>
+                                
                                 <div className="flex justify-between bg-[#fff] rounded-md dark:ring-1 ring-[#eee] ">
                                     <input type={isShow ? "text" : "password"} id="senha" name="senha" placeholder='Introduza sua senha...' className="
                                      block w-50 p-2 text-sm

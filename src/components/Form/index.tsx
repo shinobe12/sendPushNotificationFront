@@ -1,8 +1,13 @@
-import { Fragment, useState, createContext } from "react"
+//import 'draft-js/dist/Draft.css';
+import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
+import { Fragment, useState, createContext, useEffect } from "react"
 import { Send, Trash2 } from 'lucide-react';
 import Sucesso from "../Sucesso";
 import moment from "moment"
 import axios from "axios"
+import { InputBanner } from "../Inputs";
+import { InputHeader } from "../InputHeader";
+import { RichText } from '../RichText';
 
 
 export function Form() {
@@ -19,6 +24,14 @@ export function Form() {
 
     const [send_to_everyone, setSend_to_everyone] = useState(true)
 
+    const [showImg, setShowImg] = useState(true)
+
+    const [category, setCategory] = useState("")
+    const [selectCategory, setSelectCategory] = useState(false)
+    const  [imgHeader, setImgHeader] = useState("")
+    const  [imgBanner, setImgBanner] = useState("")
+    const [message, setMessage] = useState("")
+
     const [formObject, setFormObject] = useState({
         id: "",
         select: "Todos utilizadores",
@@ -27,56 +40,102 @@ export function Form() {
         subTitulo: "",
         mensagem: "",
         date: moment().format("dd/MM/yy")
-        
-    })
 
+    })
+   
+    //header
+/*
+    const datas = {
+        imageHeader: imgHeader,
+        imageBanner: imgBanner,
+        tags: [category]
+    }
+*/
+    //console.log(imgHeader)
+    
     const resetInputs = () => {
         setFormObject({ ...formObject, app: "", id: "", titulo: "", subTitulo: "", mensagem: "" })
     }
 
+    const handleInputHeader=(url:string)=>{
+        setImgHeader(url)
+        console.log(url)
+        
+     }
+    
+    const handleInputBanner = (urlBanner:string)=>{
+        setImgBanner(urlBanner)
+        console.log(urlBanner)
+        
+    }
+    
+    function handleMessageRichText(messageRichText:string){
+        setMessage(messageRichText)
+        console.log(message)
+    }
+    
     async function enviar(e: any, params: any) {
         e.preventDefault();
         //console.log(params)
         
         if (formObject.app === "" || formObject.app === "-- Selecionar App * --") {
-
+            setSelectCategory(false)
             setSelectApp(true)
             setConfirm(false)
 
-        } else {
-            
+        }
+        if (category === "") {
+            setSelectCategory(true)
+            setSelectApp(false)
             setConfirm(false)
+        }
+        else {
 
-            const dados={
+            setConfirm(false)
+            
+            const dados = {
                 "app_name": formObject.app,
                 "send_to_everyone": send_to_everyone,
-                "body": formObject.mensagem,
+                "body": !!formObject.mensagem ? formObject.mensagem : formObject.titulo,
                 "title": formObject.titulo,
-                "channel": "preview",
+                "channel": "default",
                 "subtitle": formObject.subTitulo,
-                "users": [formObject.id]
+                "users": [formObject.id],
+                "data": {
+                    "tags" : category,
+                    "header_url" : imgHeader,
+                    "banner_url" : imgBanner,
+                    "description" : message,
+                }
             }
+         
             
+            //https://notify-push-caf7a453e1e5.herokuapp.com/api/v1/notification/push-token/publish
             try {
                 console.log(dados)
-                await axios.post ("https://notify-push-caf7a453e1e5.herokuapp.com/api/v1/notification/push-token/publish", dados                  
+                await axios.post("http://notify-push-caf7a453e1e5.herokuapp.com/api/v1/notification/push-token/publish", dados
                 )
-                    setIsSucess(true) 
-            } catch (error:any) {
-                console.log(error?.response?.data)
+                setIsSucess(true)
+            } catch (error: any) {
+                console.log(error?.response)
             }
 
-            /*resetInputs()*/
+            //resetInputs()
         }
     }
 
-    let qtd = formObject.mensagem.length
+    //console.log(dados)
+    //console.log(message)
+    let qtd = formObject.mensagem.length    
+    console.log(category)
+    //console.log('url: ',imgHeader)
 
+    //console.log(datas)
     return (
         <Fragment>
             <Sucesso isVisible={isSucess} onClose={() => setIsSucess(false)} />
-            <div className="flex justify-center md:mt-[10%] lg:mt-[7%]">
-                <div className="shadow-inner rounded-lg w-[300px] mt-20 animate-fade md:w-[400px] md:mt-10 lg:mt-0 lg:w-[500px]  dark:ring-1 dark:ring-[#EEEEEE] bg-zinc-800 dark:bg-[#fff]">
+            <div className="flex justify-center items-center md:mt-[10%] lg:mt-[7%]">
+                <div className="shadow-inner rounded-lg w-[300px] mt-20 animate-fade md:w-[400px] md:mt-10 lg:mt-0 lg:w-[700px]  dark:ring-1 dark:ring-[#EEEEEE] bg-zinc-800 dark:bg-[#fff]">
                     <div className="flex justify-center md:mt-2 lg:mt-4">
                         <div className="p-1 mt-3 w-[60px] h-[60px] lg:p-2 lg:mt-4 lg:w-[90px] lg:h-[90px] lg:flex lg:justify-center rounded-full ring-1 ring-[#3D3D3D] dark:rounded-full dark:ring-1 dark:ring-[#EEEEEE] ">
                             <svg width="60" height="60" viewBox="0 0 60 60" fill="none" className="animate-bounce mt-1 ml-0.5 w-[50px] h-[50px] lg:w-[80px] p-1 lg:h-[80px]" xmlns="http://www.w3.org/2000/svg">
@@ -237,14 +296,15 @@ export function Form() {
                                         if (e.currentTarget.options.selectedIndex === 1) {
                                             setMostrar(true)
                                             setSend_to_everyone(false)
-                                            
+                                            setShowImg(false)
                                         }
                                         else {
                                             setFormObject({ ...formObject, select: "" })
-                                            setMostrar(false);
+                                            setMostrar(false)
                                             setSend_to_everyone(true)
+                                            setShowImg(true)
                                         }
-                                        
+
                                         setFormObject({ ...formObject, select: e.target.value })
                                     }
                                 }>
@@ -254,10 +314,9 @@ export function Form() {
                             </select>
                             <select required id="selected_app" className="mt-4 md:mt-0 lg:mt-0 p-1 lg:p-2 lg:ml-3 w-full text-sm cursor-pointer
                                 rounded-md placeholder-slate-400 text-[#8A8A8A]
-                                focus:outline-none dark:ring-1 dark:ring-[#EEEEEE]" value={formObject.app} onChange={ e =>
-                                    {
-                                        console.log(e.target.value)
-                                        setFormObject({ ...formObject, app: e.target.value })}
+                                focus:outline-none dark:ring-1 dark:ring-[#EEEEEE]" value={formObject.app} onChange={e => {
+                                    setFormObject({ ...formObject, app: e.target.value })
+                                }
                                 }>
                                 <option >-- Selecionar App * --</option>
                                 <option value={"com.pagaso.somoney"}>Só Money</option>
@@ -275,6 +334,24 @@ export function Form() {
                                     } /><br />
                             </div>
                         }
+                        {showImg && <div>
+                            <div className="">
+                                <select required id="selected_app" className="mt-4 mb-4 md:mt-0 lg:mt-0 p-1 lg:p-3 w-full text-sm cursor-pointer
+                                rounded-md placeholder-slate-400 text-[#8A8A8A] 
+                                focus:outline-none dark:ring-1 dark:ring-[#EEEEEE]" value={category} onChange={e => setCategory(e.target.value)}>
+                                    <option >-- Categoria --</option>
+                                    <option value={"novo_recurso"}>Novo Recurso</option>
+                                    <option value={"aviso"}>Aviso</option>
+                                    <option value={"dicas"}>Dicas</option>
+                                </select>
+                            </div>
+
+                            <InputHeader handleHeader={handleInputHeader}/>
+                            <InputBanner handleBanner={handleInputBanner}/>    
+                          
+                        </div>
+
+                        }
 
                         <label htmlFor="titulo" className={'text-slate-50 mt-3 dark:text-[#656565]'}>Título *</label>
                         <input required placeholder="Escreva um título" className="
@@ -291,15 +368,30 @@ export function Form() {
                             <label className="text-slate-50 dark:text-[#656565]" htmlFor="subTitulo">Sub-Título</label>
                             <input type="text" id="subTitulo" name="subtitulo" placeholder="Escreva um subtítulo" className="mt-1 block w-full p-1  lg:p-3
                                 rounded-md shadow-sm placeholder-[#8A8A8A] dark:placeholder-[#838383] text-sm
-                                focus:outline-none rdark:ring-1 dark:ring-[#EEEEEE]" value={formObject.subTitulo} onChange={
+                                focus:outline-none dark:ring-1 dark:ring-[#EEEEEE]" value={formObject.subTitulo} onChange={
                                     e => setFormObject({ ...formObject, subTitulo: e.target.value })
                                 } />
 
                         </div>
                         <br />
+                        {/*<Slate editor={editor} initialValue={initialValue} >
+                            <Editable
+                                onKeyDown={event => {
+                                    if (event.key === '&') {
+                                      // Prevent the ampersand character from being inserted.
+                                      event.preventDefault()
+                                      // Execute the `insertText` method when the event occurs.
+                                      editor.insertText('and')
+                                    }
+                                  }}
+                            />
+                        </Slate>*/}
+                        <label htmlFor="mensagem" className="text-slate-50 dark:text-[#656565] ">Mensagem *</label>
+                        {showImg && 
+                        <RichText handleMessage={handleMessageRichText}/>}
 
-                        <div>
-                            <label htmlFor="mensagem" className="text-slate-50 dark:text-[#656565]">Mensagem *</label>
+                        {mostrar && <div>
+                            
                             <textarea rows={3} required className="mt-1 block w-full p-1 lg:p-3 text-sm
                                 rounded-md shadow-sm placeholder-[#8A8A8A] h-[100px] md:h-[150px] 
                                 focus:outline-none dark:ring-1 dark:ring-[#EEEEEE]"   id="mensagem" placeholder="Escreva uma mensagem" value={formObject.mensagem} onChange={
@@ -307,9 +399,9 @@ export function Form() {
                                 } maxLength={255} />
                             <p className="text-white flex justify-end text-sm text-zinc-500 dark:text-[#949494]">{qtd}/255</p>
 
-                        </div>
+                        </div>}
 
-                        <div className="flex justify-between mt-[5%] ">
+                        <div className="flex justify-between mt-[5%]">
                             <button type="button" id="_enviar" onClick={() => setConfirm(true)} className="
                         flex justify-center lg:p-1
                         rounded-md ring-1 ring-[#277FE3] font-semibold text-[#277FE3] hover:text-[#fff] hover:bg-[#277FE3]
@@ -374,6 +466,29 @@ export function Form() {
                                 </div>
                             </div>
                         }
+                        {selectCategory &&
+                            <div className="">
+                                <div className="fixed inset-0 dark:bg-zinc-700 dark:bg-opacity-40 bg-black bg-opacity-50 flex justify-center items-center animate-fade">
+                                    <div className="bg-[#fff] p-3 rounded-md flex w-[200px] justify-center">
+                                        <div className="">
+                                            <div className="flex justify-center">
+                                                <svg width="30" height="30" viewBox="0 0 30 30" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                    <rect width="30" height="30" rx="15" fill="#FFD6D6" />
+                                                    <path d="M15 5C14.2 5 13.5 5.7 13.5 6.5V7.19531C10.9081 7.85916 9 10.1955 9 13V17.8379L8.2793 20H7V22H13.2715C13.0961 22.3038 13.0037 22.6483 13.0035 22.9991C13.0034 23.3499 13.0955 23.6945 13.2706 23.9985C13.4457 24.3024 13.6977 24.5549 14.0012 24.7307C14.3048 24.9065 14.6492 24.9994 15 25C15.3511 25.0001 15.696 24.9077 16.0001 24.7322C16.3042 24.5567 16.5567 24.3042 16.7323 24.0002C16.9079 23.6961 17.0004 23.3512 17.0004 23.0001C17.0004 22.649 16.908 22.3041 16.7324 22H23V20H21.7207L21 17.8379V13C21 10.1955 19.0919 7.85916 16.5 7.19531V6.5C16.5 5.7 15.8 5 15 5ZM15 9C17.2762 9 19 10.7238 19 13V18.1621L19.6113 20H10.3887L11 18.1621V13C11 10.7238 12.7238 9 15 9Z" fill="#FF6D6D" />
+                                                </svg>
+                                            </div>
+                                            <div className="p-2 text-center text-[#656565] font-semibold font-family-sans" ><p>Selecione a Categoria</p></div>
+                                            <div><button type="button" onClick={() => setSelectCategory(false)} className="bg-[#277FE3] transition  duration-300 hover:bg-[#2167B6] text-white font-family-sans rounded-md p-2 w-full">Ok</button></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        }
+                        
+                        
+                        
+
+
 
                     </form>
 
