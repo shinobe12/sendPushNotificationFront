@@ -93,8 +93,8 @@ export function Form() {
             setSelectCategory(false)
             setSelectApp(true)
             setConfirm(false)
-        }/*
-        if (formObject.select !== "Um utilizador") {
+        }
+        /*if (formObject.select !== "Um utilizador") {
             if (category === "") {
                 setSelectCategory(true)
                 setSelectApp(false)
