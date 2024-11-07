@@ -104,7 +104,7 @@ export function InputBanner({ handleBanner }: { handleBanner: (bannerUrl: string
                 setStatusBanner(false)
                 return
             }
-            if (dimensionsBanner.width <= 1170 && dimensionsBanner.height <= 642) {
+            if (dimensionsBanner.width <= 936 && dimensionsBanner.height <= 351) {
                 setStatusBanner(true)
                 setModalImg(true)
 

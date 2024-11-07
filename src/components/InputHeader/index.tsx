@@ -108,7 +108,7 @@ export function InputHeader({ handleHeader }: { handleHeader: (headerUrl: string
                 setStatusHeader(false)
                 return
             }
-            if (dimensionsHeader.width <= 1170 && dimensionsHeader.height <= 642) {
+            if (dimensionsHeader.width === 1170 && dimensionsHeader.height === 642 ) {
                 setModalImg(true)
                 setStatusHeader(true)
                 return

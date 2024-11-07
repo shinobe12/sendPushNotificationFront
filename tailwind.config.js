@@ -3,6 +3,9 @@ module.exports = {
   content: ["./src/**/*.{html,cjs,tsx,jsx,ts}"],
   theme: {
     extend: {
+      zIndex: {
+        '1000': '1000',
+      },
       screens: {
         'sm': {'min': '125px'}
       },
