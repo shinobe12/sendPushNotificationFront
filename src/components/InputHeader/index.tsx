@@ -108,7 +108,7 @@ export function InputHeader({ handleHeader }: { handleHeader: (headerUrl: string
                 setStatusHeader(false)
                 return
             }
-            if (dimensionsHeader.width <= 936 && dimensionsHeader.height <= 351) {
+            if (dimensionsHeader.width === 1170 && dimensionsHeader.height === 642 ) {
                 setModalImg(true)
                 setStatusHeader(true)
                 return
@@ -217,7 +217,7 @@ export function InputHeader({ handleHeader }: { handleHeader: (headerUrl: string
             {showImgHeader &&
                 <div className="">
                     <div className="fixed inset-0 dark:bg-zinc-700 dark:bg-opacity-40 bg-black bg-opacity-50 flex justify-center items-center animate-fade">
-                        <div className="flex justify-between space-x-2 w-[50%] md:w-[40%]">
+                        <div className="flex justify-between">
                             <img src={imgHeader} className="rounded-md mt-6"/>
                             <button type="button" onClick={() => setShowImgHeader(false)} className="text-white h-[30%] transition  duration-350 hover:text-zinc-400">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="lucide lucide-x"><path d="M18 6 6 18" /><path d="m6 6 12 12" /></svg>

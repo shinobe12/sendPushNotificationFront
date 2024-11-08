@@ -8,6 +8,7 @@ import axios from "axios"
 import { InputBanner } from "../Inputs";
 import { InputHeader } from "../InputHeader";
 import { RichText } from '../RichText';
+import { convert } from 'html-to-text'
 
 
 export function Form() {
@@ -28,9 +29,9 @@ export function Form() {
 
     const [category, setCategory] = useState("")
     const [selectCategory, setSelectCategory] = useState(false)
-    const  [imgHeader, setImgHeader] = useState("")
-    const  [imgBanner, setImgBanner] = useState("")
-    const [message, setMessage] = useState("")
+    const [imgHeader, setImgHeader] = useState("")
+    const [imgBanner, setImgBanner] = useState("")
+    const [description, setDescription] = useState("")
 
     const [formObject, setFormObject] = useState({
         id: "",
@@ -42,57 +43,69 @@ export function Form() {
         date: moment().format("dd/MM/yy")
 
     })
-   
+
+
+
     //header
-/*
-    const datas = {
-        imageHeader: imgHeader,
-        imageBanner: imgBanner,
-        tags: [category]
-    }
-*/
+    /*
+        const datas = {
+            imageHeader: imgHeader,
+            imageBanner: imgBanner,
+            tags: [category]
+        }
+    */
     //console.log(imgHeader)
-    
+
     const resetInputs = () => {
         setFormObject({ ...formObject, app: "", id: "", titulo: "", subTitulo: "", mensagem: "" })
     }
 
-    const handleInputHeader=(url:string)=>{
+    const handleInputHeader = (url: string) => {
         setImgHeader(url)
-        console.log(url)
-        
-     }
-    
-    const handleInputBanner = (urlBanner:string)=>{
+        //console.log(url)
+
+    }
+
+    const handleInputBanner = (urlBanner: string) => {
         setImgBanner(urlBanner)
-        console.log(urlBanner)
-        
+        //console.log(urlBanner)
+
     }
-    
-    function handleMessageRichText(messageRichText:string){
-        setMessage(messageRichText)
-        console.log(message)
+
+    function handleMessageRichText(descriptionRichText: string) {
+        setDescription(descriptionRichText)
+        //console.log(description)
     }
+
+    const [prevew, setPrevew] = useState("")
+    const [showPrevew, setShowPrevew] = useState(false)
+
+    useEffect(() => {
+        setPrevew(convert(description)) //texto normal
+    }, [description])
+
     
     async function enviar(e: any, params: any) {
         e.preventDefault();
         //console.log(params)
-        
+
         if (formObject.app === "" || formObject.app === "-- Selecionar App * --") {
             setSelectCategory(false)
             setSelectApp(true)
             setConfirm(false)
+        }
+        /*if (formObject.select !== "Um utilizador") {
+            if (category === "") {
+                setSelectCategory(true)
+                setSelectApp(false)
+                setConfirm(false)
+            }
+        }*/
 
-        }
-        if (category === "") {
-            setSelectCategory(true)
-            setSelectApp(false)
-            setConfirm(false)
-        }
         else {
 
             setConfirm(false)
-            
+
             const dados = {
                 "app_name": formObject.app,
                 "send_to_everyone": send_to_everyone,
@@ -102,39 +115,52 @@ export function Form() {
                 "subtitle": formObject.subTitulo,
                 "users": [formObject.id],
                 "data": {
-                    "tags" : category,
-                    "header_url" : imgHeader,
-                    "banner_url" : imgBanner,
-                    "description" : message,
+                    "tags": category,
+                    "header_url": imgHeader,
+                    "banner_url": imgBanner,
+                    "description": description,
                 }
             }
-         
-            
+
+
             //https://notify-push-caf7a453e1e5.herokuapp.com/api/v1/notification/push-token/publish
             try {
                 console.log(dados)
-                await axios.post("http://notify-push-caf7a453e1e5.herokuapp.com/api/v1/notification/push-token/publish", dados
+                await axios.post("http://anotify-push-caf7a453e1e5.herokuapp.com/api/v1/notification/push-token/publish", dados
                 )
                 setIsSucess(true)
+                
             } catch (error: any) {
                 console.log(error?.response)
             }
-
             //resetInputs()
         }
+
     }
 
-    //console.log(dados)
-    //console.log(message)
-    let qtd = formObject.mensagem.length    
-    console.log(category)
-    //console.log('url: ',imgHeader)
+    let qtd = formObject.mensagem.length
 
     //console.log(datas)
     return (
         <Fragment>
             <Sucesso isVisible={isSucess} onClose={() => setIsSucess(false)} />
-            <div className="flex justify-center items-center md:mt-[10%] lg:mt-[7%]">
+
+            {showPrevew &&
+                <div onClickCapture={() => setShowPrevew(false)} className="fixed z-10 inset-0 dark:bg-zinc-700 dark:bg-opacity-40 bg-black bg-opacity-50 animate-fade ">
+                    <div onClickCapture={() => setShowPrevew(true)} className="sidebar inset-30 absolute top-0 buttom-0 transition duration-300 animate-fade lg:right-0 p-10 w-[40%] overflow-y-auto bg-zinc-100 h-full z-40">
+                        <div className="flex justify-end">
+                            <button type="button" onClick={() => setShowPrevew(false)} className="">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="lucide lucide-x text-zinc-600 hover:text-zinc-400 duration-300 "><path d="M18 6 6 18" /><path d="m6 6 12 12" /></svg>
+                            </button>
+                        </div>
+                        <div className=' bg-zinc-50 mt-5 rounded-md p-5 '>
+                            <div dangerouslySetInnerHTML={{ __html: description }}></div>
+                        </div>
+                    </div>
+                </div>
+            }
+
+            <div className="flex justify-center md:mt-[10%] lg:mt-[7%] space-x-10">
                 <div className="shadow-inner rounded-lg w-[300px] mt-20 animate-fade md:w-[400px] md:mt-10 lg:mt-0 lg:w-[700px]  dark:ring-1 dark:ring-[#EEEEEE] bg-zinc-800 dark:bg-[#fff]">
                     <div className="flex justify-center md:mt-2 lg:mt-4">
                         <div className="p-1 mt-3 w-[60px] h-[60px] lg:p-2 lg:mt-4 lg:w-[90px] lg:h-[90px] lg:flex lg:justify-center rounded-full ring-1 ring-[#3D3D3D] dark:rounded-full dark:ring-1 dark:ring-[#EEEEEE] ">
@@ -340,17 +366,15 @@ export function Form() {
                                 rounded-md placeholder-slate-400 text-[#8A8A8A] 
                                 focus:outline-none dark:ring-1 dark:ring-[#EEEEEE]" value={category} onChange={e => setCategory(e.target.value)}>
                                     <option >-- Categoria --</option>
-                                    <option value={"novo_recurso"}>Novo Recurso</option>
-                                    <option value={"aviso"}>Aviso</option>
-                                    <option value={"dicas"}>Dicas</option>
+                                    <option value={"IMPORTANT"}>Importante</option>
+                                    <option value={"TIPS"}>Dicas</option>
+                                    <option value={"INFO"}>Aviso</option>
+                                    <option value={"NEW FEACTURE"}>Nova funcionalidade</option>
                                 </select>
                             </div>
-
-                            <InputHeader handleHeader={handleInputHeader}/>
-                            <InputBanner handleBanner={handleInputBanner}/>    
-                          
+                            <InputHeader handleHeader={handleInputHeader} />
+                            <InputBanner handleBanner={handleInputBanner} />
                         </div>
-
                         }
 
                         <label htmlFor="titulo" className={'text-slate-50 mt-3 dark:text-[#656565]'}>Título *</label>
@@ -387,19 +411,21 @@ export function Form() {
                             />
                         </Slate>*/}
                         <label htmlFor="mensagem" className="text-slate-50 dark:text-[#656565] ">Mensagem *</label>
-                        {showImg && 
-                        <RichText handleMessage={handleMessageRichText}/>}
-
-                        {mostrar && <div>
-                            
-                            <textarea rows={3} required className="mt-1 block w-full p-1 lg:p-3 text-sm
+                        <textarea rows={3} required className="mt-1 block w-full p-1 lg:p-3 text-sm
                                 rounded-md shadow-sm placeholder-[#8A8A8A] h-[100px] md:h-[150px] 
                                 focus:outline-none dark:ring-1 dark:ring-[#EEEEEE]"   id="mensagem" placeholder="Escreva uma mensagem" value={formObject.mensagem} onChange={
-                                    e => { setFormObject({ ...formObject, mensagem: e.target.value }) }
-                                } maxLength={255} />
-                            <p className="text-white flex justify-end text-sm text-zinc-500 dark:text-[#949494]">{qtd}/255</p>
+                                e => { setFormObject({ ...formObject, mensagem: e.target.value }) }
+                            } maxLength={255} />
+                        <p className="text-white flex justify-end text-sm text-zinc-500 dark:text-[#949494]">{qtd}/255</p>
 
-                        </div>}
+                        {showImg && <div className="">
+                            <label htmlFor="mensagem" className="text-slate-50 dark:text-[#656565] ">Descrição *</label>
+                            <div >
+                                <RichText handleMessage={handleMessageRichText} />
+                                <button type="button" onClick={() => setShowPrevew(true)} className="mt-2 transition duration-150 hover:text-zinc-200 dark:hover:text-white hover:bg-zinc-700 rounded bg-zinc-600 dark:bg-zinc-400 text-sm text-white p-1">Prevew</button>
+                            </div>
+                        </div>
+                        }
 
                         <div className="flex justify-between mt-[5%]">
                             <button type="button" id="_enviar" onClick={() => setConfirm(true)} className="
@@ -414,7 +440,7 @@ export function Form() {
                                 <div className="flex justify-center p-2 rounded-md text-[#FF6D6D] hover:text-[#fff] dark:hover:text-[#fff] dark:text-[#FF6D6D]"><Trash2 size={20} /><p>Limpar</p></div>
                             </button>
                         </div>
-                        {confirm && <div><div className="fixed inset-0 dark:bg-zinc-700 dark:bg-opacity-40 bg-black bg-opacity-50"></div>
+                        {confirm && <div className=""><div className="fixed inset-0 dark:bg-zinc-700 dark:bg-opacity-40 bg-black bg-opacity-50 "></div>
                             <div className="fixed inset-0 flex justify-center items-center  animate-fade">
                                 <div className="bg-[#fff] p-3 mt-10 rounded-md flex w-[200px] justify-center">
                                     <div className="">
@@ -451,7 +477,7 @@ export function Form() {
                         {selectApp &&
                             <div className="">
                                 <div className="fixed inset-0 dark:bg-zinc-700 dark:bg-opacity-40 bg-black bg-opacity-50 flex justify-center items-center animate-fade">
-                                    <div className="bg-[#fff]  p-3 rounded-md flex w-[200px] justify-center">
+                                    <div className="bg-[#fff] p-3 rounded-md flex w-[200px] justify-center">
                                         <div className="">
                                             <div className="flex justify-center">
                                                 <svg width="30" height="30" viewBox="0 0 30 30" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -484,17 +510,10 @@ export function Form() {
                                 </div>
                             </div>
                         }
-                        
-                        
-                        
-
-
 
                     </form>
-
-
-
                 </div>
+
             </div>
         </Fragment>
 
