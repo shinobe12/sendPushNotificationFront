@@ -34,8 +34,8 @@ export function RichText({ handleMessage }: { handleMessage: (text: string) => v
 
       <Editor
         editorState={editorState}
-        wrapperClassName="mt-1 -z-10 "
-        placeholder='Digite o texto aqui...'
+        wrapperClassName="mt-1" 
+        placeholder='Digite o texto aqui...' 
         editorClassName="bg-white w-full p-2 text-sm sticky 
                               rounded-md shadow-sm placeholder-[#8A8A8A] h-[100px] md:h-[150px] 
                              focus:outline-none dark:ring-1 dark:ring-[#EEEEEE] 
@@ -47,16 +47,16 @@ export function RichText({ handleMessage }: { handleMessage: (text: string) => v
         }}
         toolbar={
           {
-            options: ["inline", "fontSize", "list", "link", "textAlign", "image", "history"],
-            inline: {
+            options: ["inline", "fontSize", "list", "link", "textAlign", "emoji", "image", "history"],
+            inline: { 
               options: ['bold', 'italic', 'underline'],
             },
             list: { 
             options: ["unordered", "ordered"],
             },
             textAlign: { 
-              inDropdown: false 
-            },
+              inDropdown: true 
+            }, 
           }
         }
       />
