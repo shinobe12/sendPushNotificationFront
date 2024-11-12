@@ -145,20 +145,6 @@ export function Form() {
         <Fragment>
             <Sucesso isVisible={isSucess} onClose={() => setIsSucess(false)} />
 
-            {showPrevew &&
-                <div onClickCapture={() => setShowPrevew(false)} className="fixed z-10 inset-0 dark:bg-zinc-700 dark:bg-opacity-40 bg-black bg-opacity-50 animate-fade ">
-                    <div onClickCapture={() => setShowPrevew(true)} className="sidebar inset-30 absolute top-0 buttom-0 transition duration-300 animate-fade lg:right-0 p-10 w-[40%] overflow-y-auto bg-zinc-100 h-full z-40">
-                        <div className="flex justify-end">
-                            <button type="button" onClick={() => setShowPrevew(false)} className="">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="lucide lucide-x text-zinc-600 hover:text-zinc-400 duration-300 "><path d="M18 6 6 18" /><path d="m6 6 12 12" /></svg>
-                            </button>
-                        </div>
-                        <div className=' bg-zinc-50 mt-5 rounded-md p-5 '>
-                            <div dangerouslySetInnerHTML={{ __html: description }}></div>
-                        </div>
-                    </div>
-                </div>
-            }
 
             <div className="flex justify-center md:mt-[10%] lg:mt-[7%] space-x-10">
                 <div className="shadow-inner rounded-lg w-[300px] mt-20 animate-fade md:w-[400px] md:mt-10 lg:mt-0 lg:w-[700px]  dark:ring-1 dark:ring-[#EEEEEE] bg-zinc-800 dark:bg-[#fff]">
@@ -515,6 +501,20 @@ export function Form() {
                 </div>
 
             </div>
+            {showPrevew &&
+                <div onClickCapture={() => setShowPrevew(false)} className="fixed flex justify-end z-40 inset-0 dark:bg-zinc-700 dark:bg-opacity-40 bg-black bg-opacity-50 animate-fade ">
+                    <div onClickCapture={() => setShowPrevew(true)} className="sidebar inset-30 absolute top-0 buttom-0 transition duration-300 animate-fade lg:right-0 p-10 w-[40%] overflow-y-auto bg-zinc-100 h-full ">
+                        <div className="flex justify-end">
+                            <button type="button" onClick={() => setShowPrevew(false)} className="">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="lucide lucide-x text-zinc-600 hover:text-zinc-400 duration-300 "><path d="M18 6 6 18" /><path d="m6 6 12 12" /></svg>
+                            </button>
+                        </div>
+                        <div className=' bg-zinc-50 mt-5 rounded-md p-5 '>
+                            <div dangerouslySetInnerHTML={{ __html: description }}></div>
+                        </div>
+                    </div>
+                </div>
+            }
         </Fragment>
 
     );
