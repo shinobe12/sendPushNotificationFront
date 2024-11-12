@@ -62,19 +62,19 @@ export function Form() {
 
     const handleInputHeader = (url: string) => {
         setImgHeader(url)
-        //console.log(url)
+        
 
     }
 
     const handleInputBanner = (urlBanner: string) => {
         setImgBanner(urlBanner)
-        //console.log(urlBanner)
+        
 
     }
 
     function handleMessageRichText(descriptionRichText: string) {
         setDescription(descriptionRichText)
-        //console.log(description)
+        
     }
 
     const [prevew, setPrevew] = useState("")
