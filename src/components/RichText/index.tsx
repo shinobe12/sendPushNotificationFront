@@ -55,7 +55,7 @@ export function RichText({ handleMessage }: { handleMessage: (text: string) => v
             options: ["unordered", "ordered"],
             },
             textAlign: { 
-              inDropdown: true 
+              inDropdown: false 
             },
           }
         }
