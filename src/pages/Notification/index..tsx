@@ -51,8 +51,8 @@ export function Notification() {
 
       <main className='min-h-screen dark:bg-[#fff] bg-zinc-950 '>
         <div>
-          <div className='flex justify-center bg-zinc-700'>
-            {mostrItems && <ul className='items-center w-[75%] md:w-[30%] mt-5 fixed text-white dark:text-zinc-700 dark:shadow-inner md:ml-[60%] bg-opacity-30 rounded-md backdrop-blur-md animate-fade p-1 bg-zinc-300 lg:hidden dark:text-zinc-800'>
+          <div className='flex justify-center'>
+            {mostrItems && <ul className='z-40 items-center w-[75%] md:w-[30%] mt-5 fixed text-white dark:text-zinc-700 dark:shadow-inner md:ml-[60%] bg-opacity-30 rounded-md backdrop-blur-md animate-fade p-1 bg-zinc-300 lg:hidden dark:text-zinc-800'>
               {isChange && <div className='flex justify-end'><svg onClick={() => { setIsChange(false); setMostraItems(false) }} className="lucide lucide-circle-x animate-fade dark:text-[#277FE3] cursor-pointer lg:hidden" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M18 6 6 18" /><path d="m6 6 12 12" /></svg>
               </div>}
               <li className='flex justify-center'>
@@ -63,7 +63,7 @@ export function Notification() {
                   <div className='lg:font-semibold text-justify'><p className='text-xs text-center md:text-sm lg:text-md text-justify'>{email}</p></div>
                 </li>
                 <li className='lg:font-semibold text-xs md:text-sm flex justify-center'>
-                  <span >Admin</span>
+                  <span>Admin</span>
                 </li>
               </div>
               <li className='flex justify-center'>
@@ -93,8 +93,8 @@ export function Notification() {
               </div>
             </div>
 
-            <div className="text-zinc-50 flex justify-end ">
-              <ul className=' hidden w-[70%] md:w-[35%] ml-[20%] md:ml-[60%] justify-end bg-opacity-30 rounded-md backdrop-blur-md animate-fade justify-end p-3 bg-zinc-300 lg:flex lg:bg-opacity-0 lg:w-[40%] dark:text-zinc-800 my-2 ml-3 lg:ml-[60%] '>
+            <div className="text-zinc-50 flex justify-end">
+              <ul className='hidden w-[70%] md:w-[35%] ml-[20%] md:ml-[60%] justify-end bg-opacity-30 rounded-md backdrop-blur-md animate-fade justify-end p-3 bg-zinc-300 lg:flex lg:bg-opacity-0 lg:w-[40%] dark:text-zinc-800 my-2 ml-3 lg:ml-[60%] '>
                 <li className='flex justify-center lg:mr-2'>
                   <img src='img.png' className='fixed mr-10' />
                 </li>
