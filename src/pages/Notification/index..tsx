@@ -1,12 +1,14 @@
 
-import { useEffect, useMemo, useState } from 'react';
+import { useContext, useEffect, useMemo, useState } from 'react';
 import { Form } from '../../components/Form'
 import { Lista } from '../../components/Lista';
 import { useNavigate } from 'react-router-dom';
 import 'react-toastify/dist/ReactToastify.css';
+import { ThemeContext } from 'src/components/Context';
 
 
-export function Notification() {
+export function Notification(tema:any) {
+  
 
   const [action, setAction] = useState<"LIST" | "ADD">("LIST")
 
@@ -18,7 +20,8 @@ export function Notification() {
     return action === "ADD" ? "bg-[#277FE3] dark:hover:bg-[#2563eb] dark:hover:bg-[#2563eb] hover:bg-[#2563eb]" : "bg-[#454545] dark:bg-[#CFE4FF] hover:bg-zinc-700 dark:hover:bg-[#bfdbfe] dark:text-[#393939]"
   }, [action])
 
-
+  //const { theme }: any = useContext(ThemeContext)
+  //console.log(theme)
   const [isDark, setIsDark] = useState(false)
   const trocaCor = () => setIsDark(!isDark)
 
@@ -43,7 +46,7 @@ export function Notification() {
       navigate("/login")
     }
   })
-console.log(isDark)
+
   return (
 
     <div className={`${isDark && "dark"}`}>
@@ -77,7 +80,7 @@ console.log(isDark)
           <div className='fixed z-40 inset-0 flex justify-between items-center backdrop-blur-md bg-opacity-50 mt-0 h-[150px] '>
             {/*ligh/dark mode */}
             <div className='flex justify-start lg:mt-0 mb-[4%]'>
-              {isDark ? <p className='flex animate-fade mr-2 ml-4 text-zinc-800 text-sm'>Modo claro</p> : <p className='flex animate-fade mr-2 ml-4 text-zinc-200 text-sm'>Modo claro</p>}
+              <p className='flex animate-fade mr-2 ml-4 text-zinc-200 dark:text-zinc-700 text-sm'>Modo claro</p>
               <div>
                 <button onClick={trocaCor}>
                   {isDark ?

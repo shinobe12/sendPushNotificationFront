@@ -1,10 +1,13 @@
 
-import { useEffect, useState } from "react"
+import { useContext, useEffect, useState } from "react"
 import { useNavigate } from "react-router-dom"
 import { toast, ToastContainer, } from "react-toastify"
 import 'react-toastify/dist/ReactToastify.css';
+import { ThemeContext } from "src/components/Context";
 
 export function Login() {
+    //const theme = useContext(ThemeContext)
+    ///console.log(useContext(ThemeContext))
 
     const [isShow, setIsShow] = useState(false)
     const trocaPassword = () => setIsShow(!isShow)

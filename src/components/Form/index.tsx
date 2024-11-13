@@ -61,14 +61,12 @@ export function Form() {
     }
 
     const handleInputHeader = (url: string) => {
-        setImgHeader(url)
-        
+        setImgHeader(url) 
 
     }
 
     const handleInputBanner = (urlBanner: string) => {
-        setImgBanner(urlBanner)
-        
+        setImgBanner(urlBanner) 
 
     }
 
@@ -80,11 +78,6 @@ export function Form() {
     const [prevew, setPrevew] = useState("")
     const [showPrevew, setShowPrevew] = useState(false)
 
-    useEffect(() => {
-        setPrevew(convert(description)) //texto normal
-    }, [description])
-
-    
     async function enviar(e: any, params: any) {
         e.preventDefault();
         //console.log(params)
@@ -139,7 +132,7 @@ export function Form() {
     }
 
     let qtd = formObject.mensagem.length
-
+    
     //console.log(datas)
     return (
         <Fragment>
