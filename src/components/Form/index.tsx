@@ -408,7 +408,7 @@ export function Form() {
                             <label htmlFor="mensagem" className="text-slate-50 dark:text-[#656565] ">Descrição *</label>
                             <div >
                                 <RichText handleMessage={handleMessageRichText} />
-                                <button type="button" onClick={() => setShowPrevew(true)} className="mt-2 transition duration-150 hover:text-zinc-200 dark:hover:text-white hover:bg-zinc-700 rounded bg-zinc-600 dark:bg-zinc-400 text-sm text-white p-1">Prevew</button>
+                                <button type="button" onClick={() => setShowPrevew(true)} className="mt-2 transition duration-150 hover:text-zinc-200 dark:hover:text-white hover:bg-zinc-700 rounded bg-zinc-600 dark:bg-zinc-400 text-sm text-white p-2 w-[70px]">Prevew</button>
                             </div>
                         </div>
                         }
