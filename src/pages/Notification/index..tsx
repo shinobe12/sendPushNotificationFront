@@ -2,13 +2,15 @@
 import { useContext, useEffect, useMemo, useState } from 'react';
 import { Form } from '../../components/Form'
 import { Lista } from '../../components/Lista';
-import { useNavigate } from 'react-router-dom';
 import 'react-toastify/dist/ReactToastify.css';
-import { ThemeContext } from 'src/components/Context';
+import { AuthContext } from '../../Context/auth';
+import { ThemeContext } from '../../Context/theme';
 
 
-export function Notification(tema:any) {
-  
+export function Notification() {
+  const {theme, toggleTheme} = useContext(ThemeContext) as any
+
+  const {logout, email} = useContext(AuthContext)
 
   const [action, setAction] = useState<"LIST" | "ADD">("LIST")
 
@@ -22,39 +24,34 @@ export function Notification(tema:any) {
 
   //const { theme }: any = useContext(ThemeContext)
   //console.log(theme)
-  const [isDark, setIsDark] = useState(false)
-  const trocaCor = () => setIsDark(!isDark)
+
 
   const [sair, setSair] = useState(false)
-
-  const navigate = useNavigate()
-
   const [mostrItems, setMostraItems] = useState(false)
   const trocaMostrar = () => setMostraItems(!mostrItems)
 
   const [isChange, setIsChange] = useState(false)
-  const trocaChange = () => setIsChange(!isChange)
+
 
   const handleLogout = () => {
-    navigate('/login')
+    
+   if(logout){
+    setSair(false)
+    logout()
+   }
   }
 
-  let email = sessionStorage.getItem("email")
 
-  useEffect(() => {
-    if (email === "" || email === null) {
-      navigate("/login")
-    }
-  })
+
 
   return (
 
-    <div className={`${isDark && "dark"}`}>
+    <div className={`${theme}`}>
 
       <main className='min-h-screen dark:bg-[#fff] bg-zinc-950'>
         <div className='mb-[6%]'>
-          <div className='flex justify-center'>
-            {mostrItems && <ul className='z-40 items-center w-[75%] md:w-[30%] mt-5 fixed text-white dark:text-zinc-700 dark:shadow-inner md:ml-[60%] bg-opacity-30 rounded-md backdrop-blur-md animate-fade p-1 bg-zinc-300 lg:hidden dark:text-zinc-800'>
+          <div className='flex justify-center z-40'>
+            {mostrItems && <ul className=' items-center w-[75%] md:w-[30%] mt-5 fixed text-white dark:text-zinc-700 dark:shadow-inner md:ml-[60%] bg-opacity-30 rounded-md backdrop-blur-md animate-fade p-1 bg-zinc-300 lg:hidden dark:text-zinc-800'>
               {isChange && <div className='flex justify-end'><svg onClick={() => { setIsChange(false); setMostraItems(false) }} className="lucide lucide-circle-x animate-fade dark:text-[#277FE3] cursor-pointer lg:hidden" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M18 6 6 18" /><path d="m6 6 12 12" /></svg>
               </div>}
               <li className='flex justify-center'>
@@ -82,8 +79,8 @@ export function Notification(tema:any) {
             <div className='flex justify-start lg:mt-0 mb-[4%]'>
               <p className='flex animate-fade mr-2 ml-4 text-zinc-200 dark:text-zinc-700 text-sm'>Modo claro</p>
               <div>
-                <button onClick={trocaCor}>
-                  {isDark ?
+                <button onClick={toggleTheme}>
+                  {theme === "dark" ?
                     <svg width="42" height="22" className='animate-fade p-1 lg:p-0 lg:w-8' viewBox="0 0 42 22" fill="none" xmlns="http://www.w3.org/2000/svg">
                       <rect width="42" height="22" rx="11" fill="#4CD080" />
                       <circle cx="31" cy="11" r="9" fill="white" />
@@ -126,7 +123,7 @@ export function Notification(tema:any) {
                 </li>
               </ul>
 
-              <button type='button' className='sm:mr-10 md:mr-10 lg:hidden' onClick={trocaChange}>
+              <button type='button' className='sm:mr-10 md:mr-10 lg:hidden' onClick={toggleTheme}>
                 {!isChange &&
                   <svg onClick={trocaMostrar} xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
                     strokeWidth="2" strokeLinejoin="round" className="lucide lucide-menu animate-fade dark:text-[#277FE3] mt-3"><line x1="4" x2="20" y1="12" y2="12" />

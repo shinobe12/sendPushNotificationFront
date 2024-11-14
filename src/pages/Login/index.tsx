@@ -3,17 +3,18 @@ import { useContext, useEffect, useState } from "react"
 import { useNavigate } from "react-router-dom"
 import { toast, ToastContainer, } from "react-toastify"
 import 'react-toastify/dist/ReactToastify.css';
-import { ThemeContext } from "src/components/Context";
+import { ThemeContext } from "../../Context/theme";
+import { AuthContext } from "../../Context/auth";
+
 
 export function Login() {
-    //const theme = useContext(ThemeContext)
-    ///console.log(useContext(ThemeContext))
+    
+    const {theme, toggleTheme} = useContext(ThemeContext) as any
+    const {login} = useContext(AuthContext)
 
     const [isShow, setIsShow] = useState(false)
     const trocaPassword = () => setIsShow(!isShow)
 
-    const [isDark, setIsDark] = useState(false)
-    const trocaCor = () => setIsDark(!isDark)
 
     const navigate = useNavigate()
 
@@ -21,9 +22,11 @@ export function Login() {
 
     const [password, setPassword] = useState("")
 
-   useEffect(()=>{
-    sessionStorage.clear()
-   })
+useEffect(()=>{
+   console.log(theme)
+   }, [theme])
+
+   
 
     const handleLogin = (e: any) => {
         e.preventDefault();
@@ -39,7 +42,8 @@ export function Login() {
                 }
             )*/
                     if(password === "2024" && email ==="pagaso.dev@TivTecnologia.com"){
-                        sessionStorage.setItem('email', email)
+                        //sessionStorage.setItem('email', email)
+                        login && login(email)
                         navigate("/notification")
                         
                     }else{
@@ -60,15 +64,17 @@ export function Login() {
         return true
     }
 
+    
+    
     return (
         
-        <div className={`${isDark && "dark"}`}>
+        <div className={`${theme}`}>
             <main className='min-h-screen bg-[#1E1E1E] dark:bg-[#fff]'>
                 <div className="text-zinc-50 flex justify-start p-4 h-20 grid grid-cols-2">
                     <div className='flex justify-start p-3'>
-                        {isDark ? <div className='mr-2 dark:text-zinc-700'>Modo claro</div> : <div className='mr-2 text-zinc-200'>Modo escuro</div>}
-                        <div><button onClick={trocaCor}>
-                            {isDark ?
+                        {theme === "dark" ? <div className='mr-2 dark:text-zinc-700'>Modo claro</div> : <div className='mr-2 text-zinc-200'>Modo escuro</div>}
+                        <div><button onClick={toggleTheme}>
+                            {theme === "dark" ?
                                 <svg width="42" height="22" className='w-8 mt-1' viewBox="0 0 42 22" fill="none" xmlns="http://www.w3.org/2000/svg">
                                     <rect width="42" height="22" rx="11" fill="#4CD080" />
                                     <circle cx="31" cy="11" r="9" fill="white" />
@@ -85,7 +91,7 @@ export function Login() {
                 </div>
                 <div className="flex justify-center mt-[30%] lg:mt-[10%] sm:mt-[20%] animate-fade">
                     <div className="rounded-lg w-[250px] md:w-[350px] p-[20px] md:p-[40px]  bg-[#272729] dark:bg-[#fff] dark:ring-1 ring-[#EEE]">
-                        {isDark ?
+                        {theme === "dark" ?
                             <div className="grid grid-cols-1 gap-4 place-items-center h-6 p-2"><svg width="76" height="76" viewBox="0 0 76 76" fill="none" xmlns="http://www.w3.org/2000/svg">
                                 <circle cx="38" cy="38" r="37.5" stroke="#D4D4D4" />
                                 <path d="M37.5 19.7C32.3081 19.7 28.1 23.9081 28.1 29.1V30.6667C28.1 35.8586 32.3081 40.0667 37.5 40.0667C42.6919 40.0667 46.9 35.8586 46.9 30.6667V29.1C46.9 23.9081 42.6919 19.7 37.5 19.7ZM37.4969 44.7667C31.2209 44.7667 23.1682 48.1614 20.8511 51.1741C19.4192 53.0368 20.7823 55.7333 23.1307 55.7333H51.8662C54.2146 55.7333 55.5778 53.0368 54.1458 51.1741C51.8287 48.163 43.773 44.7667 37.4969 44.7667Z" fill="#D4D4D4" />
