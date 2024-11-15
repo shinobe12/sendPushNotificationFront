@@ -26,7 +26,7 @@ export const Routers =()=>{
         <Routes>
         <Route path="/" element={<PrivateRoute Component={Notification} />}/>
         <Route path="/login" element={isAuthenticated ? <Navigate to="/notification"/> : <Login />} />
-        {/* Private route implementation  */}
+        {/* Private route implementation */}
         <Route path="/notification" element={<PrivateRoute Component={Notification} />} />
       </Routes>
         </BrowserRouter>
