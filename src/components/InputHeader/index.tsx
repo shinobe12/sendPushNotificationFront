@@ -15,7 +15,7 @@ export function InputHeader({ handleHeader }: { handleHeader: (headerUrl: string
 
     const [formatoHeader, setFormatoHeader] = useState("")
 
-    const [erroFormato, setErroFormato] = useState(Boolean)
+    const [erroFormato, setErroFormato] = useState(false)
     const [upload, setUpload] = useState(false)
     const [download, setDownload] = useState(false)
     const [loading, setLoading] = useState(false)
@@ -80,10 +80,6 @@ export function InputHeader({ handleHeader }: { handleHeader: (headerUrl: string
             setLoading(false)
         }
 
-    }
-
-    const downloaderImg = () => {
-        FileSaver.saveAs(linkImg);
     }
 
     //header
@@ -170,7 +166,7 @@ export function InputHeader({ handleHeader }: { handleHeader: (headerUrl: string
 
             {modalImg &&
                 <div className="">
-                    <div className="fixed inset-0 dark:bg-zinc-700 dark:bg-opacity-40 bg-black bg-opacity-50 flex justify-center items-center animate-fade">
+                    <div className="fixed z-40 inset-0 dark:bg-zinc-700 dark:bg-opacity-40 bg-black bg-opacity-50 flex justify-center items-center animate-fade">
                         <div className="bg-[#fff] p-3 rounded-md flex w-[200px] justify-center">
                             <div className="">
                                 <div className="flex justify-center">
@@ -185,7 +181,7 @@ export function InputHeader({ handleHeader }: { handleHeader: (headerUrl: string
             }
             {modalImgErro &&
                 <div className="">
-                    <div className="fixed inset-0 dark:bg-zinc-700 dark:bg-opacity-40 bg-black bg-opacity-50 flex justify-center items-center animate-fade">
+                    <div className="fixed z-40 inset-0 dark:bg-zinc-700 dark:bg-opacity-40 bg-black bg-opacity-50 flex justify-center items-center animate-fade">
                         <div className="bg-[#fff] p-3 rounded-md flex w-[200px] justify-center">
                             <div className="">
                                 <div className="flex justify-center">
@@ -200,7 +196,7 @@ export function InputHeader({ handleHeader }: { handleHeader: (headerUrl: string
             }
             {erroFormato &&
                 <div className="">
-                    <div className="fixed inset-0 dark:bg-zinc-700 dark:bg-opacity-40 bg-black bg-opacity-50 flex justify-center items-center animate-fade">
+                    <div className="fixed z-40 inset-0 dark:bg-zinc-700 dark:bg-opacity-40 bg-black bg-opacity-50 flex justify-center items-center animate-fade">
                         <div className="bg-[#fff] p-3 rounded-md flex w-[200px] justify-center">
                             <div className="">
                                 <div className="flex justify-center">
@@ -216,7 +212,7 @@ export function InputHeader({ handleHeader }: { handleHeader: (headerUrl: string
 
             {showImgHeader &&
                 <div className="">
-                    <div className="fixed inset-0 dark:bg-zinc-700 dark:bg-opacity-40 bg-black bg-opacity-50 flex justify-center items-center animate-fade">
+                    <div className="fixed z-40 inset-0 dark:bg-zinc-700 dark:bg-opacity-40 bg-black bg-opacity-50 flex justify-center items-center animate-fade">
                         <div className="flex justify-between">
                             <img src={imgHeader} className="rounded-md mt-6"/>
                             <button type="button" onClick={() => setShowImgHeader(false)} className="text-white h-[30%] transition  duration-350 hover:text-zinc-400">

@@ -1,6 +1,5 @@
 import axios from "axios"
-import FileSaver from "file-saver"
-import { useState, createContext, useEffect } from "react"
+import { useState, useEffect } from "react"
 
 export function InputBanner({ handleBanner }: { handleBanner: (bannerUrl: string) => void }) {
 
@@ -13,7 +12,7 @@ export function InputBanner({ handleBanner }: { handleBanner: (bannerUrl: string
     const [megabyte, setMegabyte] = useState(0)
 
     const [formatoBanner, setFormatoBanner] = useState("")
-    const [erroFormato, setErroFormato] = useState(Boolean)
+    const [erroFormato, setErroFormato] = useState(false)
     const [upload, setUpload] = useState(false)
     const [download, setDownload] = useState(false)
     const [loading, setLoading] = useState(false)
@@ -76,9 +75,6 @@ export function InputBanner({ handleBanner }: { handleBanner: (bannerUrl: string
 
     }
 
-    const downloaderImg = () => {
-        FileSaver.saveAs(linkImg);
-    }
     //Banner
     useEffect(() => {
         const imgB = new Image()
@@ -118,8 +114,6 @@ export function InputBanner({ handleBanner }: { handleBanner: (bannerUrl: string
         }
     }, [dimensionsBanner.width, dimensionsBanner.height])
 
-
-    //console.log(datas)
     return (
         <main>
 
@@ -162,7 +156,7 @@ export function InputBanner({ handleBanner }: { handleBanner: (bannerUrl: string
 
             {modalImg &&
                 <div className="">
-                    <div className="fixed inset-0 dark:bg-zinc-700 dark:bg-opacity-40 bg-black bg-opacity-50 flex justify-center items-center animate-fade">
+                    <div className="fixed z-40 inset-0 dark:bg-zinc-700 dark:bg-opacity-40 bg-black bg-opacity-50 flex justify-center items-center animate-fade">
                         <div className="bg-[#fff] p-3 rounded-md flex w-[200px] justify-center">
                             <div className="">
                                 <div className="flex justify-center">
@@ -177,7 +171,7 @@ export function InputBanner({ handleBanner }: { handleBanner: (bannerUrl: string
             }
             {modalImgErro &&
                 <div className="">
-                    <div className="fixed inset-0 dark:bg-zinc-700 dark:bg-opacity-40 bg-black bg-opacity-50 flex justify-center items-center animate-fade">
+                    <div className="fixed z-40 inset-0 dark:bg-zinc-700 dark:bg-opacity-40 bg-black bg-opacity-50 flex justify-center items-center animate-fade">
                         <div className="bg-[#fff] p-3 rounded-md flex w-[200px] justify-center">
                             <div className="">
                                 <div className="flex justify-center">
@@ -192,7 +186,7 @@ export function InputBanner({ handleBanner }: { handleBanner: (bannerUrl: string
             }
             {erroFormato &&
                 <div className="">
-                    <div className="fixed inset-0 dark:bg-zinc-700 dark:bg-opacity-40 bg-black bg-opacity-50 flex justify-center items-center animate-fade">
+                    <div className="fixed z-40 inset-0 dark:bg-zinc-700 dark:bg-opacity-40 bg-black bg-opacity-50 flex justify-center items-center animate-fade">
                         <div className="bg-[#fff] p-3 rounded-md flex w-[200px] justify-center">
                             <div className="">
                                 <div className="flex justify-center">
@@ -207,7 +201,7 @@ export function InputBanner({ handleBanner }: { handleBanner: (bannerUrl: string
             }
              {showImgBanner &&
                 <div className="">
-                    <div className="fixed inset-0 dark:bg-zinc-700 dark:bg-opacity-40 bg-black bg-opacity-50 flex justify-center items-center animate-fade">
+                    <div className="fixed z-40 inset-0 dark:bg-zinc-700 dark:bg-opacity-40 bg-black bg-opacity-50 flex justify-center items-center animate-fade">
                         <div className="flex justify-between space-x-2 ">
                             <img src={imgBanner} className="rounded-md mt-6"/>
                             <button type="button" onClick={() => setShowImgBanner(false)} className="text-white h-[30%] transition  duration-350 hover:text-zinc-400">

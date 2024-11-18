@@ -1,20 +1,22 @@
-import { useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import { useContext, useEffect } from "react";
+import { Login } from "../Login";
+import { Notification } from "../Notification/index.";
+import { AuthContext } from "../../Context/auth";
+import { Navigate, redirect, useNavigate } from "react-router-dom";
 
 
 export function Home() {
-  let navigate = useNavigate()
-  useEffect(() =>{
-    let email = sessionStorage.getItem("email")
-    if(email === "" || email === null){
+  const {isAuthenticated} =useContext(AuthContext)
+  const navigate = useNavigate()
+  useEffect(()=>{
+    console.log("home")//
+    if(isAuthenticated){
+      navigate("/notification")
+    }else{
       navigate("/login")
-    }else navigate("/notification")
-  })
-    return (
-      <main className='min-h-screen bg-zinc-950'>
-        
-      </main>
-         
-    );
-  };
+    }
+  }, [])
   
+
+  return null
+};
