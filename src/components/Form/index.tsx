@@ -130,7 +130,7 @@ export function Form() {
         }
 
     }
-
+    console.log(send_to_everyone)
     let qtd = formObject.mensagem.length
     
     //console.log(datas)
@@ -419,13 +419,13 @@ export function Form() {
                                 <div className="flex justify-center p-2 rounded-md text-[#FF6D6D] hover:text-[#fff] dark:hover:text-[#fff] dark:text-[#FF6D6D]"><Trash2 size={20} /><p>Limpar</p></div>
                             </button>
                         </div>
-                        {confirm && <div className=""><div className="fixed inset-0 dark:bg-zinc-700 dark:bg-opacity-40 bg-black bg-opacity-50 "></div>
-                            <div className="fixed inset-0 flex justify-center items-center  animate-fade">
+                        {confirm && <div className=""><div className="fixed z-40 inset-0 dark:bg-zinc-700 dark:bg-opacity-40 bg-black bg-opacity-50 "></div>
+                            <div className="fixed  inset-0 flex justify-center items-center  animate-fade z-50">
                                 <div className="bg-[#fff] p-3 mt-10 rounded-md flex w-[200px] justify-center">
                                     <div className="">
                                         <div className="flex justify-center">
                                             <svg width="30" height="30" viewBox="0 0 30 30" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                                <rect width="30" height="30" rx="15" fill="#CFE4FF" />
+                                                <rect width="30" height="30" rx="15" fill="#CFE4FF"/>
                                                 <path d="M20.8 9C20.7424 9.0004 20.6852 9.00908 20.6301 9.02578C20.6139 9.03018 20.5978 9.03527 20.582 9.04102L7.39023 13.2363V13.2387C7.27578 13.2814 7.17709 13.358 7.10735 13.4583C7.03762 13.5586 7.00016 13.6778 7 13.8C7.00022 13.903 7.02696 14.0043 7.07766 14.094C7.12836 14.1837 7.2013 14.2588 7.28945 14.3121L11.2984 17.4926L19.2238 11.1762L12.9074 19.1016L16.0855 23.1082C16.1388 23.1971 16.2142 23.2708 16.3043 23.3219C16.3945 23.373 16.4963 23.3999 16.6 23.4C16.7222 23.3998 16.8414 23.3624 16.9417 23.2926C17.042 23.2229 17.1186 23.1242 17.1613 23.0098H17.1637L21.3625 9.80625C21.3668 9.79427 21.3707 9.78215 21.3742 9.76992C21.3909 9.71481 21.3996 9.65758 21.4 9.6C21.4 9.44087 21.3368 9.28826 21.2243 9.17574C21.1117 9.06321 20.9591 9 20.8 9Z" fill="#277FE3" />
                                             </svg>
                                         </div>
@@ -437,8 +437,8 @@ export function Form() {
                                     </div>
                                 </div>
                             </div></div>}
-                        {limpar && <div><div className="fixed inset-0 dark:bg-zinc-700 dark:bg-opacity-40 bg-black bg-opacity-50"></div>
-                            <div className="fixed inset-0 flex justify-center items-center  animate-fade">
+                        {limpar && <div><div className="fixed z-40 inset-0 dark:bg-zinc-700 dark:bg-opacity-40 bg-black bg-opacity-50"></div>
+                            <div className="fixed inset-0 flex justify-center items-center  animate-fade z-40">
                                 <div className="bg-[#fff]  p-3 rounded-md flex w-[200px] justify-center">
                                     <div className="">
                                         <div className="flex justify-center">
@@ -455,7 +455,7 @@ export function Form() {
                             </div></div>}
                         {selectApp &&
                             <div className="">
-                                <div className="fixed inset-0 dark:bg-zinc-700 dark:bg-opacity-40 bg-black bg-opacity-50 flex justify-center items-center animate-fade">
+                                <div className="fixed z-40 inset-0 dark:bg-zinc-700 dark:bg-opacity-40 bg-black bg-opacity-50 flex justify-center items-center animate-fade">
                                     <div className="bg-[#fff] p-3 rounded-md flex w-[200px] justify-center">
                                         <div className="">
                                             <div className="flex justify-center">

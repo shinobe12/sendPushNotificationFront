@@ -49,7 +49,7 @@ export function Notification() {
         <div className='mb-[6%]'>
           <div className=' flex justify-end '>
             {mostrItems && <ul className='absolute z-50 items-center w-[35%] md:w-[30%] mt-5 text-white dark:text-zinc-700 dark:shadow-inner md:ml-[60%] bg-opacity-30 rounded-md backdrop-blur-lg animate-fade p-1 bg-zinc-300 lg:hidden dark:text-zinc-800'>
-              {!isChange && <div className='flex justify-end'><svg onClick={() => { setIsChange(false); setMostraItems(false) }} className="lucide lucide-circle-x animate-fade dark:text-[#277FE3] cursor-pointer lg:hidden" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M18 6 6 18" /><path d="m6 6 12 12" /></svg>
+              {!isChange && <div className='flex justify-end mt-0 bg-zinc-700'><svg onClick={() => { setIsChange(false); setMostraItems(false) }} className="lucide lucide-circle-x animate-fade dark:text-[#277FE3] cursor-pointer lg:hidden" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M18 6 6 18" /><path d="m6 6 12 12" /></svg>
               </div>}
               <li className='flex justify-center'>
                 <img src='img.png' />
@@ -71,9 +71,10 @@ export function Notification() {
               </li>
             </ul>}
           </div>
-          <div className='fixed z-40 inset-0 flex justify-between items-center backdrop-blur-md bg-opacity-50 mt-0 h-[150px] '>
+          
+          <div className='fixed z-40 inset-0 p-4 flex justify-between backdrop-blur-md bg-opacity-50 mt-0 h-[110px] md:h-[150px] '>
             {/*ligh/dark mode */}
-            <div className='flex justify-start  lg:mt-0 mb-[4%]'>
+            <div className='flex justify-start mt-4 lg:mt-4'>
               <p className='flex animate-fade mr-2 ml-4 text-zinc-200 dark:text-zinc-700 text-sm'>Modo claro</p>
               <div>
                 <button onClick={toggleTheme}>
@@ -91,15 +92,15 @@ export function Notification() {
               </div>
             </div>
 
-            <div className='flex justify-center sm:mr-[5%] md:mr-[0%] 2xl:ml-[8%] h-10'>
-              <div className="shadow-inner text-zinc-50 top-0 flex justify-between p-4 h-20 rounded-md bg-zinc-800 dark:bg-[#E8F3FF]" >
+            <div className='flex justify-center mr-12 lg:mr-0 lg:ml-[7%] md:mt-4 h-10 '>
+              <div className="shadow-inner text-zinc-50 top-0 flex justify-between p-4 h-20 rounded-md bg-zinc-800 dark:bg-[#E8F3FF]">
                 <button className={`${activeStyleList} mr-3 lg:mr-3 md:p-3 rounded-md`} onClick={e => { setAction("LIST") }}>Lista de Notificações</button>
-                <button className={`${activeStyleAdd} ml-3 md:p-3  rounded-md`} onClick={e => { setAction("ADD") }}>Adicionar Notificação</button>
+                <button className={`${activeStyleAdd} ml-3 md:p-3 rounded-md`} onClick={e => { setAction("ADD") }}>Adicionar Notificação</button>
               </div>
             </div>
 
-            <div className="text-zinc-50 flex justify-end mb-[4%]">
-              <ul className='hidden w-[70%] md:w-[35%] ml-[20%] md:ml-[60%] justify-end bg-opacity-30 rounded-md animate-fade justify-end p-3 bg-zinc-300 lg:flex lg:bg-opacity-0 lg:w-[40%] dark:text-zinc-800 my-2 ml-3 lg:ml-[60%] '>
+            <div className="text-zinc-50 flex justify-end md:mt-2">
+              <ul className='hidden w-[70%] md:w-[35%] ml-[20%] bg-opacity-30 rounded-md animate-fade justify-end lg:flex lg:bg-opacity-0 lg:w-[40%] dark:text-zinc-800'>
                 <li className='flex justify-center lg:mr-2'>
                   <img src='img.png' className='fixed mr-10' />
                 </li>
@@ -120,7 +121,7 @@ export function Notification() {
                 </li>
               </ul>
 
-              <button type='button' className='sm:mr-10 md:mr-10 lg:hidden' >
+              <button type='button' className='sm:mr-10 mb-12 md:mr-10 lg:hidden' >
                 {!isChange &&
                   <svg onClick={trocaMostrar} xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
                     strokeWidth="2" strokeLinejoin="round" className="lucide lucide-menu animate-fade dark:text-[#277FE3] mt-3"><line x1="4" x2="20" y1="12" y2="12" />

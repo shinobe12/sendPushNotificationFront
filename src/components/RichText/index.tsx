@@ -36,7 +36,7 @@ export function RichText({ handleMessage }: { handleMessage: (text: string) => v
         editorState={editorState}
         wrapperClassName="mt-1" 
         placeholder='Digite o texto aqui...' 
-        editorClassName="bg-white w-full p-2 text-sm sticky 
+        editorClassName="bg-white w-full p-2 text-sm sticky
                               rounded-md shadow-sm placeholder-[#8A8A8A] h-[100px] md:h-[150px] 
                              focus:outline-none dark:ring-1 dark:ring-[#EEEEEE] 
                               min-h-[150px]"
