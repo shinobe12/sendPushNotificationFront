@@ -1,6 +1,6 @@
 //import 'draft-js/dist/Draft.css';
 import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
-import { Fragment, useState, createContext, useEffect } from "react"
+import { Fragment, useState, createContext, useEffect, useMemo } from "react"
 import { Send, Trash2 } from 'lucide-react';
 import Sucesso from "../Sucesso";
 import moment from "moment"
@@ -32,6 +32,9 @@ export function Form() {
     const [imgHeader, setImgHeader] = useState("")
     const [imgBanner, setImgBanner] = useState("")
     const [description, setDescription] = useState("")
+    const [showPrevew, setShowPrevew] = useState(false)
+    const [dimention, setDimention] = useState(false)
+    const [showButtonPrevew, setShowButtonPrevew] = useState(false)
 
     const [formObject, setFormObject] = useState({
         id: "",
@@ -75,8 +78,22 @@ export function Form() {
         
     }
 
-    const [prevew, setPrevew] = useState("")
-    const [showPrevew, setShowPrevew] = useState(false)
+    useEffect(()=>{
+        description.length > 8 ? setShowButtonPrevew(true) : setShowButtonPrevew(false)
+    }, [description.length])
+    
+
+    useEffect(() => {
+        showPrevew ? setDimention(true): setDimention(false)
+      }, [showPrevew]);
+    
+      const prev = useMemo(() => {
+        return dimention === true ? "w-[40%] opacity-100" : "w-12 opacity-0 "
+      }, [dimention])
+      const hidden = useMemo(() => {
+        return dimention === true ? "" : ""
+      }, [dimention]) 
+    
 
     async function enviar(e: any, params: any) {
         e.preventDefault();
@@ -130,13 +147,13 @@ export function Form() {
         }
 
     }
-    console.log(send_to_everyone)
+    
     let qtd = formObject.mensagem.length
     
     //console.log(datas)
     return (
         <Fragment>
-            <Sucesso isVisible={isSucess} onClose={() => setIsSucess(false)} />
+            <Sucesso isVisible={isSucess} onClose={() => setIsSucess(false)}/>
 
 
             <div className="flex justify-center md:mt-[10%] lg:mt-[12%] space-x-10">
@@ -401,7 +418,8 @@ export function Form() {
                             <label htmlFor="mensagem" className="text-slate-50 dark:text-[#656565] ">Descrição *</label>
                             <div >
                                 <RichText handleMessage={handleMessageRichText} />
-                                <button type="button" onClick={() => setShowPrevew(true)} className="mt-2 transition duration-150 hover:text-zinc-200 dark:hover:text-white hover:bg-zinc-700 rounded bg-zinc-600 dark:bg-zinc-400 text-sm text-white p-1.5 w-[90px]">Prevew</button>
+                                {showButtonPrevew && <button type="button" onClick={() => setShowPrevew(true)} className="mt-2 animate-fade transition duration-300 hover:text-zinc-200 dark:hover:text-white
+                                 dark:hover:bg-zinc-500 hover:bg-zinc-700 rounded bg-zinc-600 dark:bg-zinc-400 text-sm text-white p-1.5 w-[90px]">Prevew</button>}
                             </div>
                         </div>
                         }
@@ -494,20 +512,21 @@ export function Form() {
                 </div>
 
             </div>
-            {showPrevew &&
-                <div onClickCapture={() => setShowPrevew(false)} className="fixed flex justify-end z-40 inset-0 dark:bg-zinc-700 dark:bg-opacity-40 bg-black bg-opacity-50 animate-fade ">
-                    <div onClickCapture={() => setShowPrevew(true)} className="sidebar inset-30 absolute top-0 buttom-0 transition duration-300 animate-fade lg:right-0 p-10 w-[40%] overflow-y-auto bg-zinc-100 h-full ">
+            {showPrevew && 
+                <div onClickCapture={() => {setShowPrevew(false)}} className={`${hidden} fixed inset-0 flex justify-end z-40 inse dark:bg-zinc-700 dark:bg-opacity-40 bg-black bg-opacity-50 `}>
+                    <div onClickCapture={() => setShowPrevew(true)} className={`sidebar absolute ${prev} duration-300 relative top-0 buttom-0 lg:right-0 p-10  overflow-y-auto bg-zinc-100 h-full `}>
                         <div className="flex justify-end">
-                            <button type="button" onClick={() => setShowPrevew(false)} className="">
+                            <button type="button" onClick={() => {setDimention(!dimention), setShowPrevew(false)}} className="">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="lucide lucide-x text-zinc-600 hover:text-zinc-400 duration-300 "><path d="M18 6 6 18" /><path d="m6 6 12 12" /></svg>
                             </button>
                         </div>
-                        <div className=' bg-zinc-50 mt-5 rounded-md p-5 '>
-                            <div dangerouslySetInnerHTML={{ __html: description }}></div>
+                        <div className='bg-zinc-50 mt-5 rounded-md p-5'>
+                            <div className="text-zinc-700" dangerouslySetInnerHTML={{ __html: description }}></div>
                         </div>
                     </div>
                 </div>
             }
+            
         </Fragment>
 
     );
