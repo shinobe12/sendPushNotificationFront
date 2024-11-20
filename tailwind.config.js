@@ -3,6 +3,13 @@ module.exports = {
   content: ["./src/**/*.{html,cjs,tsx,jsx,ts}"],
   theme: {
     extend: {
+      transitionTimingFunction: {
+        'in-expo': 'cubic-bezier(0.95, 0.05, 0.795, 0.035)',
+        'out-expo': 'cubic-bezier(0.19, 1, 0.22, 1)',
+      },
+      translate: {
+        '4.25': '17rem',
+      },
       zIndex: {
         '1000': '1000',
       },
@@ -35,10 +42,10 @@ module.exports = {
       keyframes: {
         fadeIn: {
           from: { opacity: 0 },
-          to: { opacity: 1 },
+          to: { opacity: 5 },
         },
         fadeOut: {
-          from: { opacity: 1 },
+          from: { opacity: 5 },
           to: { opacity: 0 },
         },
       },

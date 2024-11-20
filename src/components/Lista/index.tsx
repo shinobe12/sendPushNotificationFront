@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { usePagination } from "./pagination";
 import moment from "moment";
 import { key } from "localforage";
@@ -16,6 +16,7 @@ interface listNotifications {
 export function Lista() {
   const [notify, setNotify] = useState([]);
   const [showPrevew, setShowPrevew] = useState(false)
+  const [dimention, setDimention] = useState(false)
 
   const [filtro, setFiltro] = useState("com.pagaso.pagaso")
   const filtros: { [key: string]: string } = {
@@ -30,6 +31,7 @@ export function Lista() {
     handleNextPage,
     totalPages,
   } = usePagination(notify!, 3);
+  console.log(totalPages)
 
   const fetchNotifications = () => {
     //https://notify-push-caf7a453e1e5.herokuapp.com/api/v1/notification/push-token/messages?app=
@@ -41,14 +43,29 @@ export function Lista() {
   useEffect(() => {
     fetchNotifications()
   }, [filtro]);
+
+  useEffect(() => {
+    showPrevew ? setDimention(true): setDimention(false)
+  }, [showPrevew]);
+
+  const prev = useMemo(() => {
+    return dimention === true ? "w-[40%] opacity-100" : "w-12 opacity-0 "
+  }, [dimention])
+  const hidden = useMemo(() => {
+    return dimention === true ? "" : ""
+  }, [dimention]) 
+
+  /*useEffect(()=>{
+    dimention === false ? setShowPrevew(false): setDimention(true)
+  }, [])*/
   
   return (
     <main className='min-h-screen bg-zinc-950 dark:bg-[#fff] flex justify-center'>
       <div className="w-[min(80%,58rem)] animate-fade mt-20 h-min(100%, 40rem) md:w-[70%] lg:w-[45%] lg:mt-[6%]">
         <div className=' md:mt-0 p-8 bg-[#272729] dark:bg-[#fff] dark:shadow-lg dark:ring-1 ring-zinc-300 rounded-lg text-white text-center '>
-          <div className="flex justify-end items-center ">
-            <p className="dark:text-zinc-700 mt-2 mr-2 md:mr-0 md:mt-0">Filtrar</p>
-            <select required id="filtro" className="mt-4 md:mt-0 lg:mt-0 p-1 lg:p-1 lg:ml-3  text-sm cursor-pointer
+          <div className="flex justify-end items-center space-x-3 ">
+            <p className="dark:text-zinc-700 mt-2  md:mt-0">Filtrar</p>
+            <select required id="filtro" className="mt-4 md:mt-0 lg:mt-0 p-1 lg:p-1 lg:ml-3 text-sm cursor-pointer
                                 rounded-md placeholder-slate-400 text-zinc-700 bg-gradient-to-t from-[#E8F2FF] dark:shadow-lg
                                 focus:outline-none dark:ring-1 dark:ring-[#EEEEEE]" value={filtro} onChange={e => { setFiltro(e.target.value) }
               }>
@@ -97,20 +114,21 @@ export function Lista() {
                 </div>
                 <div className="text-justify mt-3 bg-[#454545] dark:bg-[#E8F2FF] rounded-md p-3">
                   <h2 className="text-start dark:text-zinc-900 md:flex">Titulo da Mensagem: <p className="font-light ml-1">{item?.title}</p></h2>
-                  <hr className="md:hidden " />
+                  <hr className="md:hidden"/>
                   <p className="font-light dark:text-zinc-900 text-sm">
                     { item?.body }
                   </p>
                 </div>
-                <div className="flex justify-end">
+                {<div className="flex justify-end">
                   <button type="button" onClick={() => setShowPrevew(true)} className="mt-2 transition duration-300 hover:text-zinc-200 dark:hover:text-white 
-                  hover:bg-zinc-700 rounded bg-zinc-600 text-sm text-white dark:text-zinc-700 transition duration-300 dark:hover:bg-sky-500 dark:hover:text-white dark:ring-1 dark:ring-zinc-[#EEE] p-1.5 w-[90px] dark:bg-white">Prévia</button>
-                </div>
-                {showPrevew &&
-                <div onClickCapture={() => setShowPrevew(false)} className="fixed flex justify-end z-40 inset-0 dark:bg-zinc-700 dark:bg-opacity-40 bg-black bg-opacity-50 animate-fade ">
-                    <div onClickCapture={() => setShowPrevew(true)} className="sidebar inset-30 absolute top-0 buttom-0 transition duration-300 animate-fade lg:right-0 p-10 w-[40%] overflow-y-auto bg-zinc-100 h-full ">
+                  hover:bg-zinc-700 rounded bg-zinc-600 text-sm text-white dark:text-zinc-700 transition duration-300 dark:hover:bg-sky-500 
+                  dark:hover:text-white dark:ring-1 dark:ring-zinc-[#EEE] p-1.5 w-[90px] dark:bg-white">Prévia</button>
+                </div>}
+                {showPrevew && 
+                <div onClickCapture={() => {setShowPrevew(false)}} className={`${hidden} fixed inset-0 flex justify-end z-40  dark:bg-opacity-20 bg-black bg-opacity-20 `}>
+                    <div onClickCapture={() => setShowPrevew(true)} className={`sidebar absolute ${prev} duration-300 relative top-0 buttom-0 lg:right-0 p-10  overflow-y-auto bg-zinc-100 h-full `}>
                         <div className="flex justify-end">
-                            <button type="button" onClick={() => setShowPrevew(false)} className="">
+                            <button type="button" onClick={() => {setDimention(!dimention), setShowPrevew(false)}} className="">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="lucide lucide-x text-zinc-600 hover:text-zinc-400 duration-300 "><path d="M18 6 6 18" /><path d="m6 6 12 12" /></svg>
                             </button>
                         </div>
@@ -134,7 +152,7 @@ export function Lista() {
             </button>
 
 
-            <div className="font-light mt-0.5 mr-2 ml-2 flex dark:text-zinc-700"><p className="mr-1 text-sky-500">{actualPage}</p> de {totalPages}</div>
+            <div className="font-light mt-0.5 mr-2 ml-2 flex dark:text-zinc-700"><p className="mr-1 text-sky-500"> {actualPage} </p> de {totalPages} </div>
 
             <button type="button" onClick={handleNextPage} disabled={actualPage === totalPages}>
               <svg className="w-5 md:w-12" width="27" height="27" viewBox="0 0 27 27" fill="none" xmlns="http://www.w3.org/2000/svg">

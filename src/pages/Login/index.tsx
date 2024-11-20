@@ -119,7 +119,7 @@ useEffect(()=>{
                                 
                                 <div className="flex justify-between bg-[#fff] rounded-md dark:ring-1 ring-[#eee] ">
                                     <input type={isShow ? "text" : "password"} id="senha" name="senha" placeholder='Introduza sua senha...' className="
-                                     block w-50 p-2 text-sm
+                                     block w-[90%] p-2 text-sm
                                     rounded-md  placeholder-[#838383]
                                     focus:outline-none focus:border-[#fff] focus:ring-[#fff]
                                     " value={password} onChange={e => setPassword(e.target.value)} />
