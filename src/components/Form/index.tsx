@@ -79,6 +79,7 @@ export function Form() {
     }
 
     useEffect(()=>{
+        console.log(description)
         description.length > 8 ? setShowButtonPrevew(true) : setShowButtonPrevew(false)
     }, [description.length])
     
