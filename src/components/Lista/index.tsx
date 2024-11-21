@@ -31,14 +31,22 @@ export function Lista() {
     handleNextPage,
     totalPages,
   } = usePagination(notify!, 3);
-  console.log(totalPages)
+  
+  const Timeout = (time: number) => {
+    let controller = new AbortController();
+    setTimeout(() => controller.abort(), time * 1000);
+    return controller;
+  };
 
   const fetchNotifications = () => {
     //https://notify-push-caf7a453e1e5.herokuapp.com/api/v1/notification/push-token/messages?app=
-    fetch(`https://notify-push-caf7a453e1e5.herokuapp.com/api/v1/notification/push-token/messages?app=${filtro}`)
+    fetch(`https://notify-push-caf7a453e1e5.herokuapp.com/api/v1/notification/push-token/messages?app=${filtro}`, {
+      signal: Timeout(2).signal
+    })
       .then((response) => response.json())
       .then((data) => setNotify(data.messages))
   }
+  console.log(Timeout)
 
   useEffect(() => {
     fetchNotifications()
@@ -47,7 +55,7 @@ export function Lista() {
   useEffect(() => {
     showPrevew ? setDimention(true): setDimention(false)
   }, [showPrevew]);
-
+  
   const prev = useMemo(() => {
     return dimention === true ? "w-[40%] opacity-100" : "w-12 opacity-0 "
   }, [dimention])

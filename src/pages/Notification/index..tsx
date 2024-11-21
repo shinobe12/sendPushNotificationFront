@@ -8,6 +8,7 @@ import { ThemeContext } from '../../Context/theme';
 
 
 export function Notification() {
+
   const {theme, toggleTheme} = useContext(ThemeContext) as any
 
   const {logout, email} = useContext(AuthContext)
@@ -32,7 +33,6 @@ export function Notification() {
 
   const [isChange, setIsChange] = useState(false)
 
-
   const handleLogout = () => {
     
    if(logout){
@@ -40,6 +40,7 @@ export function Notification() {
     logout()
    }
   }
+
 
   return (
 
