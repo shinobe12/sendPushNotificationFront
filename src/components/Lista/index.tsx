@@ -5,6 +5,7 @@ import { key } from "localforage";
 import { Trash2 } from "lucide-react";
 
 import { toast, ToastContainer, ToastContent, } from "react-toastify"
+import axios from "axios";
 
 
 
@@ -24,6 +25,8 @@ export function Lista() {
   const [showPrevew, setShowPrevew] = useState(false)
   const [dimention, setDimention] = useState(false)
   const [excluir, setExcluir] = useState(false)
+  const [sucess, setSucess] = useState(false)
+  //const [id, setId] = useState(0)
 
   const [filtro, setFiltro] = useState("com.pagaso.pagaso")
   const filtros: { [key: string]: string } = {
@@ -55,19 +58,27 @@ export function Lista() {
       .then((response) => response.json())
       .then((data) => setNotify(data.messages))
   }
-
-  const Delete = () => {
-           
-    fetch(`http://localhost:5000/not2`, {
-      method: "DELETE",
-    })
-      .then(response => response.json())
-      .then((data) => {
-        console.log("dados eliminados: ", data)
-        })
-      }
-    
   
+  const Delete = async () => {
+    //http://localhost:5000/not2
+    
+    try {
+      const id = notify.map(item => item?.notification_id)
+      const data = {
+        id: 4
+      }
+      console.log(data)
+
+      await axios.delete(`http://localhost:5000/notifications/${data.id}`)
+      console.log("eliminado com sucesso!")
+      setSucess(true)
+    } catch (error) {
+      console.log("erro ao eliminar: ", error)
+    }
+
+  }
+
+  crypto.randomUUID
 
   useEffect(() => {
     fetchNotifications()
@@ -85,8 +96,8 @@ export function Lista() {
     return dimention === true ? "" : ""
   }, [dimention])
 
-  useEffect(()=>{},[])
-  
+  useEffect(() => { }, [])
+
 
   /*useEffect(()=>{
     dimention === false ? setShowPrevew(false): setDimention(true)
@@ -98,7 +109,7 @@ export function Lista() {
         <div className=' md:mt-0 p-8 bg-[#272729] dark:bg-[#fff] dark:shadow-lg dark:ring-1 ring-zinc-300 rounded-lg text-white text-center '>
           <div className="flex justify-end items-center space-x-3 ">
             <p className="dark:text-zinc-700 mt-2  md:mt-0">Filtrar</p>
-            <select required id="filtro" className="mt-4 md:mt-0 lg:mt-0 p-1 lg:p-1 lg:ml-3 text-sm cursor-pointer
+            <select required id="filtro" className="mt-2 md:mt-0 lg:mt-0 p-1 lg:p-1 lg:ml-3 text-sm cursor-pointer
                                 rounded-md placeholder-slate-400 text-zinc-700 bg-gradient-to-t from-[#E8F2FF] dark:shadow-lg
                                 focus:outline-none dark:ring-1 dark:ring-[#EEEEEE]" value={filtro} onChange={e => { setFiltro(e.target.value) }
               }>
@@ -111,12 +122,12 @@ export function Lista() {
           {totalPages === 0 ? <div role="status" className="flex justify-center mt-10">
             <svg aria-hidden="true" className=" w-8 h-8 text-gray-200 animate-spin dark:text-zinc-200 fill-blue-600" viewBox="0 0 100 101" fill="none" xmlns="http://www.w3.org/2000/svg">
               <path d="M100 50.5908C100 78.2051 77.6142 100.591 50 100.591C22.3858 100.591 0 78.2051 0 50.5908C0 22.9766 22.3858 0.59082 50 0.59082C77.6142 0.59082 100 22.9766 100 50.5908ZM9.08144 50.5908C9.08144 73.1895 27.4013 91.5094 50 91.5094C72.5987 91.5094 90.9186 73.1895 90.9186 50.5908C90.9186 27.9921 72.5987 9.67226 50 9.67226C27.4013 9.67226 9.08144 27.9921 9.08144 50.5908Z" fill="currentColor" />
-              <path d="M93.9676 39.0409C96.393 38.4038 97.8624 35.9116 97.0079 33.5539C95.2932 28.8227 92.871 24.3692 89.8167 20.348C85.8452 15.1192 80.8826 10.7238 75.2124 7.41289C69.5422 4.10194 63.2754 1.94025 56.7698 1.05124C51.7666 0.367541 46.6976 0.446843 41.7345 1.27873C39.2613 1.69328 37.813 4.19778 38.4501 6.62326C39.0873 9.04874 41.5694 10.4717 44.0505 10.1071C47.8511 9.54855 51.7191 9.52689 55.5402 10.0491C60.8642 10.7766 65.9928 12.5457 70.6331 15.2552C75.2735 17.9648 79.3347 21.5619 82.5849 25.841C84.9175 28.9121 86.7997 32.2913 88.1811 35.8758C89.083 38.2158 91.5421 39.6781 93.9676 39.0409Z" fill="currentFill" />
+              <path d="M93.9676 39.0409C96.393 38.4038 97.8624 35.9116 97.0079 33.5539C95.2932 28.8227 92.871 24.3692 89.8167 20.348C85.8452 15.1192 80.8826 10.7238 75.2124 7.41289C69.5422-2.10194 63.2754 1.94025 56.7698 1.05124C51.7666 0.367541 46.6976 0.446843 41.7345 1.27873C39.2613 1.69328 37.813-2.19778 38.4501 6.62326C39.0873 9.04874 41.5694 10.4717 44.0505 10.1071C47.8511 9.54855 51.7191 9.52689 55.5402 10.0491C60.8642 10.7766 65.9928 12.5457 70.6331 15.2552C75.2735 17.9648 79.3347 21.5619 82.5849 25.841C84.9175 28.9121 86.7997 32.2913 88.1811 35.8758C89.083 38.2158 91.5421 39.6781 93.9676 39.0409Z" fill="currentFill" />
             </svg>
 
           </div> :
             getItemsPage().reverse().map(item =>
-              <div className="p-1 md:p-4 rounded-md ring-1 mt-10 ring-[#D4D4D4]" key={item?.notification_id}>
+              <div className="p-1 md:p-2 rounded-md ring-1 mt-10 ring-[#D4D4D4]" key={item?.notification_id}>
                 <div className="md:flex justify-between p-2 text-sm md:text-md">
                   <div className="dark:text-zinc-900 flex items-center h-12">
                     {filtro === "com.pagaso.pagaso" && <svg width="44" height="44" className="w-10" viewBox="0 0 44 44" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -153,22 +164,36 @@ export function Lista() {
                   </p>
                 </div>
                 {<div className="flex justify-between ">
-                  <div className="p-4 text-[#FF6D6D] cursor-pointer hover:translate-y-0.5 duration-300 relative" onClick={() => { setExcluir(true) }}>
-                    <Trash2 size={20} />
+                  <div className="p-1 h- mt-3 text-[#FF6D6D] cursor-pointer hover:translate-y-0.5 duration-300 relative" onClick={() => { setExcluir(true) }}>
+                    <Trash2 size={23} />
                   </div>
                   {excluir && <div><div className="fixed z-40 inset-0 dark:bg-zinc-700 dark:bg-opacity-40 bg-black bg-opacity-30"></div>
                     <div className="fixed inset-0 flex justify-center items-center  animate-fade z-40">
                       <div className="bg-[#fff]  p-3 rounded-md flex w-[200px] justify-center">
                         <div className="">
-                          <div className="flex justify-center">
-                            <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-                              <path d="M9.51068 0C7.75652 0 6.29588 1.31072 6.05072 3H2.62982C2.58724 2.99271 2.54411 2.98912 2.50092 2.98926C2.46359 2.99006 2.42638 2.99365 2.38959 3H0.760682C0.661298 2.99859 0.562626 3.01696 0.4704 3.05402C0.378173 3.09108 0.294233 3.1461 0.223455 3.21588C0.152678 3.28566 0.096476 3.36882 0.0581152 3.46051C0.0197545 3.5522 0 3.65061 0 3.75C0 3.84939 0.0197545 3.9478 0.0581152 4.03949C0.096476 4.13118 0.152678 4.21434 0.223455 4.28412C0.294233 4.3539 0.378173 4.40892 0.4704 4.44598C0.562626 4.48304 0.661298 4.50141 0.760682 4.5H1.83002L3.08881 17.5146C3.22435 18.918 4.41657 20 5.82611 20H13.1943C14.6039 20 15.7961 18.9181 15.9316 17.5146L17.1913 4.5H18.2607C18.3601 4.50141 18.4587 4.48304 18.551 4.44598C18.6432 4.40892 18.7271 4.3539 18.7979 4.28412C18.8687 4.21434 18.9249 4.13118 18.9632 4.03949C19.0016 3.9478 19.0214 3.84939 19.0214 3.75C19.0214 3.65061 19.0016 3.5522 18.9632 3.46051C18.9249 3.36882 18.8687 3.28566 18.7979 3.21588C18.7271 3.1461 18.6432 3.09108 18.551 3.05402C18.4587 3.01696 18.3601 2.99859 18.2607 3H16.6328C16.5532 2.98709 16.4721 2.98709 16.3925 3H12.9706C12.7255 1.31072 11.2648 0 9.51068 0ZM9.51068 1.5C10.4503 1.5 11.2211 2.13408 11.4413 3H7.58002C7.8003 2.13408 8.5711 1.5 9.51068 1.5ZM3.33588 4.5H15.6845L14.4384 17.3701C14.3759 18.0177 13.8447 18.5 13.1943 18.5H5.82611C5.17665 18.5 4.64443 18.0168 4.58197 17.3701L3.33588 4.5ZM7.74896 6.98926C7.55022 6.99236 7.36084 7.07423 7.22241 7.21686C7.08398 7.3595 7.00783 7.55125 7.01068 7.75V15.25C7.00928 15.3494 7.02764 15.4481 7.0647 15.5403C7.10176 15.6325 7.15678 15.7164 7.22656 15.7872C7.29635 15.858 7.3795 15.9142 7.47119 15.9526C7.56289 15.9909 7.66129 16.0107 7.76068 16.0107C7.86008 16.0107 7.95848 15.9909 8.05017 15.9526C8.14186 15.9142 8.22502 15.858 8.2948 15.7872C8.36458 15.7164 8.41961 15.6325 8.45667 15.5403C8.49373 15.4481 8.51209 15.3494 8.51068 15.25V7.75C8.51212 7.64962 8.4934 7.54997 8.45561 7.45695C8.41783 7.36394 8.36176 7.27946 8.29073 7.20852C8.21969 7.13758 8.13514 7.08161 8.04208 7.04395C7.94902 7.00629 7.84934 6.98769 7.74896 6.98926ZM11.249 6.98926C11.0502 6.99236 10.8608 7.07423 10.7224 7.21686C10.584 7.3595 10.5078 7.55125 10.5107 7.75V15.25C10.5093 15.3494 10.5276 15.4481 10.5647 15.5403C10.6018 15.6325 10.6568 15.7164 10.7266 15.7872C10.7963 15.858 10.8795 15.9142 10.9712 15.9526C11.0629 15.9909 11.1613 16.0107 11.2607 16.0107C11.3601 16.0107 11.4585 15.9909 11.5502 15.9526C11.6419 15.9142 11.725 15.858 11.7948 15.7872C11.8646 15.7164 11.9196 15.6325 11.9567 15.5403C11.9937 15.4481 12.0121 15.3494 12.0107 15.25V7.75C12.0121 7.64962 11.9934 7.54997 11.9556 7.45695C11.9178 7.36394 11.8618 7.27946 11.7907 7.20852C11.7197 7.13758 11.6351 7.08161 11.5421 7.04395C11.449 7.00629 11.3493 6.98769 11.249 6.98926Z" fill="#FF6D6D" />
-                            </svg>
+                          <div className="flex justify-center text-[#FF6D6D]">
+                            {sucess && <svg xmlns="http://www.w3.org/2000/svg" color="#0891b2" width="25" height="25" viewBox="0 0 24 24" fill="none"
+                              stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"
+                              className="lucide lucide-thumbs-up"><path d="M7 10v12" /><path d="M15 5.88 14 10h5.83a2 2 0 0 1 1.92 2.56l-2.33 8A2
+                           2 0 0 1 17.5 22H4a2 2 0 0 1-2-2v-8a2 2 0 0 1 2-2h2.76a2 2 0 0 0 1.79-1.11L12 2a3.13 3.13 0 0 1 3 3.88Z" /></svg>}
+                            {!sucess && <Trash2 size={30} />}
                           </div>
-                          <div className="p-2 text-center text-[#656565] font-semibold font-family-sans"><p>Tem certeza que<br />retende excluir essa notificação?</p></div>
-                          <div className="flex p-2"><button type="button" onClick={() => setExcluir(false)} className="bg-[#D4D4D4] transition  duration-300 hover:bg-zinc-400 text-white font-family-sans rounded-md p-2 w-full">Cancelar</button>
-                            <button type="button" onClick={Delete} className="bg-[#FF6D6D] ml-2 transition  duration-300 hover:bg-[#D05959] text-white font-family-sans rounded-md p-2 w-full">Confirmar</button>
+                          {!sucess && 
+                          <div>
+                            <div className="p-2 text-center text-[#656565] font-semibold font-family-sans"><p>Tem certeza que<br />pretende eliminar essa notificação?</p></div>
+                            <div className="flex p-2"><button type="button" onClick={() => setExcluir(false)} className="bg-[#D4D4D4] transition  duration-300 hover:bg-zinc-400 text-white font-family-sans rounded-md p-2 w-full">Cancelar</button>
+                              <button type="button" onClick={Delete} className="bg-[#FF6D6D] ml-2 transition  duration-300 hover:bg-[#D05959] text-white font-family-sans rounded-md p-2 w-full">Confirmar</button>
+                            </div>
                           </div>
+                          }
+                          {sucess &&
+                            <div>
+                              <div className="p-2 text-center text-[#656565] font-semibold font-family-sans"><p>Notificação eliminada!</p></div>
+                              <div>
+                                <button type="button" onClick={()=>{setExcluir(false), setSucess(false)}} className="bg-sky-600 transition  duration-300 hover:bg-sky-700 text-white font-family-sans rounded-md p-2 w-full">OK</button>
+                              </div>
+                            </div>
+                          }
                         </div>
                       </div>
                     </div></div>}

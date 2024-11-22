@@ -1,7 +1,7 @@
 {
-  
-    "not1": {
-      "id": "",
+  "notifications": [
+    {
+      "id": "1",
       "select": "",
       "app": "Paga Só",
       "titulo": "titulo primeiro",
@@ -9,8 +9,44 @@
       "mensagem": "Em linguística, a noção de texto é ampla e ainda aberta a uma definição mais precisa. Grosso modo, pode ser entendido como manifestação linguística das ideias de um autor, que serão interpretadas pelo leitor de acordo com seus conhecimentos linguísticos e culturais. Seu tamanho é variável.inserindo mesma scfg sms",
       "date": "28/08/2024"
     },
-    "not2": {
-      "id": "",
+    {
+      "id": "2",
+      "select": "",
+      "app": "Paga Só",
+      "titulo": "titulo primeiro",
+      "subTitulo": "assunto teste",
+      "mensagem": "Em linguística, a noção de texto é ampla e ainda aberta a uma definição mais precisa. Grosso modo, pode ser entendido como manifestação linguística das ideias de um autor, que serão interpretadas pelo leitor de acordo com seus conhecimentos linguísticos e culturais. Seu tamanho é variável.inserindo mesma scfg sms",
+      "date": "28/08/2024"
+    },
+    {
+      "id": "3",
+      "select": "",
+      "app": "Paga Só",
+      "titulo": "titulo primeiro",
+      "subTitulo": "assunto teste",
+      "mensagem": "Em linguística, a noção de texto é ampla e ainda aberta a uma definição mais precisa. Grosso modo, pode ser entendido como manifestação linguística das ideias de um autor, que serão interpretadas pelo leitor de acordo com seus conhecimentos linguísticos e culturais. Seu tamanho é variável.inserindo mesma scfg sms",
+      "date": "28/08/2024"
+    },
+    {
+      "id": "4",
+      "select": "",
+      "app": "Paga Só",
+      "titulo": "titulo primeiro",
+      "subTitulo": "assunto teste",
+      "mensagem": "Em linguística, a noção de texto é ampla e ainda aberta a uma definição mais precisa. Grosso modo, pode ser entendido como manifestação linguística das ideias de um autor, que serão interpretadas pelo leitor de acordo com seus conhecimentos linguísticos e culturais. Seu tamanho é variável.inserindo mesma scfg sms",
+      "date": "28/08/2024"
+    },
+    {
+      "id": "5",
+      "select": "",
+      "app": "Paga Só",
+      "titulo": "titulo primeiro",
+      "subTitulo": "assunto teste",
+      "mensagem": "Em linguística, a noção de texto é ampla e ainda aberta a uma definição mais precisa. Grosso modo, pode ser entendido como manifestação linguística das ideias de um autor, que serão interpretadas pelo leitor de acordo com seus conhecimentos linguísticos e culturais. Seu tamanho é variável.inserindo mesma scfg sms",
+      "date": "28/08/2024"
+    },
+    {
+      "id": "6",
       "select": "",
       "app": "Paga Só",
       "titulo": "titulo primeiro",
@@ -18,7 +54,5 @@
       "mensagem": "Em linguística, a noção de texto é ampla e ainda aberta a uma definição mais precisa. Grosso modo, pode ser entendido como manifestação linguística das ideias de um autor, que serão interpretadas pelo leitor de acordo com seus conhecimentos linguísticos e culturais. Seu tamanho é variável.inserindo mesma scfg sms",
       "date": "28/08/2024"
     }
-  
-    
-  
+  ]
 }

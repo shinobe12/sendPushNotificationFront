@@ -136,7 +136,7 @@ export function Form() {
 
             //https://notify-push-caf7a453e1e5.herokuapp.com/api/v1/notification/push-token/publish
             try {
-                console.log(dados)
+                //console.log(dados)
                 await axios.post("https://notify-push-caf7a453e1e5.herokuapp.com/api/v1/notification/push-token/publish", dados
                 )
                 setIsSucess(true)
