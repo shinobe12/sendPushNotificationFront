@@ -35,6 +35,7 @@ export function Form() {
     const [showPrevew, setShowPrevew] = useState(false)
     const [dimention, setDimention] = useState(false)
     const [showButtonPrevew, setShowButtonPrevew] = useState(false)
+    const [qtdText, setQtdText] = useState(0)
 
     const [formObject, setFormObject] = useState({
         id: "",
@@ -79,7 +80,6 @@ export function Form() {
     }
 
     useEffect(()=>{
-        console.log(description)
         description.length > 8 ? setShowButtonPrevew(true) : setShowButtonPrevew(false)
     }, [description.length])
     
@@ -146,11 +146,11 @@ export function Form() {
             }
             //resetInputs()
         }
-
     }
+
+    const qtd = formObject.mensagem.length
     
-    let qtd = formObject.mensagem.length
-    
+
     //console.log(datas)
     return (
         <Fragment>

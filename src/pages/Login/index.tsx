@@ -8,9 +8,9 @@ import { AuthContext } from "../../Context/auth";
 
 
 export function Login() {
-    
-    const {theme, toggleTheme} = useContext(ThemeContext) as any
-    const {login} = useContext(AuthContext)
+
+    const { theme, toggleTheme } = useContext(ThemeContext) as any
+    const { login } = useContext(AuthContext)
 
     const [isShow, setIsShow] = useState(false)
     const trocaPassword = () => setIsShow(!isShow)
@@ -22,11 +22,6 @@ export function Login() {
 
     const [password, setPassword] = useState("")
 
-useEffect(()=>{
-   console.log(theme)
-   }, [theme])
-
-   
 
     const handleLogin = (e: any) => {
         e.preventDefault();
@@ -41,33 +36,26 @@ useEffect(()=>{
                     }
                 }
             )*/
-                    if(password === "2024" && email ==="pagaso.dev@TivTecnologia.com"){
-                        //sessionStorage.setItem('email', email)
-                        login && login(email)
-                        navigate("/notification")
-                        
-                    }else{
-                        toast.error("Credenciais Incorrectas")
-                    }
-                }
-                 
+            if (password === "2024" && email === "pagaso.dev@TivTecnologia.com") {
+                //sessionStorage.setItem('email', email)
+                login && login(email)
+                navigate("/notification")
+            } else {
+                toast.error("Credenciais Incorrectas")
             }
+        }
+    }
 
     const validate = () => {
-      
         if (email === "" || email === null || password === "" || password === null) {
-
             toast.warning("preencha todos os campos")
             return false
         }
-        
         return true
     }
 
-    
-    
     return (
-        
+
         <div className={`${theme}`}>
             <main className='min-h-screen bg-[#1E1E1E] dark:bg-[#fff]'>
                 <div className="text-zinc-50 flex justify-start p-4 h-20 grid grid-cols-2">
@@ -112,11 +100,11 @@ useEffect(()=>{
                                 rounded-md dark:ring-1 ring-[#EEE] placeholder-[#838383]
                                 focus:outline-none p-2 text-sm
                                  "
-                                 type="text" id="email" value={email} onChange={e => setEmail(e.target.value)} />
+                                type="text" id="email" value={email} onChange={e => setEmail(e.target.value)} />
                             <br />
                             <div>
                                 <label htmlFor="senha" className="text-slate-50 dark:text-[#656565]" >Senha</label>
-                                
+
                                 <div className="flex justify-between bg-[#fff] rounded-md dark:ring-1 ring-[#eee] ">
                                     <input type={isShow ? "text" : "password"} id="senha" name="senha" placeholder='Introduza sua senha...' className="
                                      block w-[90%] p-2 text-sm
