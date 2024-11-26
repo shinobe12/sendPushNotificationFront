@@ -11,6 +11,8 @@ export function Lista() {
   const [dimention, setDimention] = useState(false)
   const [excluir, setExcluir] = useState(false)
   const [sucess, setSucess] = useState(false)
+  const [prevew, setPrevew] = useState<null | string>(null)
+  const [cache, setCache] = useState(null)
   //const [id, setId] = useState(0)
 
   const [filtro, setFiltro] = useState("com.pagaso.pagaso")
@@ -33,21 +35,27 @@ export function Lista() {
     return controller;
   };*/
 
+  //tentar usar o useEffect
   const fetchNotifications = () => {
     //https://notify-push-caf7a453e1e5.herokuapp.com/api/v1/notification/push-token/messages?app=
-    fetch(`https://notify-push-caf7a453e1e5.herokuapp.com/api/v1/notification/push-token/messages?app=${filtro}`,
+    console.log(notify)
+   fetch(`https://notify-push-caf7a453e1e5.herokuapp.com/api/v1/notification/push-token/messages?app=${filtro}`,
       {/*
         signal: Timeout(2).signal
       */}
     )
       .then((response) => response.json())
       .then((data) => setNotify(data.messages))
+     
   }
-  
-  const Delete = async () => {    
+
+  /*useEffect(()=>{
+    setCache(notify)
+   }, [notify])*/
+
+  const Delete = async () => {
     try {
-      const id = notify.map(item => item?.notification_id)
-      console.log(id)
+
       const data = {
         id: 1
       }
@@ -64,6 +72,7 @@ export function Lista() {
     fetchNotifications()
   }, [filtro]);
 
+
   useEffect(() => {
     showPrevew ? setDimention(true) : setDimention(false)
   }, [showPrevew]);
@@ -75,7 +84,6 @@ export function Lista() {
     return dimention === true ? "" : ""
   }, [dimention])
 
-  console.log(notify)
 
   return (
     <main className='min-h-screen bg-zinc-950 dark:bg-[#fff] flex justify-center'>
@@ -102,7 +110,7 @@ export function Lista() {
           </div> :
             getItemsPage().reverse().map(item =>
               <div className="p-1 md:p-2 rounded-md ring-1 mt-10 ring-[#D4D4D4]" key={item?.notification_id}>
-                <div className="md:flex justify-between p-2 text-sm md:text-md"> 
+                <div className="md:flex justify-between p-2 text-sm md:text-md">
                   <div className="dark:text-zinc-900 flex items-center h-12">
                     {filtro === "com.pagaso.pagaso" && <svg width="44" height="44" className="w-10" viewBox="0 0 44 44" fill="none" xmlns="http://www.w3.org/2000/svg">
                       <circle cx="22" cy="22" r="22" fill="#BF181D" />
@@ -112,7 +120,7 @@ export function Lista() {
                       <path d="M35.1105 17.2583C34.8566 16.9685 34.422 16.5109 34.214 16.5173C34.2136 16.5183 31.9325 17.8267 31.8962 17.848C31.724 18.1672 32.2218 18.8201 32.4806 18.7037C36.2299 18.1114 35.4059 17.6101 35.1101 17.2583H35.1105Z" fill="white" />
                       <path d="M35.3026 18.9418L33.1137 19.0597C32.5705 19.9903 33.7354 19.9775 34.176 20.122C34.6738 20.2072 35.4712 20.5239 35.6349 20.215C35.7499 19.8202 35.4094 18.8864 35.3026 18.9418Z" fill="white" />
                     </svg>}
-                    {filtro === "com.pagaso.somoney" && <div className=""> 
+                    {filtro === "com.pagaso.somoney" && <div className="">
                       <svg width="44" height="44" viewBox="0 0 44 44" className="w-10" fill="none" xmlns="http://www.w3.org/2000/svg">
                         <circle cx="22" cy="22" r="22" fill="#143163" />
                         <path d="M22.9821 23.7101C22.738 23.6988 22.495 23.6848 22.2519 23.6679C21.7056 23.6267 21.1631 23.5639 20.6254 23.4786C20.0866 23.397 19.5526 23.294 19.0242 23.1684C17.9674 22.921 16.9312 22.5911 15.9251 22.1843C15.422 21.98 14.9274 21.7551 14.4393 21.5124C14.1371 21.3615 13.8377 21.2031 13.543 21.0363C13.7279 20.7214 13.9118 20.4056 14.0911 20.0879C14.1887 19.9192 14.2826 19.7495 14.3764 19.579C14.0104 19.3175 13.6857 19.0729 13.4069 18.8555C13.2802 19.0579 13.1535 19.2603 13.0305 19.4656C12.7696 19.8901 12.5143 20.3193 12.2637 20.7504C12.1933 20.8713 12.1239 20.9913 12.0535 21.1122C12.2309 21.22 12.4092 21.3249 12.5894 21.428C13.085 21.7101 13.5909 21.9697 14.1042 22.2078C14.6176 22.4458 15.1404 22.6585 15.6698 22.8488C16.7285 23.2302 17.8144 23.517 18.9134 23.7082C19.4634 23.8028 20.0162 23.8741 20.5709 23.9228C21.1256 23.9678 21.6822 23.9903 22.2387 23.9893C22.7934 23.9903 23.3481 23.9594 23.9 23.9097C23.5903 23.8506 23.2833 23.7841 22.9802 23.7101H22.9821Z" fill="#17CFDA" />
@@ -137,9 +145,9 @@ export function Lista() {
                     {item?.body}
                   </p>
                 </div>
-                
-                {<div className="flex justify-between ">
-                  <div className="p-1 h- mt-3 text-[#FF6D6D] cursor-pointer hover:translate-y-0.5 duration-300 relative" onClick={() => { setExcluir(true) }}>
+
+                {<div className="flex justify-end items-center">
+                  <div className="p-1 mt-3 text-[#FF6D6D] cursor-pointer hover:translate-y-0.5 duration-300 relative" onClick={() => { setExcluir(true) }}>
                     <Trash2 size={23} />
                   </div>
                   {excluir && <div><div className="fixed z-40 inset-0 dark:bg-zinc-700 dark:bg-opacity-40 bg-black bg-opacity-30"></div>
@@ -153,40 +161,47 @@ export function Lista() {
                            2 0 0 1 17.5 22H4a2 2 0 0 1-2-2v-8a2 2 0 0 1 2-2h2.76a2 2 0 0 0 1.79-1.11L12 2a3.13 3.13 0 0 1 3 3.88Z" /></svg>}
                             {!sucess && <Trash2 size={30} />}
                           </div>
-                          {!sucess && 
-                          <div>
-                            <div className="p-2 text-center text-[#656565] font-semibold font-family-sans"><p>Tem certeza que<br />pretende eliminar essa notificação?</p></div>
-                            <div className="flex p-2"><button type="button" onClick={() => setExcluir(false)} className="bg-[#D4D4D4] transition  duration-300 hover:bg-zinc-400 text-white font-family-sans rounded-md p-2 w-full">Cancelar</button>
-                              <button type="button" onClick={Delete} className="bg-[#FF6D6D] ml-2 transition  duration-300 hover:bg-[#D05959] text-white font-family-sans rounded-md p-2 w-full">Confirmar</button>
+                          {!sucess &&
+                            <div>
+                              <div className="p-2 text-center text-[#656565] font-semibold font-family-sans"><p>Tem certeza que<br />pretende eliminar essa notificação?</p></div>
+                              <div className="flex p-2"><button type="button" onClick={() => setExcluir(false)} className="bg-[#D4D4D4] transition  duration-300 hover:bg-zinc-400 text-white font-family-sans rounded-md p-2 w-full">Cancelar</button>
+                                <button type="button" onClick={Delete} className="bg-[#FF6D6D] ml-2 transition  duration-300 hover:bg-[#D05959] text-white font-family-sans rounded-md p-2 w-full">Confirmar</button>
+                              </div>
                             </div>
-                          </div>
                           }
                           {sucess &&
                             <div>
                               <div className="p-2 text-center text-[#656565] font-semibold font-family-sans"><p>Notificação eliminada!</p></div>
                               <div>
-                                <button type="button" onClick={()=>{setExcluir(false), setSucess(false)}} className="bg-sky-600 transition  duration-300 hover:bg-sky-700 text-white font-family-sans rounded-md p-2 w-full">OK</button>
+                                <button type="button" onClick={() => { setExcluir(false), setSucess(false) }} className="bg-sky-600 transition  duration-300 hover:bg-sky-700 text-white font-family-sans rounded-md p-2 w-full">OK</button>
                               </div>
                             </div>
                           }
                         </div>
                       </div>
                     </div></div>}
-                  <button type="button" onClick={() => setShowPrevew(true)} className="mt-2 transition duration-300 hover:text-zinc-200 dark:hover:text-white 
-                  hover:bg-zinc-700 rounded bg-zinc-600 text-sm text-white dark:text-zinc-700 transition duration-300 dark:hover:bg-sky-500 
-                  dark:hover:text-white dark:ring-1 dark:ring-zinc-[#EEE] p-1.5 w-[90px] dark:bg-white">Prévia</button>
-                  
+                    {/* icon to prevew */}
+                  <button onClick={() => {
+                    setPrevew(item?.data.description)
+                    setShowPrevew(true)}} type="button" className="p-1.5 mt-3 bg-[#454545] dark:bg-[#E8F2FF] hover:bg-zinc-700 hover:translate-y-0.5 duration-300 rounded animate-fade">
+                    <svg width="15" height="15" viewBox="0 0 19 13" fill="none" className="" xmlns="http://www.w3.org/2000/svg">
+                      <path fillRule="evenodd" clipRule="evenodd" d="M0.225958 5.77588C2.80141 1.98685 6.14077 0 9.48621 0C13.4153 0 16.7998 2.62712 18.7967 5.79248L18.7976 5.79397C18.9297 6.0047 19 6.25001 19 6.50061C19 6.75076 18.93 6.99562 18.7983 7.2061C16.8032 10.4122 13.4405 13 9.48621 13C5.48977 13 2.19193 10.4176 0.201723 7.22082C0.0664912 7.0053 -0.00364869 6.75354 0.00014624 6.4972C0.00395061 6.24021 0.0818876 5.99015 0.224108 5.77862L0.225958 5.77588ZM1.26662 6.51695L1.26837 6.51975C3.1066 9.47305 6.05285 11.7 9.48621 11.7C12.8811 11.7 15.8909 9.46358 17.7313 6.50563L17.7325 6.50369L17.7334 6.50061L17.7332 6.49925L17.7326 6.49766C15.8852 3.56993 12.8508 1.3 9.48621 1.3C6.66236 1.3 3.6734 2.97748 1.26662 6.51695ZM9.49966 3.9C8.1006 3.9 6.96643 5.06406 6.96643 6.5C6.96643 7.93594 8.1006 9.1 9.49966 9.1C10.8987 9.1 12.0329 7.93594 12.0329 6.5C12.0329 5.06406 10.8987 3.9 9.49966 3.9ZM5.69981 6.5C5.69981 4.34609 7.40106 2.6 9.49966 2.6C11.5983 2.6 13.2995 4.34609 13.2995 6.5C13.2995 8.65391 11.5983 10.4 9.49966 10.4C7.40106 10.4 5.69981 8.65391 5.69981 6.5Z" fill="#838383" />
+                    </svg>
+                  </button>
                 </div>}
                 {showPrevew &&
-                  <div onClickCapture={() => { setShowPrevew(false) }} className={`${hidden} fixed inset-0 flex justify-end z-40  dark:bg-opacity-20 bg-black bg-opacity-20 `}>
+                  <div onClickCapture={() => {
+                    setPrevew(null)
+                     setShowPrevew(false)
+                     }} className={`${hidden} fixed inset-0 flex justify-end z-40  dark:bg-opacity-20 bg-black bg-opacity-20 `}>
                     <div onClickCapture={() => setShowPrevew(true)} className={`sidebar absolute ${prev} duration-300 relative top-0 buttom-0 lg:right-0 p-10  overflow-y-auto bg-zinc-100 h-full `}>
                       <div className="flex justify-end">
-                        <button type="button" onClick={() => { setDimention(!dimention), setShowPrevew(false) }} className="">
+                        <button type="button" onClick={() => { setDimention(!dimention), setShowPrevew(false) }}>
                           <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="lucide lucide-x text-zinc-600 hover:text-zinc-400 duration-300 "><path d="M18 6 6 18" /><path d="m6 6 12 12" /></svg>
                         </button>
                       </div>
                       <div className='bg-zinc-50 mt-5 rounded-md p-5'>
-                        <div className="text-zinc-700" dangerouslySetInnerHTML={{ __html: item?.title }}></div>
+                        <div className="text-zinc-700" dangerouslySetInnerHTML={{ __html: prevew === null ? "" : prevew }}></div>
                       </div>
                     </div>
                   </div>
@@ -194,7 +209,7 @@ export function Lista() {
               </div>
 
             )}
-            
+
 
           <div className="flex justify-center mt-5">
 
