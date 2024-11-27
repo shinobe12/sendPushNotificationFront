@@ -5,6 +5,7 @@ import { Trash2 } from "lucide-react";
 import axios from "axios";
 
 //tentando se comunicar a page notification
+
 export function Lista({noti}: any, { handleFiltro }: { handleFiltro: (filtromuda: string) => void }) {
 
   const [notify, setNotify] = useState([]);
