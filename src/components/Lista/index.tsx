@@ -4,7 +4,8 @@ import moment from "moment";
 import { Trash2 } from "lucide-react";
 import axios from "axios";
 
-export function Lista() {
+//tentando se comunicar a page notification
+export function Lista({noti}: any, { handleFiltro }: { handleFiltro: (filtromuda: string) => void }) {
 
   const [notify, setNotify] = useState([]);
   const [showPrevew, setShowPrevew] = useState(false)
@@ -12,10 +13,8 @@ export function Lista() {
   const [excluir, setExcluir] = useState(false)
   const [sucess, setSucess] = useState(false)
   const [prevew, setPrevew] = useState<null | string>(null)
-  const [cache, setCache] = useState(null)
-  //const [id, setId] = useState(0)
-
-  const [filtro, setFiltro] = useState("com.pagaso.pagaso")
+  const [filtro, setFiltro] = useState("com.pagaso.somoney")
+ 
   const filtros: { [key: string]: string } = {
     "com.pagaso.pagaso": "PagaSó",
     "com.pagaso.somoney": "SóMoney"
@@ -27,26 +26,24 @@ export function Lista() {
     handleBackPage,
     handleNextPage,
     totalPages,
-  } = usePagination(notify!, 3);
+  } = usePagination(noti!, 3);
 
   /*const Timeout = (time: number) => {
     let controller = new AbortController();
     setTimeout(() => controller.abort(), time * 1000);
     return controller;
   };*/
+  
+  /*useEffect(() => {   
 
-  //tentar usar o useEffect
-  useEffect(() => {
-
-   fetch(`https://notify-push-caf7a453e1e5.herokuapp.com/api/v1/notification/push-token/messages?app=${filtro}`)
+      fetch(`https://notify-push-caf7a453e1e5.herokuapp.com/api/v1/notification/push-token/messages?app=${filtro}`)
       .then((response) => response.json())
       .then((data) => setNotify(data.messages))
-  }, [filtro])
 
-  /*useEffect(()=>{
-    setCache(notify)
-   }, [notify])*/
+  }, [filtro])*/
 
+  
+  
   const Delete = async () => {
     try {
 
@@ -62,8 +59,6 @@ export function Lista() {
 
   }
 
-
-
   useEffect(() => {
     showPrevew ? setDimention(true) : setDimention(false)
   }, [showPrevew]);
@@ -74,8 +69,8 @@ export function Lista() {
   const hidden = useMemo(() => {
     return dimention === true ? "" : ""
   }, [dimention])
-
-
+  
+  
   return (
     <main className='min-h-screen bg-zinc-950 dark:bg-[#fff] flex justify-center'>
       <div className="w-[min(80%,58rem)] animate-fade mt-20 h-min(100%, 40rem) md:w-[70%] lg:w-[45%] lg:mt-[6%]">
@@ -84,7 +79,7 @@ export function Lista() {
             <p className="dark:text-zinc-700 mt-2  md:mt-0">Filtrar</p>
             <select required id="filtro" className="mt-2 md:mt-0 lg:mt-0 p-1 lg:p-1 lg:ml-3 text-sm cursor-pointer
                                 rounded-md placeholder-slate-400 text-zinc-700 bg-gradient-to-t from-[#E8F2FF] dark:shadow-lg
-                                focus:outline-none dark:ring-1 dark:ring-[#EEEEEE]" value={filtro} onChange={e => { setFiltro(e.target.value) }
+                                focus:outline-none dark:ring-1 dark:ring-[#EEEEEE]" value={filtro} onChange={e => { setFiltro(e.target.value)}
               }>
               <option className="bg-[#E8F2FF dark:bg-[#E8F2FF] rounded-lg border-none" value={"com.pagaso.pagaso"}>PagaSó</option>
               <option className="bg-[#E8F2FF dark:bg-[#E8F2FF] rounded-lg border-none" value={"com.pagaso.somoney"}>SóMoney</option>
@@ -103,7 +98,7 @@ export function Lista() {
               <div className="p-1 md:p-2 rounded-md ring-1 mt-10 ring-[#D4D4D4]" key={item?.notification_id}>
                 <div className="md:flex justify-between p-2 text-sm md:text-md">
                   <div className="dark:text-zinc-900 flex items-center h-12">
-                    {filtro === "com.pagaso.pagaso" && <svg width="44" height="44" className="w-10" viewBox="0 0 44 44" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    {item?.app_name === "com.pagaso.pagaso" && <svg width="44" height="44" className="w-10" viewBox="0 0 44 44" fill="none" xmlns="http://www.w3.org/2000/svg">
                       <circle cx="22" cy="22" r="22" fill="#BF181D" />
                       <path d="M19.1206 14.1143C18.408 13.4369 17.2889 13.068 15.764 13.0073C14.9854 12.9764 14.1982 13.0442 13.4036 13.2107C12.6087 13.3772 11.8901 13.6733 11.2478 14.099C10.6051 14.5247 10.0708 15.0857 9.64544 15.7812C9.21939 16.4768 8.98648 17.3388 8.94565 18.3663C8.90943 19.2834 9.0337 20.0407 9.3188 20.6376C9.60355 21.2348 9.97422 21.7286 10.4301 22.1188C10.8856 22.509 11.3809 22.8215 11.9163 23.0565C12.4514 23.2915 12.9499 23.5174 13.4128 23.7336C13.8755 23.9502 14.2561 24.1827 14.555 24.432C14.8536 24.6816 14.9953 25.0039 14.9797 25.3991C14.9708 25.6207 14.9104 25.8085 14.799 25.9619C14.6871 26.1159 14.5444 26.2367 14.3701 26.3251C14.1961 26.4131 13.9987 26.4728 13.7778 26.5033C13.5574 26.5342 13.3333 26.5452 13.1061 26.536C12.538 26.5132 12.0427 26.3989 11.6206 26.1919C11.1981 25.9853 10.8292 25.757 10.5142 25.5067C10.199 25.2567 9.91954 25.0316 9.67562 24.8321C9.43135 24.6322 9.19596 24.5282 8.96908 24.5189C8.64421 24.5062 8.41237 24.7266 8.27248 25.18C8.13259 25.6338 8.04205 26.3822 8.00051 27.4257C7.99057 27.6789 8.12549 27.965 8.40527 28.2849C8.68504 28.6048 9.07524 28.9052 9.57621 29.1867C10.0772 29.4676 10.6683 29.709 11.3514 29.9103C12.0338 30.1113 12.7809 30.2285 13.5921 30.2604C14.533 30.2977 15.3617 30.2036 16.0775 29.9789C16.7933 29.7541 17.3912 29.4253 17.8715 28.9932C18.3519 28.5608 18.7215 28.0453 18.9811 27.4459C19.2402 26.8466 19.384 26.199 19.4114 25.5031C19.4465 24.6176 19.3088 23.8802 18.9995 23.2898C18.6896 22.6997 18.2908 22.2008 17.8034 21.7932C17.3155 21.386 16.7805 21.0519 16.1978 20.7913C15.6149 20.5307 15.0766 20.2758 14.5827 20.0265C14.0889 19.7776 13.6806 19.5121 13.3589 19.2298C13.0369 18.9483 12.8845 18.5936 12.9012 18.1664C12.9208 17.6765 13.1391 17.2852 13.557 16.993C13.9745 16.7008 14.4432 16.5648 14.9626 16.5854C15.3358 16.6003 15.6244 16.6948 15.8289 16.8691C16.0331 17.0434 16.1794 17.2511 16.2674 17.4922C16.3555 17.7333 16.4066 17.9807 16.4208 18.2346C16.435 18.4888 16.4393 18.6947 16.4329 18.8527C16.4261 19.0271 16.4616 19.1428 16.5408 19.2014C16.6196 19.2603 16.8053 19.2951 17.0972 19.3065C18.038 19.3438 18.7694 19.1393 19.291 18.6926C19.8122 18.2463 20.0909 17.5803 20.1257 16.6948C20.1673 15.6513 19.8314 14.791 19.1188 14.1132L19.1206 14.1143Z" fill="#F7C218" />
                       <path d="M32.132 18.9593C31.2859 17.952 29.8412 17.4077 27.7969 17.3268C26.4012 17.2714 25.2288 17.4429 24.2787 17.8405C23.3282 18.2386 22.5553 18.7818 21.9595 19.4709C21.3631 20.1597 20.9295 20.9543 20.6583 21.854C20.387 22.754 20.2326 23.6779 20.195 24.6266C20.1623 25.4488 20.2209 26.2232 20.3711 26.9496C20.5209 27.6764 20.8042 28.3173 21.221 28.8719C21.6379 29.4268 22.2091 29.8727 22.9352 30.2107C23.6609 30.5484 24.584 30.7394 25.7035 30.7838C26.7257 30.8243 27.619 30.7327 28.3834 30.5097C29.1478 30.2871 29.8064 29.9725 30.3585 29.5667C30.911 29.1612 31.3722 28.6887 31.7432 28.149C32.1139 27.6097 32.4121 27.0515 32.6383 26.4742C32.8641 25.8976 33.0256 25.3136 33.1219 24.7238C33.2184 24.1338 33.2763 23.5941 33.2958 23.1034C33.3654 21.3484 32.9774 19.9673 32.1316 18.9597L32.132 18.9593ZM29.1535 23.0814C29.1389 23.4453 29.0846 23.8945 28.9905 24.4288C28.8961 24.9639 28.7377 25.4723 28.5158 25.9541C28.2932 26.4362 27.9929 26.8442 27.6144 27.1772C27.2355 27.5106 26.7619 27.6661 26.1942 27.6434C25.5615 27.6182 25.0843 27.354 24.7633 26.8502C24.442 26.3468 24.3021 25.5731 24.3433 24.5296C24.3565 24.1977 24.4008 23.7918 24.4768 23.3115C24.5528 22.8318 24.6923 22.378 24.8965 21.9502C25.0999 21.5231 25.3907 21.162 25.7681 20.8684C26.1455 20.5748 26.6423 20.4398 27.259 20.4643C27.9889 20.4935 28.4949 20.7388 28.7775 21.2014C29.0598 21.664 29.1855 22.2907 29.1539 23.081L29.1535 23.0814Z" fill="#F7C218" />
@@ -111,7 +106,7 @@ export function Lista() {
                       <path d="M35.1105 17.2583C34.8566 16.9685 34.422 16.5109 34.214 16.5173C34.2136 16.5183 31.9325 17.8267 31.8962 17.848C31.724 18.1672 32.2218 18.8201 32.4806 18.7037C36.2299 18.1114 35.4059 17.6101 35.1101 17.2583H35.1105Z" fill="white" />
                       <path d="M35.3026 18.9418L33.1137 19.0597C32.5705 19.9903 33.7354 19.9775 34.176 20.122C34.6738 20.2072 35.4712 20.5239 35.6349 20.215C35.7499 19.8202 35.4094 18.8864 35.3026 18.9418Z" fill="white" />
                     </svg>}
-                    {filtro === "com.pagaso.somoney" && <div className="">
+                    {item?.app_name === "com.pagaso.somoney" && <div className="">
                       <svg width="44" height="44" viewBox="0 0 44 44" className="w-10" fill="none" xmlns="http://www.w3.org/2000/svg">
                         <circle cx="22" cy="22" r="22" fill="#143163" />
                         <path d="M22.9821 23.7101C22.738 23.6988 22.495 23.6848 22.2519 23.6679C21.7056 23.6267 21.1631 23.5639 20.6254 23.4786C20.0866 23.397 19.5526 23.294 19.0242 23.1684C17.9674 22.921 16.9312 22.5911 15.9251 22.1843C15.422 21.98 14.9274 21.7551 14.4393 21.5124C14.1371 21.3615 13.8377 21.2031 13.543 21.0363C13.7279 20.7214 13.9118 20.4056 14.0911 20.0879C14.1887 19.9192 14.2826 19.7495 14.3764 19.579C14.0104 19.3175 13.6857 19.0729 13.4069 18.8555C13.2802 19.0579 13.1535 19.2603 13.0305 19.4656C12.7696 19.8901 12.5143 20.3193 12.2637 20.7504C12.1933 20.8713 12.1239 20.9913 12.0535 21.1122C12.2309 21.22 12.4092 21.3249 12.5894 21.428C13.085 21.7101 13.5909 21.9697 14.1042 22.2078C14.6176 22.4458 15.1404 22.6585 15.6698 22.8488C16.7285 23.2302 17.8144 23.517 18.9134 23.7082C19.4634 23.8028 20.0162 23.8741 20.5709 23.9228C21.1256 23.9678 21.6822 23.9903 22.2387 23.9893C22.7934 23.9903 23.3481 23.9594 23.9 23.9097C23.5903 23.8506 23.2833 23.7841 22.9802 23.7101H22.9821Z" fill="#17CFDA" />
@@ -131,7 +126,7 @@ export function Lista() {
                 </div>
                 <div className="text-justify mt-3 bg-[#454545] dark:bg-[#E8F2FF] rounded-md p-3">
                   <h2 className="text-start dark:text-zinc-900 md:flex">Titulo da Mensagem: <p className="font-light ml-1">{item?.title}</p></h2>
-                  <hr className="md:hidden" />
+                  <hr className="md:hidden"/>
                   <p className="font-light dark:text-zinc-900 text-sm">
                     {item?.body}
                   </p>
@@ -201,7 +196,7 @@ export function Lista() {
 
             )}
 
-
+            {/* paginação */}
           <div className="flex justify-center mt-5">
 
             <button type="button" onClick={handleBackPage} disabled={actualPage === 1}>
@@ -210,7 +205,6 @@ export function Lista() {
                 <path fillRule="evenodd" clipRule="evenodd" d="M10.2197 14.5051C9.92678 14.2261 9.92678 13.7739 10.2197 13.4949L14.7197 9.20921C15.0126 8.93026 15.4874 8.93026 15.7803 9.20921C16.0732 9.48815 16.0732 9.94042 15.7803 10.2194L11.8107 14L15.7803 17.7806C16.0732 18.0596 16.0732 18.5118 15.7803 18.7908C15.4874 19.0697 15.0126 19.0697 14.7197 18.7908L10.2197 14.5051Z" fill="#BCBCBC" />
               </svg>
             </button>
-
 
             <div className="font-light mt-0.5 mr-2 ml-2 flex dark:text-zinc-700"><p className="mr-1 text-sky-500"> {actualPage} </p> de {totalPages} </div>
 

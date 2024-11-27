@@ -61,7 +61,6 @@ export function InputHeader({ handleHeader }: { handleHeader: (headerUrl: string
 
     const [statusHeader, setStatusHeader] = useState(false)
 
-
     async function enviar(e: any) {
         try {
             setLoading(true)
