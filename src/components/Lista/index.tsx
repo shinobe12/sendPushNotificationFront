@@ -36,18 +36,12 @@ export function Lista() {
   };*/
 
   //tentar usar o useEffect
-  const fetchNotifications = () => {
-    //https://notify-push-caf7a453e1e5.herokuapp.com/api/v1/notification/push-token/messages?app=
-    console.log(notify)
-   fetch(`https://notify-push-caf7a453e1e5.herokuapp.com/api/v1/notification/push-token/messages?app=${filtro}`,
-      {/*
-        signal: Timeout(2).signal
-      */}
-    )
+  useEffect(() => {
+
+   fetch(`https://notify-push-caf7a453e1e5.herokuapp.com/api/v1/notification/push-token/messages?app=${filtro}`)
       .then((response) => response.json())
       .then((data) => setNotify(data.messages))
-     
-  }
+  }, [filtro])
 
   /*useEffect(()=>{
     setCache(notify)
@@ -68,9 +62,6 @@ export function Lista() {
 
   }
 
-  useEffect(() => {
-    fetchNotifications()
-  }, [filtro]);
 
 
   useEffect(() => {
