@@ -5,6 +5,7 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
+    "notifications": "json-server --watch notifications.json --port 3000",
     "backend": "json-server --watch lista.json --port 5000",
     "user": "json-server --watch users.json --port 3000",
     "build": "vite build",

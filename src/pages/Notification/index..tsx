@@ -29,7 +29,7 @@ export function Notification() {
   const [mostrItems, setMostraItems] = useState(false)
   const trocaMostrar = () => setMostraItems(!mostrItems)
   const [isChange, setIsChange] = useState(false)
-  const [aplication, setAplication] = useState("com.pagaso.somoney")
+  const [aplication, setAplication] = useState("com.pagaso.pagaso")
   const [qtdNotify, setQtdNotify] = useState<null | number>(null)
 
   const handleLogout = () => {
@@ -42,11 +42,13 @@ export function Notification() {
 
   const handleAplication = (filt: string) => {
     setAplication(filt)
+    console.log("teste ", aplication)
   }
   
-  console.log(handleAplication)
+  //console.log(handleAplication)
   
   useEffect(() => {
+    //https://notify-push-caf7a453e1e5.herokuapp.com/api/v1/notification/push-token/messages?app=
     fetch(`https://notify-push-caf7a453e1e5.herokuapp.com/api/v1/notification/push-token/messages?app=${aplication}`)
       .then((response) => response.json())
       .then((data) => { setNotify(data.messages), setQtdNotify(data.messages.length) })
@@ -54,6 +56,7 @@ export function Notification() {
     //console.log(notify)
   }, [aplication, qtdNotify])
   
+ 
 
   return (
 
@@ -147,7 +150,7 @@ export function Notification() {
         </div>
 
 
-        {action === "ADD" ? <Form /> : <Lista noti={notify} handleFiltro={handleAplication} />}
+        {action === "ADD" ? <Form /> : <Lista mudaFiltro={handleAplication} noti={notify}/>}
 
         {sair && <div><div className="fixed z-40 inset-0  dark:bg-zinc-700 dark:bg-opacity-40 bg-black bg-opacity-50 "></div>
           <div className="fixed inset-0 flex justify-center items-center  animate-fade z-50">
