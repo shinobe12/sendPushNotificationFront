@@ -5,7 +5,7 @@ import { Trash2 } from "lucide-react";
 import axios from "axios";
 
 //tentando se comunicar a page notification
-type parametros = {mudaFiltro: {mudaFiltro: (app: string) => void}, noti: any}
+type parametros = {mudaFiltro: (app: string) => void, noti: any}
 
 export function Lista({mudaFiltro, noti}: parametros) {
 

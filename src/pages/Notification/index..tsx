@@ -5,9 +5,17 @@ import { Lista } from '../../components/Lista';
 import 'react-toastify/dist/ReactToastify.css';
 import { AuthContext } from '../../Context/auth';
 import { ThemeContext } from '../../Context/theme';
+import { useQuery } from '@tanstack/react-query';
+import axios from 'axios';
 
 
 export function Notification() {
+
+  /*const {data, isFetching} = useQuery("todos", ()=>{
+    return axios
+    .get("https://notify-push-caf7a453e1e5.herokuapp.com/api/v1/notification/push-token/messages?app=com.pagaso.pagaso")
+    .then(response => console.log(response.data))
+  })*/
 
   const { theme, toggleTheme } = useContext(ThemeContext) as any
 
@@ -49,9 +57,13 @@ export function Notification() {
   
   useEffect(() => {
     //https://notify-push-caf7a453e1e5.herokuapp.com/api/v1/notification/push-token/messages?app=
-    fetch(`https://notify-push-caf7a453e1e5.herokuapp.com/api/v1/notification/push-token/messages?app=${aplication}`)
+    try {
+      fetch(`https://notify-push-caf7a453e1e5.herokuapp.com/api/v1/notification/push-token/messages?app=${aplication}`)
       .then((response) => response.json())
       .then((data) => { setNotify(data.messages), setQtdNotify(data.messages.length) })
+    } catch (error) {
+      console.log(error)
+    } 
 
     //console.log(notify)
   }, [aplication, qtdNotify])
