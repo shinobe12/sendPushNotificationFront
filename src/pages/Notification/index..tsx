@@ -1,23 +1,32 @@
 
 import { useContext, useEffect, useMemo, useState } from 'react';
+import { useQuery } from '@tanstack/react-query';
 import { Form } from '../../components/Form'
 import { Lista } from '../../components/Lista';
 import 'react-toastify/dist/ReactToastify.css';
 import { AuthContext } from '../../Context/auth';
 import { ThemeContext } from '../../Context/theme';
-import { useQuery } from '@tanstack/react-query';
 import axios from 'axios';
 
 
 export function Notification() {
 
-  /*const {data, isFetching} = useQuery("todos", ()=>{
-    return axios
-    .get("https://notify-push-caf7a453e1e5.herokuapp.com/api/v1/notification/push-token/messages?app=com.pagaso.pagaso")
-    .then(response => console.log(response.data))
-  })*/
-
   const { theme, toggleTheme } = useContext(ThemeContext) as any
+  
+  const [notify, setNotify] = useState([]);
+  const [aplication, setAplication] = useState("com.pagaso.pagaso")
+  const {data, isFetching, isLoading} = useQuery({queryKey: ["todos"], queryFn: async ()=>{
+    const response = await axios
+      .get(`https://notify-push-caf7a453e1e5.herokuapp.com/api/v1/notification/push-token/messages?app=${aplication}`);
+      
+      return response.data;
+  }, })
+
+  useEffect(()=>{
+    setNotify(data?.messages)
+    if(isLoading) console.log("carregando...")
+    console.log(data)
+  }, [data, aplication])
 
   const { logout, email } = useContext(AuthContext)
 
@@ -31,13 +40,10 @@ export function Notification() {
     return action === "ADD" ? "bg-[#277FE3] dark:hover:bg-[#2563eb] dark:hover:bg-[#2563eb] hover:bg-[#2563eb]" : "bg-[#454545] dark:bg-[#CFE4FF] hover:bg-zinc-700 dark:hover:bg-[#bfdbfe] dark:text-[#393939]"
   }, [action])
 
-
-  const [notify, setNotify] = useState([]);
   const [sair, setSair] = useState(false)
   const [mostrItems, setMostraItems] = useState(false)
   const trocaMostrar = () => setMostraItems(!mostrItems)
   const [isChange, setIsChange] = useState(false)
-  const [aplication, setAplication] = useState("com.pagaso.pagaso")
   const [qtdNotify, setQtdNotify] = useState<null | number>(null)
 
   const handleLogout = () => {
@@ -50,25 +56,23 @@ export function Notification() {
 
   const handleAplication = (filt: string) => {
     setAplication(filt)
-    console.log("teste ", aplication)
+    
   }
   
   //console.log(handleAplication)
   
-  useEffect(() => {
+  /*useEffect(() => {
     //https://notify-push-caf7a453e1e5.herokuapp.com/api/v1/notification/push-token/messages?app=
     try {
       fetch(`https://notify-push-caf7a453e1e5.herokuapp.com/api/v1/notification/push-token/messages?app=${aplication}`)
       .then((response) => response.json())
-      .then((data) => { setNotify(data.messages), setQtdNotify(data.messages.length) })
+      .then((data) => {setNotify(data.messages),  setQtdNotify(data.messages.length) })
     } catch (error) {
       console.log(error)
     } 
 
     //console.log(notify)
-  }, [aplication, qtdNotify])
-  
- 
+  }, [aplication, qtdNotify])*/
 
   return (
 
@@ -161,8 +165,8 @@ export function Notification() {
           </div>
         </div>
 
-
-        {action === "ADD" ? <Form /> : <Lista mudaFiltro={handleAplication} noti={notify}/>}
+        
+        {action === "ADD" ? <Form /> : <Lista mudaFiltro={handleAplication} noti={notify} isLoading={isLoading}/>}
 
         {sair && <div><div className="fixed z-40 inset-0  dark:bg-zinc-700 dark:bg-opacity-40 bg-black bg-opacity-50 "></div>
           <div className="fixed inset-0 flex justify-center items-center  animate-fade z-50">
