@@ -9,9 +9,12 @@ import { InputBanner } from "../Inputs";
 import { InputHeader } from "../InputHeader";
 import { RichText } from '../RichText';
 import { convert } from 'html-to-text'
+import { QueryClient, useMutation, useQueryClient } from "@tanstack/react-query";
 
 
 export function Form() {
+
+    const queryClient = useQueryClient();
 
     const [mostrar, setMostrar] = useState(false)
 
@@ -93,6 +96,7 @@ export function Form() {
         return dimention === true ? "" : ""
       }, [dimention]) 
     
+   
 
     async function enviar(e: any, params: any) {
         e.preventDefault();
@@ -131,12 +135,16 @@ export function Form() {
                 }
             }
 
-
             //https://notify-push-caf7a453e1e5.herokuapp.com/api/v1/notification/push-token/publish
             try {
                 //console.log(dados)
-                await axios.post("https://notify-push-caf7a453e1e5.herokuapp.com/api/v1/notification/push-token/publish", dados
+                await axios.post("http://localhost:3000/com.pagaso.pagaso", dados
                 )
+                
+                queryClient.invalidateQueries({
+                    queryKey: ['todos'],
+                    exact: true,})
+
                 setIsSucess(true)
                 
             } catch (error: any) {
@@ -145,6 +153,9 @@ export function Form() {
             //resetInputs()
         }
     }
+
+    
+   
 
     const qtd = formObject.mensagem.length
     

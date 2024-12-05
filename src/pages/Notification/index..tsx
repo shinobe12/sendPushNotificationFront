@@ -1,6 +1,6 @@
 
 import { useContext, useEffect, useMemo, useState } from 'react';
-import { useQuery } from '@tanstack/react-query';
+import { QueryClient, useQuery, useQueryClient } from '@tanstack/react-query';
 import { Form } from '../../components/Form'
 import { Lista } from '../../components/Lista';
 import 'react-toastify/dist/ReactToastify.css';
@@ -12,19 +12,31 @@ import axios from 'axios';
 export function Notification() {
 
   const { theme, toggleTheme } = useContext(ThemeContext) as any
-  
+
   const [notify, setNotify] = useState([]);
   const [aplication, setAplication] = useState("com.pagaso.pagaso")
-  const {data, isFetching, isLoading} = useQuery({queryKey: ["todos"], queryFn: async ()=>{
-    const response = await axios
-      .get(`https://notify-push-caf7a453e1e5.herokuapp.com/api/v1/notification/push-token/messages?app=${aplication}`);
-      
+  
+  
+  const { data, isFetching, isLoading } = useQuery({
+    queryKey: ["todos"], queryFn: async () => {
+      const response = await axios
+      //https://notify-push-caf7a453e1e5.herokuapp.com/api/v1/notification/push-token/messages?app=${aplication}
+        .get(`http://localhost:3000/${aplication}`);
+        
       return response.data;
-  }, })
+    }
+    
+  })
 
-  useEffect(()=>{
-    setNotify(data?.messages)
-    if(isLoading) console.log("carregando...")
+  const queryClient = useQueryClient();
+
+  const refrech = async () =>{
+    
+  }
+  
+  useEffect(() => {
+    setNotify(data)
+    if (isLoading) console.log("carregando...")
     console.log(data)
   }, [data, aplication])
 
@@ -54,13 +66,16 @@ export function Notification() {
     }
   }
 
-  const handleAplication = (filt: string) => {
+  const handleAplication = async (filt: string) => {
+    
     setAplication(filt)
     
+    await queryClient.refetchQueries({ queryKey: ['todos'], type: 'active' })
+
   }
-  
+
   //console.log(handleAplication)
-  
+
   /*useEffect(() => {
     //https://notify-push-caf7a453e1e5.herokuapp.com/api/v1/notification/push-token/messages?app=
     try {
@@ -165,8 +180,8 @@ export function Notification() {
           </div>
         </div>
 
-        
-        {action === "ADD" ? <Form /> : <Lista mudaFiltro={handleAplication} noti={notify} isLoading={isLoading}/>}
+
+        {action === "ADD" ? <Form /> : <Lista mudaFiltro={handleAplication} noti={notify} />}
 
         {sair && <div><div className="fixed z-40 inset-0  dark:bg-zinc-700 dark:bg-opacity-40 bg-black bg-opacity-50 "></div>
           <div className="fixed inset-0 flex justify-center items-center  animate-fade z-50">
