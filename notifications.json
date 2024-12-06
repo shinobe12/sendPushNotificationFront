@@ -1,0 +1,140 @@
+{
+  "com.pagaso.pagaso": [
+    {
+      "id": "11e1",
+      "app_name": "com.pagaso.pagaso",
+      "send_to_everyone": true,
+      "body": "sms no teste",
+      "title": "testando",
+      "channel": "default",
+      "subtitle": "",
+      "users": [
+        ""
+      ],
+      "data": {
+        "tags": "INFO",
+        "header_url": "https://pub-cf908b5ef11d4453970dc18f97228c39.r2.dev/pagaso-1733411767829.jpeg",
+        "banner_url": "https://pub-cf908b5ef11d4453970dc18f97228c39.r2.dev/pagaso-1733411779045.png",
+        "description": "<p>texto rico</p>\n"
+      }
+    },
+    {
+      "id": "5dc3",
+      "app_name": "com.pagaso.pagaso",
+      "send_to_everyone": true,
+      "body": "desfrute",
+      "title": "888bet ta connosco",
+      "channel": "default",
+      "subtitle": "",
+      "users": [
+        ""
+      ],
+      "data": {
+        "tags": "NEW FEACTURE",
+        "header_url": "https://pub-cf908b5ef11d4453970dc18f97228c39.r2.dev/pagaso-1733411848607.jpeg",
+        "banner_url": "https://pub-cf908b5ef11d4453970dc18f97228c39.r2.dev/pagaso-1733411853531.png",
+        "description": "<p>venha consumir</p>\n"
+      }
+    },
+    {
+      "id": "2d77",
+      "app_name": "com.pagaso.pagaso",
+      "send_to_everyone": true,
+      "body": "Caro utilizador, temos nova funcionalidade!!!",
+      "title": "Nova Funcionalidade na Pagaso",
+      "channel": "default",
+      "subtitle": "Atenção",
+      "users": [
+        ""
+      ],
+      "data": {
+        "tags": "NEW FEACTURE",
+        "header_url": "https://pub-cf908b5ef11d4453970dc18f97228c39.r2.dev/pagaso-1733472210429.jpeg",
+        "banner_url": "https://pub-cf908b5ef11d4453970dc18f97228c39.r2.dev/pagaso-1733472223321.png",
+        "description": "<p><strong>Adicionamos</strong> a dashoard para sua melhor experiência</p>\n"
+      }
+    }
+  ],
+  "com.pagaso.somoney": [
+    {
+      "notification_id": 1,
+      "app_name": "com.pagaso.somoney",
+      "body": "jogos novos",
+      "title": "Testando Novos ",
+      "subtitle": "So Money",
+      "data": {
+        "banner_url": "",
+        "header_url": "",
+        "tags": "",
+        "description": ""
+      },
+      "create_at": "2024-09-04 15:04:28.619752054 +0000 UTC",
+      "updated_at": "2024-09-04 15:04:28.619752126 +0000 UTC",
+      "id": "ed30"
+    },
+    {
+      "notification_id": 34,
+      "app_name": "com.pagaso.somoney",
+      "body": "Presados Cliente, viemos por esta informa-lo que ja superamos a falha de pagamentos...",
+      "title": "Actualizações",
+      "subtitle": "Status dos Pagamentos",
+      "data": {
+        "banner_url": "",
+        "header_url": "",
+        "tags": "",
+        "description": ""
+      },
+      "create_at": "2024-09-06 10:01:17.354724234 +0000 UTC",
+      "updated_at": "2024-09-06 10:01:17.354724325 +0000 UTC",
+      "id": "c526"
+    },
+    {
+      "notification_id": 35,
+      "app_name": "com.pagaso.somoney",
+      "body": "Viemos outra vez vos actualizar sobre a falha de pagamentos...",
+      "title": "Actualizações Sobre Erros",
+      "subtitle": "Pagamentos",
+      "data": {
+        "banner_url": "",
+        "header_url": "",
+        "tags": "",
+        "description": ""
+      },
+      "create_at": "2024-09-06 10:03:47.882748359 +0000 UTC",
+      "updated_at": "2024-09-06 10:03:47.882748423 +0000 UTC",
+      "id": "1ec8"
+    },
+    {
+      "notification_id": 36,
+      "app_name": "com.pagaso.somoney",
+      "body": "Estimado Cliente, voltamos para pedir as nossas sinceras desculpas pelos constrangimentos causados ao longo dos últimos dias...",
+      "title": "Pedidos de Desculpas",
+      "subtitle": "Só Money",
+      "data": {
+        "banner_url": "",
+        "header_url": "",
+        "tags": "",
+        "description": ""
+      },
+      "create_at": "2024-09-06 10:20:08.648483003 +0000 UTC",
+      "updated_at": "2024-09-06 10:20:08.648483064 +0000 UTC",
+      "id": "b04d"
+    },
+    {
+      "notification_id": 100,
+      "app_name": "com.pagaso.somoney",
+      "body": "ii",
+      "title": "h",
+      "subtitle": "k",
+      "data": {
+        "banner_url": "",
+        "header_url": "",
+        "tags": "",
+        "description": ""
+      },
+      "create_at": "2024-10-17 15:48:20.991286385 +0000 UTC",
+      "updated_at": "2024-10-17 15:48:20.991286468 +0000 UTC",
+      "id": "4abd"
+    }
+  ]
+}

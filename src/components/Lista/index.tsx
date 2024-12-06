@@ -1,24 +1,23 @@
 import { useEffect, useMemo, useState } from "react";
 import { usePagination } from "./pagination";
 import moment from "moment";
-import { key } from "localforage";
+import { Trash2 } from "lucide-react";
+import axios from "axios";
+import { useQueryClient } from "@tanstack/react-query";
 
+//tentando se comunicar a page notification
+type parametros = { mudaFiltro: (app: string) => void, noti: any, isLoading: boolean, status:boolean }
 
-interface listNotifications {
-  id: number;
-  select: string;
-  app: string;
-  titulo: string;
-  subTitulo: number;
-  mensagem: string;
-}
+export function Lista({ mudaFiltro, noti, isLoading, status }: parametros) {
 
-export function Lista() {
   const [notify, setNotify] = useState([]);
   const [showPrevew, setShowPrevew] = useState(false)
   const [dimention, setDimention] = useState(false)
-
+  const [excluir, setExcluir] = useState(false)
+  const [sucess, setSucess] = useState(false)
+  const [prevew, setPrevew] = useState<null | string>(null)
   const [filtro, setFiltro] = useState("com.pagaso.pagaso")
+  const [key, setKey] = useState<null | any>(null)
   const filtros: { [key: string]: string } = {
     "com.pagaso.pagaso": "PagaSó",
     "com.pagaso.somoney": "SóMoney"
@@ -30,42 +29,66 @@ export function Lista() {
     handleBackPage,
     handleNextPage,
     totalPages,
-  } = usePagination(notify!, 3);
-  console.log(totalPages)
+  } = usePagination(noti!, 3);
 
-  const fetchNotifications = () => {
-    //https://notify-push-caf7a453e1e5.herokuapp.com/api/v1/notification/push-token/messages?app=
-    fetch(`https://notify-push-caf7a453e1e5.herokuapp.com/api/v1/notification/push-token/messages?app=${filtro}`)
+  /*const Timeout = (time: number) => {
+    let controller = new AbortController();
+    setTimeout(() => controller.abort(), time * 1000);
+    return controller;
+  };*/
+
+  /*useEffect(() => {   
+
+      fetch(`https://notify-push-caf7a453e1e5.herokuapp.com/api/v1/notification/push-token/messages?app=${filtro}`)
       .then((response) => response.json())
       .then((data) => setNotify(data.messages))
+    
+  }, [filtro])*/
+
+  const queryClient = useQueryClient();
+
+  useEffect(() => {
+    mudaFiltro(filtro)
+  }, [filtro])
+
+  const Delete = async (idNoti: string) => {
+    try {
+
+      //https://notify-push-caf7a453e1e5.herokuapp.com/api/v1/notification/push-token/messages?app=${filtro}
+      await axios.delete(`https://notify-push-caf7a453e1e5.herokuapp.com/api/v1/notification/push-token/messages?app=${filtro}/${idNoti}`)
+
+      queryClient.invalidateQueries({
+        queryKey: ['todos'],
+        exact: true,
+      })
+      console.log("eliminado com sucesso!")
+      setSucess(true)
+    } catch (error) {
+      console.log("erro ao eliminar: ", error)
+    }
+
   }
 
-  useEffect(() => {
-    fetchNotifications()
-  }, [filtro]);
 
+  //console.log(key)
   useEffect(() => {
-    showPrevew ? setDimention(true): setDimention(false)
+    showPrevew ? setDimention(true) : setDimention(false)
   }, [showPrevew]);
 
   const prev = useMemo(() => {
-    return dimention === true ? "w-[40%] opacity-100" : "w-12 opacity-0 "
+    return dimention === true ? "w-[40%] opacity-100" : "w-12 opacity-0"
   }, [dimention])
   const hidden = useMemo(() => {
     return dimention === true ? "" : ""
-  }, [dimention]) 
+  }, [dimention])
 
-  /*useEffect(()=>{
-    dimention === false ? setShowPrevew(false): setDimention(true)
-  }, [])*/
-  
   return (
     <main className='min-h-screen bg-zinc-950 dark:bg-[#fff] flex justify-center'>
       <div className="w-[min(80%,58rem)] animate-fade mt-20 h-min(100%, 40rem) md:w-[70%] lg:w-[45%] lg:mt-[6%]">
-        <div className=' md:mt-0 p-8 bg-[#272729] dark:bg-[#fff] dark:shadow-lg dark:ring-1 ring-zinc-300 rounded-lg text-white text-center '>
+        <div id="notifications" className=' md:mt-0 p-8 bg-[#272729] dark:bg-[#fff] dark:shadow-lg dark:ring-1 ring-zinc-300 rounded-lg text-white text-center '>
           <div className="flex justify-end items-center space-x-3 ">
-            <p className="dark:text-zinc-700 mt-2  md:mt-0">Filtrar</p>
-            <select required id="filtro" className="mt-4 md:mt-0 lg:mt-0 p-1 lg:p-1 lg:ml-3 text-sm cursor-pointer
+            <p className="dark:text-zinc-700 mt-2 md:mt-0">Filtrar</p>
+            <select required id="filtro" className="mt-2 md:mt-0 lg:mt-0 p-1 lg:p-1 lg:ml-3 text-sm cursor-pointer
                                 rounded-md placeholder-slate-400 text-zinc-700 bg-gradient-to-t from-[#E8F2FF] dark:shadow-lg
                                 focus:outline-none dark:ring-1 dark:ring-[#EEEEEE]" value={filtro} onChange={e => { setFiltro(e.target.value) }
               }>
@@ -75,18 +98,25 @@ export function Lista() {
 
           </div>
 
-          {totalPages === 0 ? <div role="status" className="flex justify-center mt-10">
+          {status &&
+            <div className='p-12 text-white'>
+              <p>Ups!!!</p>
+              <p>Verifique sua Internet, e tente novamente</p>
+            </div>
+          }
+
+          {isLoading ? <div role="status" className="flex justify-center mt-10">
             <svg aria-hidden="true" className=" w-8 h-8 text-gray-200 animate-spin dark:text-zinc-200 fill-blue-600" viewBox="0 0 100 101" fill="none" xmlns="http://www.w3.org/2000/svg">
               <path d="M100 50.5908C100 78.2051 77.6142 100.591 50 100.591C22.3858 100.591 0 78.2051 0 50.5908C0 22.9766 22.3858 0.59082 50 0.59082C77.6142 0.59082 100 22.9766 100 50.5908ZM9.08144 50.5908C9.08144 73.1895 27.4013 91.5094 50 91.5094C72.5987 91.5094 90.9186 73.1895 90.9186 50.5908C90.9186 27.9921 72.5987 9.67226 50 9.67226C27.4013 9.67226 9.08144 27.9921 9.08144 50.5908Z" fill="currentColor" />
               <path d="M93.9676 39.0409C96.393 38.4038 97.8624 35.9116 97.0079 33.5539C95.2932 28.8227 92.871 24.3692 89.8167 20.348C85.8452 15.1192 80.8826 10.7238 75.2124 7.41289C69.5422 4.10194 63.2754 1.94025 56.7698 1.05124C51.7666 0.367541 46.6976 0.446843 41.7345 1.27873C39.2613 1.69328 37.813 4.19778 38.4501 6.62326C39.0873 9.04874 41.5694 10.4717 44.0505 10.1071C47.8511 9.54855 51.7191 9.52689 55.5402 10.0491C60.8642 10.7766 65.9928 12.5457 70.6331 15.2552C75.2735 17.9648 79.3347 21.5619 82.5849 25.841C84.9175 28.9121 86.7997 32.2913 88.1811 35.8758C89.083 38.2158 91.5421 39.6781 93.9676 39.0409Z" fill="currentFill" />
             </svg>
 
           </div> :
-            getItemsPage().reverse().map(item =>
-              <div className="p-1 md:p-4 rounded-md ring-1 mt-10 ring-[#D4D4D4]" key={item?.notification_id}>
+            getItemsPage()?.reverse().map(item =>
+              <div className="p-1 md:p-2 rounded-md ring-1 mt-10 ring-[#D4D4D4]" key={item?.notification_id} >
                 <div className="md:flex justify-between p-2 text-sm md:text-md">
                   <div className="dark:text-zinc-900 flex items-center h-12">
-                    {filtro === "com.pagaso.pagaso" && <svg width="44" height="44" className="w-10" viewBox="0 0 44 44" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    {item?.app_name === "com.pagaso.pagaso" && <svg width="44" height="44" className="w-10" viewBox="0 0 44 44" fill="none" xmlns="http://www.w3.org/2000/svg">
                       <circle cx="22" cy="22" r="22" fill="#BF181D" />
                       <path d="M19.1206 14.1143C18.408 13.4369 17.2889 13.068 15.764 13.0073C14.9854 12.9764 14.1982 13.0442 13.4036 13.2107C12.6087 13.3772 11.8901 13.6733 11.2478 14.099C10.6051 14.5247 10.0708 15.0857 9.64544 15.7812C9.21939 16.4768 8.98648 17.3388 8.94565 18.3663C8.90943 19.2834 9.0337 20.0407 9.3188 20.6376C9.60355 21.2348 9.97422 21.7286 10.4301 22.1188C10.8856 22.509 11.3809 22.8215 11.9163 23.0565C12.4514 23.2915 12.9499 23.5174 13.4128 23.7336C13.8755 23.9502 14.2561 24.1827 14.555 24.432C14.8536 24.6816 14.9953 25.0039 14.9797 25.3991C14.9708 25.6207 14.9104 25.8085 14.799 25.9619C14.6871 26.1159 14.5444 26.2367 14.3701 26.3251C14.1961 26.4131 13.9987 26.4728 13.7778 26.5033C13.5574 26.5342 13.3333 26.5452 13.1061 26.536C12.538 26.5132 12.0427 26.3989 11.6206 26.1919C11.1981 25.9853 10.8292 25.757 10.5142 25.5067C10.199 25.2567 9.91954 25.0316 9.67562 24.8321C9.43135 24.6322 9.19596 24.5282 8.96908 24.5189C8.64421 24.5062 8.41237 24.7266 8.27248 25.18C8.13259 25.6338 8.04205 26.3822 8.00051 27.4257C7.99057 27.6789 8.12549 27.965 8.40527 28.2849C8.68504 28.6048 9.07524 28.9052 9.57621 29.1867C10.0772 29.4676 10.6683 29.709 11.3514 29.9103C12.0338 30.1113 12.7809 30.2285 13.5921 30.2604C14.533 30.2977 15.3617 30.2036 16.0775 29.9789C16.7933 29.7541 17.3912 29.4253 17.8715 28.9932C18.3519 28.5608 18.7215 28.0453 18.9811 27.4459C19.2402 26.8466 19.384 26.199 19.4114 25.5031C19.4465 24.6176 19.3088 23.8802 18.9995 23.2898C18.6896 22.6997 18.2908 22.2008 17.8034 21.7932C17.3155 21.386 16.7805 21.0519 16.1978 20.7913C15.6149 20.5307 15.0766 20.2758 14.5827 20.0265C14.0889 19.7776 13.6806 19.5121 13.3589 19.2298C13.0369 18.9483 12.8845 18.5936 12.9012 18.1664C12.9208 17.6765 13.1391 17.2852 13.557 16.993C13.9745 16.7008 14.4432 16.5648 14.9626 16.5854C15.3358 16.6003 15.6244 16.6948 15.8289 16.8691C16.0331 17.0434 16.1794 17.2511 16.2674 17.4922C16.3555 17.7333 16.4066 17.9807 16.4208 18.2346C16.435 18.4888 16.4393 18.6947 16.4329 18.8527C16.4261 19.0271 16.4616 19.1428 16.5408 19.2014C16.6196 19.2603 16.8053 19.2951 17.0972 19.3065C18.038 19.3438 18.7694 19.1393 19.291 18.6926C19.8122 18.2463 20.0909 17.5803 20.1257 16.6948C20.1673 15.6513 19.8314 14.791 19.1188 14.1132L19.1206 14.1143Z" fill="#F7C218" />
                       <path d="M32.132 18.9593C31.2859 17.952 29.8412 17.4077 27.7969 17.3268C26.4012 17.2714 25.2288 17.4429 24.2787 17.8405C23.3282 18.2386 22.5553 18.7818 21.9595 19.4709C21.3631 20.1597 20.9295 20.9543 20.6583 21.854C20.387 22.754 20.2326 23.6779 20.195 24.6266C20.1623 25.4488 20.2209 26.2232 20.3711 26.9496C20.5209 27.6764 20.8042 28.3173 21.221 28.8719C21.6379 29.4268 22.2091 29.8727 22.9352 30.2107C23.6609 30.5484 24.584 30.7394 25.7035 30.7838C26.7257 30.8243 27.619 30.7327 28.3834 30.5097C29.1478 30.2871 29.8064 29.9725 30.3585 29.5667C30.911 29.1612 31.3722 28.6887 31.7432 28.149C32.1139 27.6097 32.4121 27.0515 32.6383 26.4742C32.8641 25.8976 33.0256 25.3136 33.1219 24.7238C33.2184 24.1338 33.2763 23.5941 33.2958 23.1034C33.3654 21.3484 32.9774 19.9673 32.1316 18.9597L32.132 18.9593ZM29.1535 23.0814C29.1389 23.4453 29.0846 23.8945 28.9905 24.4288C28.8961 24.9639 28.7377 25.4723 28.5158 25.9541C28.2932 26.4362 27.9929 26.8442 27.6144 27.1772C27.2355 27.5106 26.7619 27.6661 26.1942 27.6434C25.5615 27.6182 25.0843 27.354 24.7633 26.8502C24.442 26.3468 24.3021 25.5731 24.3433 24.5296C24.3565 24.1977 24.4008 23.7918 24.4768 23.3115C24.5528 22.8318 24.6923 22.378 24.8965 21.9502C25.0999 21.5231 25.3907 21.162 25.7681 20.8684C26.1455 20.5748 26.6423 20.4398 27.259 20.4643C27.9889 20.4935 28.4949 20.7388 28.7775 21.2014C29.0598 21.664 29.1855 22.2907 29.1539 23.081L29.1535 23.0814Z" fill="#F7C218" />
@@ -94,7 +124,7 @@ export function Lista() {
                       <path d="M35.1105 17.2583C34.8566 16.9685 34.422 16.5109 34.214 16.5173C34.2136 16.5183 31.9325 17.8267 31.8962 17.848C31.724 18.1672 32.2218 18.8201 32.4806 18.7037C36.2299 18.1114 35.4059 17.6101 35.1101 17.2583H35.1105Z" fill="white" />
                       <path d="M35.3026 18.9418L33.1137 19.0597C32.5705 19.9903 33.7354 19.9775 34.176 20.122C34.6738 20.2072 35.4712 20.5239 35.6349 20.215C35.7499 19.8202 35.4094 18.8864 35.3026 18.9418Z" fill="white" />
                     </svg>}
-                    {filtro === "com.pagaso.somoney" && <div className="">
+                    {item?.app_name === "com.pagaso.somoney" && <div className="">
                       <svg width="44" height="44" viewBox="0 0 44 44" className="w-10" fill="none" xmlns="http://www.w3.org/2000/svg">
                         <circle cx="22" cy="22" r="22" fill="#143163" />
                         <path d="M22.9821 23.7101C22.738 23.6988 22.495 23.6848 22.2519 23.6679C21.7056 23.6267 21.1631 23.5639 20.6254 23.4786C20.0866 23.397 19.5526 23.294 19.0242 23.1684C17.9674 22.921 16.9312 22.5911 15.9251 22.1843C15.422 21.98 14.9274 21.7551 14.4393 21.5124C14.1371 21.3615 13.8377 21.2031 13.543 21.0363C13.7279 20.7214 13.9118 20.4056 14.0911 20.0879C14.1887 19.9192 14.2826 19.7495 14.3764 19.579C14.0104 19.3175 13.6857 19.0729 13.4069 18.8555C13.2802 19.0579 13.1535 19.2603 13.0305 19.4656C12.7696 19.8901 12.5143 20.3193 12.2637 20.7504C12.1933 20.8713 12.1239 20.9913 12.0535 21.1122C12.2309 21.22 12.4092 21.3249 12.5894 21.428C13.085 21.7101 13.5909 21.9697 14.1042 22.2078C14.6176 22.4458 15.1404 22.6585 15.6698 22.8488C16.7285 23.2302 17.8144 23.517 18.9134 23.7082C19.4634 23.8028 20.0162 23.8741 20.5709 23.9228C21.1256 23.9678 21.6822 23.9903 22.2387 23.9893C22.7934 23.9903 23.3481 23.9594 23.9 23.9097C23.5903 23.8506 23.2833 23.7841 22.9802 23.7101H22.9821Z" fill="#17CFDA" />
@@ -112,36 +142,80 @@ export function Lista() {
                   </div>
                   <div className="text-bold flex justify-start items-center dark:text-zinc-900 h-12 w-[90%] md:w-[35%] lg:w-[40%] md:justify-end mr-[42%] sm:mr-[75%] md:mr-[0%]">Data: <p className="font-light ml-1">{moment(new Date(item?.updated_at)).format("DD/MM/yyy, HH:mm:ss")}</p></div>
                 </div>
-                <div className="text-justify mt-3 bg-[#454545] dark:bg-[#E8F2FF] rounded-md p-3">
-                  <h2 className="text-start dark:text-zinc-900 md:flex">Titulo da Mensagem: <p className="font-light ml-1">{item?.title}</p></h2>
-                  <hr className="md:hidden"/>
+                <div className="text-justify mt-3 bg-[#454545] dark:bg-[#E8F2FF] rounded-md p-3" >
+                  <h2 className="text-start dark:text-zinc-900 md:flex">Titulo da Mensagem: <p className="font-light ml-1" >{item?.title}</p></h2>
+                  <hr className="md:hidden" />
                   <p className="font-light dark:text-zinc-900 text-sm">
-                    { item?.body }
+                    {item?.body}
+
                   </p>
                 </div>
-                {<div className="flex justify-end">
-                  <button type="button" onClick={() => setShowPrevew(true)} className="mt-2 transition duration-300 hover:text-zinc-200 dark:hover:text-white 
-                  hover:bg-zinc-700 rounded bg-zinc-600 text-sm text-white dark:text-zinc-700 transition duration-300 dark:hover:bg-sky-500 
-                  dark:hover:text-white dark:ring-1 dark:ring-zinc-[#EEE] p-1.5 w-[90px] dark:bg-white">Prévia</button>
+
+                {<div className="flex justify-end items-center">
+                  <div className="p-1 mt-3 text-[#FF6D6D] cursor-pointer hover:translate-y-0.5 duration-300 relative" onClick={() => { setExcluir(true) }}>
+                    <Trash2 size={23} />
+                  </div>
+                  {excluir && <div><div className="fixed z-40 inset-0 dark:bg-zinc-700 dark:bg-opacity-40 bg-black bg-opacity-30"></div>
+                    <div className="fixed inset-0 flex justify-center items-center  animate-fade z-40">
+                      <div className="bg-[#fff]  p-3 rounded-md flex w-[200px] justify-center">
+                        <div className="">
+                          <div className="flex justify-center text-[#FF6D6D]">
+                            {sucess && <svg xmlns="http://www.w3.org/2000/svg" color="#0891b2" width="25" height="25" viewBox="0 0 24 24" fill="none"
+                              stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"
+                              className="lucide lucide-thumbs-up"><path d="M7 10v12" /><path d="M15 5.88 14 10h5.83a2 2 0 0 1 1.92 2.56l-2.33 8A2
+                           2 0 0 1 17.5 22H4a2 2 0 0 1-2-2v-8a2 2 0 0 1 2-2h2.76a2 2 0 0 0 1.79-1.11L12 2a3.13 3.13 0 0 1 3 3.88Z" /></svg>}
+                            {!sucess && <Trash2 size={30} />}
+                          </div>
+                          {!sucess &&
+                            <div>
+                              <div className="p-2 text-center text-[#656565] font-semibold font-family-sans"><p>Tem certeza que<br />pretende eliminar essa notificação?</p></div>
+                              <div className="flex p-2"><button type="button" onClick={() => setExcluir(false)} className="bg-[#D4D4D4] transition  duration-300 hover:bg-zinc-400 text-white font-family-sans rounded-md p-2 w-full">Cancelar</button>
+                                <button type="button" onClick={() => Delete(item?.notification_id)} className="bg-[#FF6D6D] ml-2 transition  duration-300 hover:bg-[#D05959] text-white font-family-sans rounded-md p-2 w-full">Confirmar</button>
+                              </div>
+                            </div>
+                          }
+                          {sucess &&
+                            <div>
+                              <div className="p-2 text-center text-[#656565] font-semibold font-family-sans"><p>Notificação eliminada!</p></div>
+                              <div>
+                                <button type="button" onClick={() => { setExcluir(false), setSucess(false) }} className="bg-sky-600 transition  duration-300 hover:bg-sky-700 text-white font-family-sans rounded-md p-2 w-full">OK</button>
+                              </div>
+                            </div>
+                          }
+                        </div>
+                      </div>
+                    </div></div>}
+                  {/* icon to prevew */}
+                  <button onClick={() => {
+                    setPrevew(item?.data.description)
+                    setShowPrevew(true)
+                  }} type="button" className="p-1.5 mt-3 bg-[#454545] dark:bg-[#E8F2FF] hover:bg-zinc-700 hover:translate-y-0.5 duration-300 rounded animate-fade">
+                    <svg width="15" height="15" viewBox="0 0 19 13" fill="none" className="" xmlns="http://www.w3.org/2000/svg">
+                      <path fillRule="evenodd" clipRule="evenodd" d="M0.225958 5.77588C2.80141 1.98685 6.14077 0 9.48621 0C13.4153 0 16.7998 2.62712 18.7967 5.79248L18.7976 5.79397C18.9297 6.0047 19 6.25001 19 6.50061C19 6.75076 18.93 6.99562 18.7983 7.2061C16.8032 10.4122 13.4405 13 9.48621 13C5.48977 13 2.19193 10.4176 0.201723 7.22082C0.0664912 7.0053 -0.00364869 6.75354 0.00014624 6.4972C0.00395061 6.24021 0.0818876 5.99015 0.224108 5.77862L0.225958 5.77588ZM1.26662 6.51695L1.26837 6.51975C3.1066 9.47305 6.05285 11.7 9.48621 11.7C12.8811 11.7 15.8909 9.46358 17.7313 6.50563L17.7325 6.50369L17.7334 6.50061L17.7332 6.49925L17.7326 6.49766C15.8852 3.56993 12.8508 1.3 9.48621 1.3C6.66236 1.3 3.6734 2.97748 1.26662 6.51695ZM9.49966 3.9C8.1006 3.9 6.96643 5.06406 6.96643 6.5C6.96643 7.93594 8.1006 9.1 9.49966 9.1C10.8987 9.1 12.0329 7.93594 12.0329 6.5C12.0329 5.06406 10.8987 3.9 9.49966 3.9ZM5.69981 6.5C5.69981 4.34609 7.40106 2.6 9.49966 2.6C11.5983 2.6 13.2995 4.34609 13.2995 6.5C13.2995 8.65391 11.5983 10.4 9.49966 10.4C7.40106 10.4 5.69981 8.65391 5.69981 6.5Z" fill="#838383" />
+                    </svg>
+                  </button>
                 </div>}
-                {showPrevew && 
-                <div onClickCapture={() => {setShowPrevew(false)}} className={`${hidden} fixed inset-0 flex justify-end z-40  dark:bg-opacity-20 bg-black bg-opacity-20 `}>
+                {showPrevew &&
+                  <div onClickCapture={() => {
+                    setShowPrevew(false)
+                  }} className={`${hidden} fixed inset-0 flex justify-end z-40  dark:bg-opacity-20 bg-black bg-opacity-20 `}>
                     <div onClickCapture={() => setShowPrevew(true)} className={`sidebar absolute ${prev} duration-300 relative top-0 buttom-0 lg:right-0 p-10  overflow-y-auto bg-zinc-100 h-full `}>
-                        <div className="flex justify-end">
-                            <button type="button" onClick={() => {setDimention(!dimention), setShowPrevew(false)}} className="">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="lucide lucide-x text-zinc-600 hover:text-zinc-400 duration-300 "><path d="M18 6 6 18" /><path d="m6 6 12 12" /></svg>
-                            </button>
-                        </div>
-                        <div className='bg-zinc-50 mt-5 rounded-md p-5'>
-                            <div className="text-zinc-700" dangerouslySetInnerHTML={{ __html: item?.data.description }}></div>
-                        </div>
+                      <div className="flex justify-end">
+                        <button type="button" onClick={() => { setDimention(!dimention), setShowPrevew(false) }}>
+                          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="lucide lucide-x text-zinc-600 hover:text-zinc-400 duration-300 "><path d="M18 6 6 18" /><path d="m6 6 12 12" /></svg>
+                        </button>
+                      </div>
+                      <div className='bg-zinc-50 mt-5 rounded-md p-5'>
+                        <div className="text-zinc-700" dangerouslySetInnerHTML={{ __html: prevew === null ? "" : prevew }}></div>
+                      </div>
                     </div>
-                </div>
-            }
+                  </div>
+                }
               </div>
-              
+
             )}
 
+          {/* paginação */}
           <div className="flex justify-center mt-5">
 
             <button type="button" onClick={handleBackPage} disabled={actualPage === 1}>
@@ -150,7 +224,6 @@ export function Lista() {
                 <path fillRule="evenodd" clipRule="evenodd" d="M10.2197 14.5051C9.92678 14.2261 9.92678 13.7739 10.2197 13.4949L14.7197 9.20921C15.0126 8.93026 15.4874 8.93026 15.7803 9.20921C16.0732 9.48815 16.0732 9.94042 15.7803 10.2194L11.8107 14L15.7803 17.7806C16.0732 18.0596 16.0732 18.5118 15.7803 18.7908C15.4874 19.0697 15.0126 19.0697 14.7197 18.7908L10.2197 14.5051Z" fill="#BCBCBC" />
               </svg>
             </button>
-
 
             <div className="font-light mt-0.5 mr-2 ml-2 flex dark:text-zinc-700"><p className="mr-1 text-sky-500"> {actualPage} </p> de {totalPages} </div>
 
@@ -163,7 +236,7 @@ export function Lista() {
           </div>
         </div>
       </div>
-      
+
     </main>
 
   );

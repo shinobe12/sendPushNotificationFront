@@ -1,16 +1,64 @@
 
 import { useContext, useEffect, useMemo, useState } from 'react';
+import { QueryClient, useQuery, useQueryClient } from '@tanstack/react-query';
 import { Form } from '../../components/Form'
 import { Lista } from '../../components/Lista';
 import 'react-toastify/dist/ReactToastify.css';
 import { AuthContext } from '../../Context/auth';
 import { ThemeContext } from '../../Context/theme';
+import axios from 'axios';
 
 
 export function Notification() {
-  const {theme, toggleTheme} = useContext(ThemeContext) as any
 
-  const {logout, email} = useContext(AuthContext)
+  const { theme, toggleTheme } = useContext(ThemeContext) as any
+
+  const [notify, setNotify] = useState([]);
+  const [aplication, setAplication] = useState("com.pagaso.pagaso")
+  const[statusNotification, setStatusNotification] = useState(false)
+
+  const { data, isLoading, isError } = useQuery({
+    queryKey: ["todos"], queryFn: async () => {
+      try {
+        const response = await axios
+        //https://notify-push-caf7a453e1e5.herokuapp.com/api/v1/notification/push-token/messages?app=${aplication}
+        .get(`https://notify-push-caf7a453e1e5.herokuapp.com/api/v1/notification/push-token/messages?app=${aplication}`);
+        
+      return response.data; 
+      } catch (error) {
+        setStatusNotification(true)
+        console.log("status: ", isError,)
+      }
+      
+    }
+
+  })
+
+  const queryClient = useQueryClient();
+
+  const handleAplication = async (filt: string) => {
+    setAplication(filt)
+    await queryClient.refetchQueries({ queryKey: ['todos'], type: 'active' })
+    
+  }
+
+  useEffect( () => {
+   queryClient.invalidateQueries({
+    queryKey: ["todos"],
+    exact: true
+   })
+  }, [aplication])
+
+  useEffect( () => {
+    if(data){
+      //setNotify(data) para a API fake, ou local
+      setNotify(data?.messages)
+      if (isLoading) console.log("carregando...")
+      
+    }
+  }, [data])
+
+  const { logout, email } = useContext(AuthContext)
 
   const [action, setAction] = useState<"LIST" | "ADD">("LIST")
 
@@ -22,24 +70,36 @@ export function Notification() {
     return action === "ADD" ? "bg-[#277FE3] dark:hover:bg-[#2563eb] dark:hover:bg-[#2563eb] hover:bg-[#2563eb]" : "bg-[#454545] dark:bg-[#CFE4FF] hover:bg-zinc-700 dark:hover:bg-[#bfdbfe] dark:text-[#393939]"
   }, [action])
 
-  //const { theme }: any = useContext(ThemeContext)
-  //console.log(theme)
-
-
   const [sair, setSair] = useState(false)
   const [mostrItems, setMostraItems] = useState(false)
   const trocaMostrar = () => setMostraItems(!mostrItems)
-
   const [isChange, setIsChange] = useState(false)
-
+  const [qtdNotify, setQtdNotify] = useState<null | number>(null)
 
   const handleLogout = () => {
-    
-   if(logout){
-    setSair(false)
-    logout()
-   }
+
+    if (logout) {
+      setSair(false)
+      logout()
+    }
   }
+
+  
+
+  //console.log(handleAplication)
+
+  /*useEffect(() => {
+    //https://notify-push-caf7a453e1e5.herokuapp.com/api/v1/notification/push-token/messages?app=
+    try {
+      fetch(`https://notify-push-caf7a453e1e5.herokuapp.com/api/v1/notification/push-token/messages?app=${aplication}`)
+      .then((response) => response.json())
+      .then((data) => {setNotify(data.messages),  setQtdNotify(data.messages.length) })
+    } catch (error) {
+      console.log(error)
+    } 
+
+    //console.log(notify)
+  }, [aplication, qtdNotify])*/
 
   return (
 
@@ -52,26 +112,26 @@ export function Notification() {
               {!isChange && <div className='flex justify-end mt-0'><svg onClick={() => { setIsChange(false); setMostraItems(false) }} className="lucide lucide-circle-x animate-fade dark:text-[#277FE3] cursor-pointer lg:hidden" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M18 6 6 18" /><path d="m6 6 12 12" /></svg>
               </div>}
               <li className='flex justify-center'>
-                <img src='img.png'/>
+                <img src='img.png' />
               </li>
               <div className='text-justify mt-1'>
                 <li className='flex justify-center'>
                   <div className='lg:font-semibold text-justify'><p className='text-xs text-center md:text-sm lg:text-md text-justify'>{email}</p></div>
                 </li>
                 <li className='lg:font-semibold text-xs md:text-sm flex justify-center'>
-                  <span>Admin</span>
+                  <span>d</span>
                 </li>
               </div>
               <li className='flex justify-center'>
-                <svg width="33" height="43" viewBox="0 0 33 33" fill="none" onClick={() => {setSair(true), setMostraItems(false)}}
+                <svg width="33" height="43" viewBox="0 0 33 33" fill="none" onClick={() => { setSair(true), setMostraItems(false) }}
                   className='transition hover:translate-y-1 duration-300 p-1 lg:p-0 cursor-pointer' xmlns="http://www.w3.org/2000/svg">
-                  <rect width="33" height="33" rx="7" fill="#FF6D6D"/>
+                  <rect width="33" height="33" rx="7" fill="#FF6D6D" />
                   <path d="M11.5 8.75C9.99167 8.75 8.75 9.99167 8.75 11.5V22.5C8.75 24.0083 9.99167 25.25 11.5 25.25H19.2917C20.5806 25.25 21.7254 24.4101 22.0175 23.1687C22.0451 23.0515 22.0494 22.93 22.0301 22.8111C22.0107 22.6923 21.9682 22.5784 21.9049 22.476C21.8415 22.3736 21.7586 22.2846 21.6609 22.2142C21.5632 22.1439 21.4526 22.0934 21.3354 22.0658C21.2182 22.0382 21.0967 22.0339 20.9778 22.0532C20.859 22.0726 20.7451 22.1151 20.6427 22.1785C20.5402 22.2418 20.4513 22.3247 20.3809 22.4224C20.3106 22.5201 20.2601 22.6308 20.2325 22.748C20.1579 23.0649 19.7444 23.4167 19.2917 23.4167H11.5C10.9917 23.4167 10.5833 23.0083 10.5833 22.5V11.5C10.5833 10.9917 10.9917 10.5833 11.5 10.5833H19.2917C19.7444 10.5833 20.1579 10.9351 20.2325 11.252C20.2601 11.3692 20.3106 11.4799 20.3809 11.5776C20.4513 11.6753 20.5402 11.7582 20.6427 11.8215C20.7451 11.8849 20.859 11.9274 20.9778 11.9468C21.0967 11.9661 21.2182 11.9618 21.3354 11.9342C21.4526 11.9066 21.5632 11.8561 21.6609 11.7858C21.7586 11.7154 21.8415 11.6264 21.9049 11.524C21.9682 11.4216 22.0107 11.3077 22.0301 11.1889C22.0494 11.07 22.0451 10.9485 22.0175 10.8313C21.7254 9.58989 20.5806 8.75 19.2917 8.75H11.5ZM21.5735 13.3244C21.3912 13.3246 21.2131 13.3792 21.062 13.4811C20.9109 13.583 20.7936 13.7277 20.7251 13.8966C20.6566 14.0655 20.64 14.251 20.6774 14.4294C20.7148 14.6078 20.8046 14.771 20.9352 14.8981L22.1204 16.0833H13.7917C13.6702 16.0816 13.5496 16.1041 13.4369 16.1494C13.3242 16.1946 13.2216 16.2619 13.1351 16.3472C13.0486 16.4325 12.9799 16.5341 12.933 16.6462C12.8861 16.7582 12.8619 16.8785 12.8619 17C12.8619 17.1215 12.8861 17.2418 12.933 17.3538C12.9799 17.4659 13.0486 17.5675 13.1351 17.6528C13.2216 17.7381 13.3242 17.8054 13.4369 17.8506C13.5496 17.8959 13.6702 17.9184 13.7917 17.9167H22.1204L20.9352 19.1019C20.8472 19.1864 20.777 19.2875 20.7286 19.3995C20.6802 19.5114 20.6547 19.6319 20.6534 19.7539C20.6522 19.8758 20.6753 19.9968 20.7214 20.1097C20.7675 20.2226 20.8357 20.3252 20.9219 20.4114C21.0081 20.4977 21.1107 20.5658 21.2236 20.6119C21.3365 20.658 21.4575 20.6811 21.5795 20.6799C21.7014 20.6787 21.8219 20.6531 21.9339 20.6047C22.0458 20.5563 22.147 20.4861 22.2314 20.3981L24.9814 17.6481C25.1533 17.4762 25.2498 17.2431 25.2498 17C25.2498 16.7569 25.1533 16.5238 24.9814 16.3519L22.2314 13.6019C22.1459 13.514 22.0436 13.4441 21.9306 13.3964C21.8176 13.3488 21.6961 13.3243 21.5735 13.3244Z" fill="white" />
                 </svg>
               </li>
             </ul>}
           </div>
-          
+
           <div className='fixed z-40 inset-0 p-4 flex justify-between backdrop-blur-md bg-opacity-50 mt-0 h-[110px] md:h-[150px] '>
             {/*ligh/dark mode */}
             <div className='flex justify-start mt-4 lg:mt-4'>
@@ -132,8 +192,8 @@ export function Notification() {
           </div>
         </div>
 
-
-        {action === "ADD" ? <Form /> : <Lista />}
+        
+        {action === "ADD" ? <Form /> : <Lista mudaFiltro={handleAplication} noti={notify} isLoading={isLoading} status={statusNotification}/>}
 
         {sair && <div><div className="fixed z-40 inset-0  dark:bg-zinc-700 dark:bg-opacity-40 bg-black bg-opacity-50 "></div>
           <div className="fixed inset-0 flex justify-center items-center  animate-fade z-50">

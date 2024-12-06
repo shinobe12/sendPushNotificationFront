@@ -8,13 +8,15 @@ export function ThemeProvider(props: any) {
        setTheme(theme === "dark" ? "light" : "dark")
     }
     useEffect(()=>{
-        const prefersColorScheme =window.matchMedia('(prefers-color-scheme: dark)')
+        const prefersColorScheme = window.matchMedia('(prefers-color-scheme: dark)')
+
         if(prefersColorScheme.matches) {
             setTheme("dark")
           } else {
             setTheme("light")
           }
     },[])
+    
     return (
         
             <ThemeContext.Provider value={{ theme, toggleTheme }}>

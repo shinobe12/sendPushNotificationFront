@@ -4,8 +4,8 @@ const Sucesso = ({ isVisible, onClose }:{isVisible:boolean, onClose:()=>void}) =
     if(!isVisible) return null
     return(
         <main>
-            <div className="fixed inset-0 dark:bg-zinc-700 dark:bg-opacity-40 bg-black bg-opacity-50"></div>
-        <div className="fixed inset-0 flex justify-center items-center  animate-fade">
+            <div className="fixed inset-0 z-40 dark:bg-zinc-700 dark:bg-opacity-40 bg-black bg-opacity-50"></div>
+        <div className="fixed inset-0 z-50 flex justify-center items-center  animate-fade">
             <div className="bg-[#fff]  p-3 rounded-md flex w-[200px] justify-center">
             <div className="">
                 <div className="flex justify-center">

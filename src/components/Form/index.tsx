@@ -9,9 +9,12 @@ import { InputBanner } from "../Inputs";
 import { InputHeader } from "../InputHeader";
 import { RichText } from '../RichText';
 import { convert } from 'html-to-text'
+import { QueryClient, useMutation, useQueryClient } from "@tanstack/react-query";
 
 
 export function Form() {
+
+    const queryClient = useQueryClient();
 
     const [mostrar, setMostrar] = useState(false)
 
@@ -35,6 +38,7 @@ export function Form() {
     const [showPrevew, setShowPrevew] = useState(false)
     const [dimention, setDimention] = useState(false)
     const [showButtonPrevew, setShowButtonPrevew] = useState(false)
+    const [qtdText, setQtdText] = useState(0)
 
     const [formObject, setFormObject] = useState({
         id: "",
@@ -46,8 +50,6 @@ export function Form() {
         date: moment().format("dd/MM/yy")
 
     })
-
-
 
     //header
     /*
@@ -79,7 +81,6 @@ export function Form() {
     }
 
     useEffect(()=>{
-        console.log(description)
         description.length > 8 ? setShowButtonPrevew(true) : setShowButtonPrevew(false)
     }, [description.length])
     
@@ -95,6 +96,7 @@ export function Form() {
         return dimention === true ? "" : ""
       }, [dimention]) 
     
+   
 
     async function enviar(e: any, params: any) {
         e.preventDefault();
@@ -133,12 +135,16 @@ export function Form() {
                 }
             }
 
-
             //https://notify-push-caf7a453e1e5.herokuapp.com/api/v1/notification/push-token/publish
             try {
-                console.log(dados)
+                //console.log(dados)
                 await axios.post("https://notify-push-caf7a453e1e5.herokuapp.com/api/v1/notification/push-token/publish", dados
                 )
+                
+                queryClient.invalidateQueries({
+                    queryKey: ['todos'],
+                    exact: true,})
+
                 setIsSucess(true)
                 
             } catch (error: any) {
@@ -146,11 +152,14 @@ export function Form() {
             }
             //resetInputs()
         }
-
     }
+
     
-    let qtd = formObject.mensagem.length
+   
+
+    const qtd = formObject.mensagem.length
     
+
     //console.log(datas)
     return (
         <Fragment>
