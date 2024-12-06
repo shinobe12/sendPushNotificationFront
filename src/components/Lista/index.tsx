@@ -6,9 +6,9 @@ import axios from "axios";
 import { useQueryClient } from "@tanstack/react-query";
 
 //tentando se comunicar a page notification
-type parametros = { mudaFiltro: (app: string) => void, noti: any }
+type parametros = { mudaFiltro: (app: string) => void, noti: any, isLoading: boolean, status:boolean }
 
-export function Lista({ mudaFiltro, noti }: parametros) {
+export function Lista({ mudaFiltro, noti, isLoading, status }: parametros) {
 
   const [notify, setNotify] = useState([]);
   const [showPrevew, setShowPrevew] = useState(false)
@@ -17,7 +17,7 @@ export function Lista({ mudaFiltro, noti }: parametros) {
   const [sucess, setSucess] = useState(false)
   const [prevew, setPrevew] = useState<null | string>(null)
   const [filtro, setFiltro] = useState("com.pagaso.pagaso")
-  const [key, setKey] = useState<null | Number>(null)
+  const [key, setKey] = useState<null | any>(null)
   const filtros: { [key: string]: string } = {
     "com.pagaso.pagaso": "PagaSó",
     "com.pagaso.somoney": "SóMoney"
@@ -29,7 +29,7 @@ export function Lista({ mudaFiltro, noti }: parametros) {
     handleBackPage,
     handleNextPage,
     totalPages,
-  } = usePagination(noti, 3);
+  } = usePagination(noti!, 3);
 
   /*const Timeout = (time: number) => {
     let controller = new AbortController();
@@ -47,13 +47,16 @@ export function Lista({ mudaFiltro, noti }: parametros) {
 
   const queryClient = useQueryClient();
 
-  useEffect(() => { mudaFiltro(filtro) }, [filtro])
+  useEffect(() => {
+    mudaFiltro(filtro)
+  }, [filtro])
 
   const Delete = async (idNoti: string) => {
     try {
-      
+
       //https://notify-push-caf7a453e1e5.herokuapp.com/api/v1/notification/push-token/messages?app=${filtro}
-      await axios.delete(`http://localhost:3000/com.pagaso.pagaso/${idNoti}`)
+      await axios.delete(`https://notify-push-caf7a453e1e5.herokuapp.com/api/v1/notification/push-token/messages?app=${filtro}/${idNoti}`)
+
       queryClient.invalidateQueries({
         queryKey: ['todos'],
         exact: true,
@@ -65,6 +68,7 @@ export function Lista({ mudaFiltro, noti }: parametros) {
     }
 
   }
+
 
   //console.log(key)
   useEffect(() => {
@@ -78,13 +82,12 @@ export function Lista({ mudaFiltro, noti }: parametros) {
     return dimention === true ? "" : ""
   }, [dimention])
 
-
   return (
     <main className='min-h-screen bg-zinc-950 dark:bg-[#fff] flex justify-center'>
       <div className="w-[min(80%,58rem)] animate-fade mt-20 h-min(100%, 40rem) md:w-[70%] lg:w-[45%] lg:mt-[6%]">
-        <div className=' md:mt-0 p-8 bg-[#272729] dark:bg-[#fff] dark:shadow-lg dark:ring-1 ring-zinc-300 rounded-lg text-white text-center '>
+        <div id="notifications" className=' md:mt-0 p-8 bg-[#272729] dark:bg-[#fff] dark:shadow-lg dark:ring-1 ring-zinc-300 rounded-lg text-white text-center '>
           <div className="flex justify-end items-center space-x-3 ">
-            <p className="dark:text-zinc-700 mt-2  md:mt-0">Filtrar</p>
+            <p className="dark:text-zinc-700 mt-2 md:mt-0">Filtrar</p>
             <select required id="filtro" className="mt-2 md:mt-0 lg:mt-0 p-1 lg:p-1 lg:ml-3 text-sm cursor-pointer
                                 rounded-md placeholder-slate-400 text-zinc-700 bg-gradient-to-t from-[#E8F2FF] dark:shadow-lg
                                 focus:outline-none dark:ring-1 dark:ring-[#EEEEEE]" value={filtro} onChange={e => { setFiltro(e.target.value) }
@@ -95,7 +98,14 @@ export function Lista({ mudaFiltro, noti }: parametros) {
 
           </div>
 
-          {totalPages === 0 ? <div role="status" className="flex justify-center mt-10">
+          {status &&
+            <div className='p-12 text-white'>
+              <p>Ups!!!</p>
+              <p>Verifique sua Internet, e tente novamente</p>
+            </div>
+          }
+
+          {isLoading ? <div role="status" className="flex justify-center mt-10">
             <svg aria-hidden="true" className=" w-8 h-8 text-gray-200 animate-spin dark:text-zinc-200 fill-blue-600" viewBox="0 0 100 101" fill="none" xmlns="http://www.w3.org/2000/svg">
               <path d="M100 50.5908C100 78.2051 77.6142 100.591 50 100.591C22.3858 100.591 0 78.2051 0 50.5908C0 22.9766 22.3858 0.59082 50 0.59082C77.6142 0.59082 100 22.9766 100 50.5908ZM9.08144 50.5908C9.08144 73.1895 27.4013 91.5094 50 91.5094C72.5987 91.5094 90.9186 73.1895 90.9186 50.5908C90.9186 27.9921 72.5987 9.67226 50 9.67226C27.4013 9.67226 9.08144 27.9921 9.08144 50.5908Z" fill="currentColor" />
               <path d="M93.9676 39.0409C96.393 38.4038 97.8624 35.9116 97.0079 33.5539C95.2932 28.8227 92.871 24.3692 89.8167 20.348C85.8452 15.1192 80.8826 10.7238 75.2124 7.41289C69.5422 4.10194 63.2754 1.94025 56.7698 1.05124C51.7666 0.367541 46.6976 0.446843 41.7345 1.27873C39.2613 1.69328 37.813 4.19778 38.4501 6.62326C39.0873 9.04874 41.5694 10.4717 44.0505 10.1071C47.8511 9.54855 51.7191 9.52689 55.5402 10.0491C60.8642 10.7766 65.9928 12.5457 70.6331 15.2552C75.2735 17.9648 79.3347 21.5619 82.5849 25.841C84.9175 28.9121 86.7997 32.2913 88.1811 35.8758C89.083 38.2158 91.5421 39.6781 93.9676 39.0409Z" fill="currentFill" />
@@ -137,7 +147,7 @@ export function Lista({ mudaFiltro, noti }: parametros) {
                   <hr className="md:hidden" />
                   <p className="font-light dark:text-zinc-900 text-sm">
                     {item?.body}
-                    {item?.notification_id}
+
                   </p>
                 </div>
 
@@ -160,7 +170,7 @@ export function Lista({ mudaFiltro, noti }: parametros) {
                             <div>
                               <div className="p-2 text-center text-[#656565] font-semibold font-family-sans"><p>Tem certeza que<br />pretende eliminar essa notificação?</p></div>
                               <div className="flex p-2"><button type="button" onClick={() => setExcluir(false)} className="bg-[#D4D4D4] transition  duration-300 hover:bg-zinc-400 text-white font-family-sans rounded-md p-2 w-full">Cancelar</button>
-                                <button type="button" onClick={() => Delete(item?.id)} className="bg-[#FF6D6D] ml-2 transition  duration-300 hover:bg-[#D05959] text-white font-family-sans rounded-md p-2 w-full">Confirmar</button>
+                                <button type="button" onClick={() => Delete(item?.notification_id)} className="bg-[#FF6D6D] ml-2 transition  duration-300 hover:bg-[#D05959] text-white font-family-sans rounded-md p-2 w-full">Confirmar</button>
                               </div>
                             </div>
                           }
@@ -187,7 +197,6 @@ export function Lista({ mudaFiltro, noti }: parametros) {
                 </div>}
                 {showPrevew &&
                   <div onClickCapture={() => {
-                    setPrevew(null)
                     setShowPrevew(false)
                   }} className={`${hidden} fixed inset-0 flex justify-end z-40  dark:bg-opacity-20 bg-black bg-opacity-20 `}>
                     <div onClickCapture={() => setShowPrevew(true)} className={`sidebar absolute ${prev} duration-300 relative top-0 buttom-0 lg:right-0 p-10  overflow-y-auto bg-zinc-100 h-full `}>

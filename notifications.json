@@ -1,24 +1,6 @@
 {
   "com.pagaso.pagaso": [
     {
-      "id": "7fcc",
-      "app_name": "com.pagaso.pagaso",
-      "send_to_everyone": true,
-      "body": "sms na 888bet",
-      "title": "888bet na nossa aplicação",
-      "channel": "default",
-      "subtitle": "",
-      "users": [
-        ""
-      ],
-      "data": {
-        "tags": "INFO",
-        "header_url": "https://pub-cf908b5ef11d4453970dc18f97228c39.r2.dev/pagaso-1733411637203.jpeg",
-        "banner_url": "https://pub-cf908b5ef11d4453970dc18f97228c39.r2.dev/pagaso-1733411656386.png",
-        "description": "<p>richtext 888bet</p>\n"
-      }
-    },
-    {
       "id": "11e1",
       "app_name": "com.pagaso.pagaso",
       "send_to_everyone": true,
@@ -52,6 +34,24 @@
         "header_url": "https://pub-cf908b5ef11d4453970dc18f97228c39.r2.dev/pagaso-1733411848607.jpeg",
         "banner_url": "https://pub-cf908b5ef11d4453970dc18f97228c39.r2.dev/pagaso-1733411853531.png",
         "description": "<p>venha consumir</p>\n"
+      }
+    },
+    {
+      "id": "2d77",
+      "app_name": "com.pagaso.pagaso",
+      "send_to_everyone": true,
+      "body": "Caro utilizador, temos nova funcionalidade!!!",
+      "title": "Nova Funcionalidade na Pagaso",
+      "channel": "default",
+      "subtitle": "Atenção",
+      "users": [
+        ""
+      ],
+      "data": {
+        "tags": "NEW FEACTURE",
+        "header_url": "https://pub-cf908b5ef11d4453970dc18f97228c39.r2.dev/pagaso-1733472210429.jpeg",
+        "banner_url": "https://pub-cf908b5ef11d4453970dc18f97228c39.r2.dev/pagaso-1733472223321.png",
+        "description": "<p><strong>Adicionamos</strong> a dashoard para sua melhor experiência</p>\n"
       }
     }
   ],

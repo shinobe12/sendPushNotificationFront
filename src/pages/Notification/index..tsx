@@ -15,30 +15,48 @@ export function Notification() {
 
   const [notify, setNotify] = useState([]);
   const [aplication, setAplication] = useState("com.pagaso.pagaso")
-  
-  
-  const { data, isFetching, isLoading } = useQuery({
+  const[statusNotification, setStatusNotification] = useState(false)
+
+  const { data, isLoading, isError } = useQuery({
     queryKey: ["todos"], queryFn: async () => {
-      const response = await axios
-      //https://notify-push-caf7a453e1e5.herokuapp.com/api/v1/notification/push-token/messages?app=${aplication}
-        .get(`http://localhost:3000/${aplication}`);
+      try {
+        const response = await axios
+        //https://notify-push-caf7a453e1e5.herokuapp.com/api/v1/notification/push-token/messages?app=${aplication}
+        .get(`https://notify-push-caf7a453e1e5.herokuapp.com/api/v1/notification/push-token/messages?app=${aplication}`);
         
-      return response.data;
+      return response.data; 
+      } catch (error) {
+        setStatusNotification(true)
+        console.log("status: ", isError,)
+      }
+      
     }
-    
+
   })
 
   const queryClient = useQueryClient();
 
-  const refrech = async () =>{
+  const handleAplication = async (filt: string) => {
+    setAplication(filt)
+    await queryClient.refetchQueries({ queryKey: ['todos'], type: 'active' })
     
   }
-  
-  useEffect(() => {
-    setNotify(data)
-    if (isLoading) console.log("carregando...")
-    console.log(data)
-  }, [data, aplication])
+
+  useEffect( () => {
+   queryClient.invalidateQueries({
+    queryKey: ["todos"],
+    exact: true
+   })
+  }, [aplication])
+
+  useEffect( () => {
+    if(data){
+      //setNotify(data) para a API fake, ou local
+      setNotify(data?.messages)
+      if (isLoading) console.log("carregando...")
+      
+    }
+  }, [data])
 
   const { logout, email } = useContext(AuthContext)
 
@@ -66,13 +84,7 @@ export function Notification() {
     }
   }
 
-  const handleAplication = async (filt: string) => {
-    
-    setAplication(filt)
-    
-    await queryClient.refetchQueries({ queryKey: ['todos'], type: 'active' })
-
-  }
+  
 
   //console.log(handleAplication)
 
@@ -107,7 +119,7 @@ export function Notification() {
                   <div className='lg:font-semibold text-justify'><p className='text-xs text-center md:text-sm lg:text-md text-justify'>{email}</p></div>
                 </li>
                 <li className='lg:font-semibold text-xs md:text-sm flex justify-center'>
-                  <span>Admin</span>
+                  <span>d</span>
                 </li>
               </div>
               <li className='flex justify-center'>
@@ -180,8 +192,8 @@ export function Notification() {
           </div>
         </div>
 
-
-        {action === "ADD" ? <Form /> : <Lista mudaFiltro={handleAplication} noti={notify} />}
+        
+        {action === "ADD" ? <Form /> : <Lista mudaFiltro={handleAplication} noti={notify} isLoading={isLoading} status={statusNotification}/>}
 
         {sair && <div><div className="fixed z-40 inset-0  dark:bg-zinc-700 dark:bg-opacity-40 bg-black bg-opacity-50 "></div>
           <div className="fixed inset-0 flex justify-center items-center  animate-fade z-50">
