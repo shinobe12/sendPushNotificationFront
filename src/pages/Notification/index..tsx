@@ -24,9 +24,11 @@ export function Notification() {
         //https://notify-push-caf7a453e1e5.herokuapp.com/api/v1/notification/push-token/messages?app=${aplication}
         .get(`https://notify-push-caf7a453e1e5.herokuapp.com/api/v1/notification/push-token/messages?app=${aplication}`);
         
+        setStatusNotification(false)
       return response.data; 
       } catch (error) {
         setStatusNotification(true)
+        setNotify([])
         console.log("status: ", isError,)
       }
       

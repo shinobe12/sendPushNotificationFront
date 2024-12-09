@@ -138,7 +138,7 @@ export function Form() {
             //https://notify-push-caf7a453e1e5.herokuapp.com/api/v1/notification/push-token/publish
             try {
                 //console.log(dados)
-                await axios.post("https://notify-push-caf7a453e1e5.herokuapp.com/api/v1/notification/push-token/publish", dados
+                await axios.post("http://192.168.28.27:8080/api/v1/notification/push-token/publish", dados
                 )
                 
                 queryClient.invalidateQueries({
