@@ -55,7 +55,7 @@ export function Lista({ mudaFiltro, noti, isLoading, status }: parametros) {
     try {
 
       //https://notify-push-caf7a453e1e5.herokuapp.com/api/v1/notification/push-token/messages?app=${filtro}
-      await axios.delete(`https://notify-push-caf7a453e1e5.herokuapp.com/api/v1/notification/push-token/messages?app=${filtro}/${idNoti}`)
+      await axios.delete(`https://notify-push-caf7a453e1e5.herokuapp.com/api/v1/notification/push-token/messages/delete/${idNoti}`)
 
       queryClient.invalidateQueries({
         queryKey: ['todos'],
@@ -99,9 +99,11 @@ export function Lista({ mudaFiltro, noti, isLoading, status }: parametros) {
           </div>
 
           {status &&
-            <div className='p-12 text-white'>
-              <p>Ups!!!</p>
-              <p>Verifique sua Internet, e tente novamente</p>
+            <div className='p-12 text-white dark:text-zinc-600'>
+            <p className="flex justify-center p-2 "><svg xmlns="http://www.w3.org/2000/svg" width="74" height="74" viewBox="0 0 24 24" fill="none"
+             stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="lucide lucide-frown text ">
+              <circle cx="12" cy="12" r="10"/><path d="M16 16s-1.5-2-4-2-4 2-4 2"/><line x1="9" x2="9.01" y1="9" y2="9"/><line x1="15" x2="15.01" y1="9" y2="9"/></svg></p>
+              <p>Verifique sua Internet, e tente novamente!</p>
             </div>
           }
 
@@ -220,7 +222,7 @@ export function Lista({ mudaFiltro, noti, isLoading, status }: parametros) {
 
             <button type="button" onClick={handleBackPage} disabled={actualPage === 1}>
               <svg className="w-5 md:w-12 " width="28" height="28" viewBox="0 0 27 27" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <rect width="27" height="27" rx="13.5" fill="#EEEEEE" />
+                <rect width="27" height="27" rx="13.5" fill="#EEEEEE"/>
                 <path fillRule="evenodd" clipRule="evenodd" d="M10.2197 14.5051C9.92678 14.2261 9.92678 13.7739 10.2197 13.4949L14.7197 9.20921C15.0126 8.93026 15.4874 8.93026 15.7803 9.20921C16.0732 9.48815 16.0732 9.94042 15.7803 10.2194L11.8107 14L15.7803 17.7806C16.0732 18.0596 16.0732 18.5118 15.7803 18.7908C15.4874 19.0697 15.0126 19.0697 14.7197 18.7908L10.2197 14.5051Z" fill="#BCBCBC" />
               </svg>
             </button>
