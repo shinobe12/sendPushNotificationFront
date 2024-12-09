@@ -22,6 +22,9 @@ export function Lista({ mudaFiltro, noti, isLoading, status }: parametros) {
     "com.pagaso.pagaso": "PagaSó",
     "com.pagaso.somoney": "SóMoney"
   }
+  const [erroNotify, setErroNotify] = useState(false)
+  const [messages, setMessages] = useState(false)
+  const [loading, setLoading] = useState(false)
 
   const {
     actualPage,
@@ -69,6 +72,19 @@ export function Lista({ mudaFiltro, noti, isLoading, status }: parametros) {
 
   }
 
+  useEffect(()=>{
+    if(status){
+      setErroNotify(true)
+      setLoading(false)
+    }
+    if(isLoading){
+      setErroNotify(false)
+      setLoading(true)
+    }
+    if(noti){
+      //ss
+    }
+  }, [totalPages])
 
   //console.log(key)
   useEffect(() => {
@@ -101,9 +117,9 @@ export function Lista({ mudaFiltro, noti, isLoading, status }: parametros) {
           {status &&
             <div className='p-12 text-white dark:text-zinc-600'>
             <p className="flex justify-center p-2 "><svg xmlns="http://www.w3.org/2000/svg" width="74" height="74" viewBox="0 0 24 24" fill="none"
-             stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="lucide lucide-frown text ">
+             stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="lucide lucide-frown dark:text-[#b91c1c]">
               <circle cx="12" cy="12" r="10"/><path d="M16 16s-1.5-2-4-2-4 2-4 2"/><line x1="9" x2="9.01" y1="9" y2="9"/><line x1="15" x2="15.01" y1="9" y2="9"/></svg></p>
-              <p>Verifique sua Internet, e tente novamente!</p>
+              <p className="">Verifique sua Internet, e tente novamente!</p>
             </div>
           }
 

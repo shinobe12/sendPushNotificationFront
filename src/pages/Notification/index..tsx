@@ -28,7 +28,7 @@ export function Notification() {
       return response.data; 
       } catch (error) {
         setStatusNotification(true)
-        setNotify([])
+        //setNotify([])
         console.log("status: ", isError,)
       }
       
